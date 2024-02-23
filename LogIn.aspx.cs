@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+//geh dapat kita mo ito
 namespace WebApplication1
 {
     public partial class login : System.Web.UI.Page
