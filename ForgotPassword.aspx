@@ -3,8 +3,9 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head runat="server">
-    <link rel="stylesheet" href="./CSS/ForgotPassword_Style.css" />
+    <!--<link rel="stylesheet" href="./CSS/LogIn_Style.css" />-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <link rel="stylesheet" href="./CSS/ForgotPassword_Style.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous" defer></script>
     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <title></title>
@@ -40,7 +41,8 @@
                                 <asp:TextBox ID="EmailTB" runat="server" class="form-control mb-3" type="text" placeholder="Enter Your Email"></asp:TextBox>
                                 <div class="d-flex align-items-center justify-content-center pb-1">
                                     <!--ID for Reset Password Button-->
-                                    <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="btn btn-primary btn-block fa-lg full-width bg-purple custom-button-bg" />
+                                    <!--<asp:Button ID="ResetPassBtn2" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="btn btn-primary btn-block fa-lg full-width bg-purple" />-->
+                                    <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple" />
                                 </div>
                             </div>
                             <span>Don't have an account? <a href="CreateAccount.aspx">Sign In</a></span>
