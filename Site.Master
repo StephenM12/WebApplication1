@@ -26,13 +26,13 @@
                     <i class="lni lni-grid-alt"></i>
                 </button>
                 <div class="sidebar-logo">
-                    <a href="CMS.aspx">ECMS</a>
+                    <a href="CMS.aspx" style="text-decoration: none;">ECMS</a>
                 </div>
             </div>
 
             <ul class="sidebar-nav">
                 <li class="sidebar-item">
-                    <a href="Home.aspx" class="sidebar-link">
+                    <a href="Home.aspx" class="sidebar-link" style="text-decoration: none;">
                         <i class="lni">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
                                 <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
@@ -43,17 +43,6 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
-                    <a href="Home.aspx" class="sidebar-link" style="text-decoration: none;">
-                        <i class="lni">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-house-fill" viewBox="0 0 16 16">
-                                <path d="M8.707 1.5a1 1 0 0 0-1.414 0L.646 8.146a.5.5 0 0 0 .708.708L8 2.207l6.646 6.647a.5.5 0 0 0 .708-.708L13 5.793V2.5a.5.5 0 0 0-.5-.5h-1a.5.5 0 0 0-.5.5v1.293z" />
-                                <path d="m8 3.293 6 6V13.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5V9.293z" />
-                            </svg>
-                        </i>
-                        <span>Test 2</span>
-                    </a>
-                </li>
 
                 <li class="sidebar-item">
                     <a href="RoomSchedule.aspx" class="sidebar-link" style="text-decoration: none;">
@@ -68,7 +57,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="Booking.aspx" class="sidebar-link">
+                    <a href="Booking.aspx" class="sidebar-link" style="text-decoration: none;">
                         <i class="lni">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-bookmark-plus" viewBox="0 0 16 16">
                                 <path d="M2 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v13.5a.5.5 0 0 1-.777.416L8 13.101l-5.223 2.815A.5.5 0 0 1 2 15.5zm2-1a1 1 0 0 0-1 1v12.566l4.723-2.482a.5.5 0 0 1 .554 0L13 14.566V2a1 1 0 0 0-1-1z" />
@@ -81,7 +70,7 @@
                 </li>
 
                 <li class="sidebar-item">
-                    <a href="History.aspx" class="sidebar-link">
+                    <a href="History.aspx" class="sidebar-link" style="text-decoration: none;">
                         <i class="lni">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-database-fill" viewBox="0 0 16 16">
                                 <path d="M3.904 1.777C4.978 1.289 6.427 1 8 1s3.022.289 4.096.777C13.125 2.245 14 2.993 14 4s-.875 1.755-1.904 2.223C11.022 6.711 9.573 7 8 7s-3.022-.289-4.096-.777C2.875 5.755 2 5.007 2 4s.875-1.755 1.904-2.223" />
@@ -91,13 +80,13 @@
                             </svg>
 
                         </i>
-                        <span>History</span>
+                         <span>History</span>
                     </a>
                 </li>
 
             </ul>
             <div class="sidebar-footer">
-                <a href="LogIn.aspx" class="sidebar-link">
+                <a href="LogIn.aspx" class="sidebar-link" style="text-decoration: none;">
                     <i class="lni">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-box-arrow-right" viewBox="0 0 16 16">
                             <path fill-rule="evenodd" d="M10 12.5a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-9a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v2a.5.5 0 0 0 1 0v-2A1.5 1.5 0 0 0 9.5 2h-8A1.5 1.5 0 0 0 0 3.5v9A1.5 1.5 0 0 0 1.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-2a.5.5 0 0 0-1 0z" />
