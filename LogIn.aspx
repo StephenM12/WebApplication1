@@ -28,6 +28,8 @@
                                                 <label style="font-weight: bold;" class="form-label ms-3"
                                                     for="form2Example11">
                                                     Username</label>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a user name" ControlToValidate="UsernameTB" ForeColor="#CC3300"></asp:RequiredFieldValidator>
+
                                                 <div class="input-group">
                                                     <div class="input-group-text">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
@@ -46,6 +48,8 @@
                                                 <label style="font-weight: bold;" class="form-label ms-3"
                                                     for="PasswordTB">
                                                     Password</label>
+                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter a password" ControlToValidate="PasswordTB" ForeColor="#CC3300"></asp:RequiredFieldValidator>
+                                                    
                                                 <div class="input-group">
                                                     <div class="input-group-text">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
