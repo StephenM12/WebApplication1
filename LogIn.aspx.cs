@@ -67,5 +67,10 @@ namespace WebApplication1
         {
             Response.Redirect("CreateAccount.aspx");
         }
+
+        protected void PasswordTB_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
