@@ -4,9 +4,10 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-//geh dapat kita mo ito
+//sql connection
+using System.Data.SqlClient;
+using System.Data;
 
-//gege try nga ulit
 namespace WebApplication1
 {
     public partial class login : System.Web.UI.Page
@@ -15,14 +16,61 @@ namespace WebApplication1
         {
         }
 
-protected void LogInBtn_Click(object sender, EventArgs e)
-{
-    Response.Redirect("CMS.aspx");
-}
+        protected void LogInBtn_Click(object sender, EventArgs e)
+        {
+            //Response.Redirect("CMS.aspx");
+            SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
 
-protected void CreateAccBtn_Click(object sender, EventArgs e)
-{
-    Response.Redirect("CreateAccount.aspx");
-}
+            //variable that will hold login values (username and password)
+            String username, password;
+            username = UsernameTB.Text;
+            password = PasswordTB.Text;
+
+            try
+            {
+                String querry = "SELECT * FROM userLogin WHERE username= '" + UsernameTB.Text + "' AND password = '" + PasswordTB.Text + "'";
+
+                SqlDataAdapter sda = new SqlDataAdapter(querry, storename);
+
+                DataTable dtable = new DataTable();
+
+                sda.Fill(dtable);
+
+                if (dtable.Rows.Count > 0)
+                {
+                    username = UsernameTB.Text;
+                    password = PasswordTB.Text;
+
+                    Response.Redirect("CMS.aspx");
+
+
+                }
+                else
+                {
+
+                    
+
+                }
+
+
+            }
+            catch
+            {
+
+                
+
+
+            }
+        }
+
+        protected void CreateAccBtn_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("CreateAccount.aspx");
+        }
+
+        protected void PasswordTB_TextChanged(object sender, EventArgs e)
+        {
+
+        }
     }
 }
