@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/login_master.Master" AutoEventWireup="true" CodeBehind="LogIn.aspx.cs"
     Inherits="WebApplication1.login" %>
 
-
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="./CSS/LogIn_Style.css" />
 </asp:Content>
@@ -21,14 +20,14 @@
                                             <h4 class="mt-1 mb-5 pb-1" style="color: #6358DC; font-weight: bold;">E-Paper Content Management System
                                             </h4>
                                         </div>
-                                         <!--Input Username--> 
+                                        <!--Input Username-->
                                         <form>
-                                            <!--Input Username--> 
+                                            <!--Input Username-->
                                             <div class="form-outline mb-4">
                                                 <label style="font-weight: bold;" class="form-label ms-3"
                                                     for="form2Example11">
                                                     Username</label>
-                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a user name" ControlToValidate="UsernameTB" ForeColor="#CC3300"></asp:RequiredFieldValidator>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a user name" ControlToValidate="UsernameTB" ForeColor="#CC3300"></asp:RequiredFieldValidator>
 
                                                 <div class="input-group">
                                                     <div class="input-group-text">
@@ -48,8 +47,8 @@
                                                 <label style="font-weight: bold;" class="form-label ms-3"
                                                     for="PasswordTB">
                                                     Password</label>
-                                                    <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter a password" ControlToValidate="PasswordTB" ForeColor="#CC3300"></asp:RequiredFieldValidator>
-                                                    
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter a password" ControlToValidate="PasswordTB" ForeColor="#CC3300"></asp:RequiredFieldValidator>
+
                                                 <div class="input-group">
                                                     <div class="input-group-text">
                                                         <svg xmlns="http://www.w3.org/2000/svg" width="16"
@@ -77,7 +76,7 @@
                                                 <p class="text-end">
                                                     <a href="ForgotPassword.aspx"
                                                         style="color: #3B1867; font-weight: bold; text-decoration: none;">Forgot Password?</a>
-                                                     <%--<span>Forgot Password?</span>--%>
+                                                    <%--<span>Forgot Password?</span>--%>
                                                 </p>
                                             </div>
                                             <div class="text-center pt-1 mb-5 pb-1">

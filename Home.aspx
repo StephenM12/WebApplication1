@@ -1,8 +1,8 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="WebApplication1.Home" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-   <%-- <h1 class="headspacing">Home</h1>
-    <div class="container">
+
+    <div class="container mx-auto">
         <div class="card" style="width: 20rem;">
             <div class="card-body">
                 <h5 class="card-title">Einstein - 313</h5>
@@ -14,13 +14,5 @@
                 <a href="#" class="btn btn-primary">View</a>
             </div>
         </div>
-    </div>--%>
-
-
-        <%--<div class="main p-3">
-        <div class="text-center">
-            <h1>Sidebar Bootstrap 5
-            </h1>
-        </div>
-    </div>--%>
+    </div>       
 </asp:Content>
