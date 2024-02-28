@@ -7,22 +7,6 @@
     padding: 0;
 }
 
-.lower-right {
-    position: fixed;
-    bottom: 10px; /* Adjust this value as needed */
-    right: 100px; /* Adjust this value as needed */
-    z-index: 1000; /* Ensure the button is above other content */
-}
-
-
-.bg-color {
-    background-color: #3B1867;
-}
-
-.full-width {
-    width: 100%;
-}
-
 a {
     text-decoration: none;
 }
@@ -166,6 +150,137 @@ a.sidebar-link:hover {
     border-radius: 0 0 50px 0;
 }
 
+.bg-color {
+    background-color: #3B1867;
+}
 
 @media (max-width: 600px) {
 }
+
+/*body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.sidebar {
+    border-radius: 0px 50px 0px 0px;
+    height: 100%;
+    width: 200px;
+    position: fixed;
+    top: 0;
+    background-color: #3B1867;
+    overflow-x: hidden;
+    transition: 0.5s;
+}
+
+.sidebar .close-btn {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+}
+
+.sidebar ul li {
+    padding: 15px;
+    color: #fff;
+}
+
+.main-content {
+    margin-left: 250px;
+    transition: 0.5s;
+}
+
+.open-sidebar-btn {
+    display: none;
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 9999;
+}
+
+@media (max-width: 600px) {
+    .close-btn {
+        display: block;
+    }
+
+    .open-sidebar-btn {
+        display: block;
+    }
+
+    .sidebar {
+        display: none;
+    }
+}
+
+@media (max-width: 1024px) {
+    aside {
+        max-width: 200px;
+    }
+}
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .content {
+        padding-top: 8rem;
+    }
+
+    aside {
+        position: fixed;
+        top: 0;
+        left: -350px;
+        height: 100vh;
+        width: 100%;
+        max-width: 300px;
+        transition: 0.2s linear;
+    }
+
+        aside.is-active {
+            left: 0;
+        }
+}
+
+.Icon {
+    padding-left: 210px;
+}
+
+.pt-5{
+    padding-bottom: 3rem !important;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+}
+
+.row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+    .row.mb-4 {
+        margin-bottom: 4px;
+    }
+
+    .row.mb-2 {
+        margin-bottom: 2px;
+    }
+
+    .row.pb-5 {
+        padding-bottom: 5px;
+    }
+
+.mt-auto {
+    margin-top: auto;
+}*/
