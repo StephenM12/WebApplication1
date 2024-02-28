@@ -41,7 +41,7 @@ namespace WebApplication1
                     username = UsernameTB.Text;
                     password = PasswordTB.Text;
 
-                    Response.Redirect("CMS.aspx");
+                    Response.Redirect("Home.aspx");
 
 
                 }
