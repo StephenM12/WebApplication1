@@ -19,7 +19,7 @@ namespace WebApplication1
         }
 
         ///Code to connect db to gridview
-        
+
 
         //To breakline the content
 
@@ -27,8 +27,8 @@ namespace WebApplication1
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-                
-               
+
+
                 e.Row.Cells[1].Text = e.Row.Cells[1].Text.Replace(".", "</br>");
                 e.Row.Cells[2].Text = e.Row.Cells[2].Text.Replace(".", "</br>");
                 e.Row.Cells[3].Text = e.Row.Cells[3].Text.Replace(".", "</br>");
@@ -55,49 +55,13 @@ namespace WebApplication1
                 adap.Fill(ds);
 
 
-                
-                if (ds.Tables[0].Rows.Count > 0)
-                {
-
-
-                   
-
-                    GridView1.DataSource = ds.Tables[0];
-                    
-                    GridView1.DataBind();
-
-
-                    
-
-
-
-
-                }
-            }
-            catch
-            {
-                
-
-            }
-
-
-            try
-            {
-                SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                storename.Open();
-                SqlCommand select = new SqlCommand("SELECT * FROM roomSchedtbl", storename);
-                SqlDataAdapter adap = new SqlDataAdapter(select);
-                DataSet ds = new DataSet();
-                adap.Fill(ds);
-
-                
                 if (ds.Tables[0].Rows.Count > 0)
                 {
                     GridView1.DataSource = ds.Tables[0];
 
                     GridView1.DataBind();
 
-                    
+
 
 
                 }
@@ -111,50 +75,20 @@ namespace WebApplication1
         }
         protected void addBtnClk(object sender, EventArgs e)
         {
-            string courseCode = CourseCodeTB.Text;
-            string sec = SectionTB.Text;
-            string fac = FacultyTB.Text;
-            string prof = ProfTB.Text;
-            string bui = BuildingTB.Text;
-            string room = RoomNumberTB.Text;
-            string college = FacultyDL.Text;
-            string classTime = TimeDL.Text;
+            string courseCode = RCourseCodeTB.Text;
+            string sec = RSectionTB.Text;
+            //string fac = RFacultyDL.Text;
+            //string prof = ProfTB.Text;
+            string bui = RBuildingTB.Text;
+            string room = RRoomNumberTB.Text;
+            string college = RFacultyDL.Text;
+            //string classTime = TimeDL.Text;
 
 
         }
 
-        protected void AddBtn_Click(object sender, EventArgs e)
-        {
 
-        }
-
-        protected void GridView1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
     }
-            try 
-            {
-                SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                storename.Open();
-                //code starts here then insert later
-
-
-
-
-                SqlCommand insert = new SqlCommand("EXEC dbo.insertName @Name", storename);
-
-
-            }
-            catch
-            {
-
-                throw;
-
-            }
         
-        
-        }
-    }
-   
 }
+   
