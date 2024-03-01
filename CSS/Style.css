@@ -7,7 +7,12 @@
     padding: 0;
 }
 
-
+.lower-left {
+    position: fixed;
+    bottom: 10px; /* Adjust this value as needed */
+    left: 210px; /* Adjust this value as needed */
+    z-index: 1000; /* Ensure the button is above other content */
+}
 .lower-right {
     position: fixed;
     bottom: 10px; /* Adjust this value as needed */
@@ -168,125 +173,28 @@ a.sidebar-link:hover {
 
 @media (max-width: 600px) {
 }
-
-/*body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
+.schedule-gridview {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-.sidebar {
-    border-radius: 0px 50px 0px 0px;
-    height: 100%;
-    width: 200px;
-    position: fixed;
-    top: 0;
-    background-color: #3B1867;
-    overflow-x: hidden;
-    transition: 0.5s;
-}
-
-.sidebar .close-btn {
-    display: none;
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    color: #fff;
-    cursor: pointer;
-}
-
-.sidebar ul {
-    list-style: none;
-    padding: 0;
-}
-
-.sidebar ul li {
-    padding: 15px;
-    color: #fff;
-}
-
-.main-content {
-    margin-left: 250px;
-    transition: 0.5s;
-}
-
-.open-sidebar-btn {
-    display: none;
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    z-index: 9999;
-}
-
-@media (max-width: 600px) {
-}
-
-
-body {
-    margin-top: 20px;
-    background-color: #f2f6fc;
-    color: #69707a;
-}
-
-.img-account-profile {
-    height: 10rem;
-}
-
-.rounded-circle {
-    border-radius: 50% !important;
-}
-
-.card {
-    box-shadow: 0 0.15rem 1.75rem 0 rgb(33 40 50 / 15%);
-}
-
-    .card .card-header {
-        font-weight: 500;
+    .schedule-gridview th,
+    .schedule-gridview td {
+        padding: 10px;
+        border: 1px solid #000; /* Adjust border color and thickness as needed */
     }
 
-.card-header:first-child {
-    border-radius: 0.35rem 0.35rem 0 0;
-}
+    .schedule-gridview th {
+        background-color: #4A3C8C; /* Header background color */
+        color: #E7E7FF; /* Header text color */
+    }
 
-.card-header {
-    padding: 1rem 1.35rem;
-    margin-bottom: 0;
-    background-color: rgba(33, 40, 50, 0.03);
-    border-bottom: 1px solid rgba(33, 40, 50, 0.125);
-}
+    .schedule-gridview tr:nth-child(even) {
+        background-color: #DEDFDE; /* Alternate row background color */
+    }
 
-.form-control, .dataTable-input {
-    display: block;
-    width: 100%;
-    padding: 0.875rem 1.125rem;
-    font-size: 0.875rem;
-    font-weight: 400;
-    line-height: 1;
-    color: #69707a;
-    background-color: #fff;
-    background-clip: padding-box;
-    border: 1px solid #c5ccd6;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border-radius: 0.35rem;
-    transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-}
+    .schedule-gridview tr.selected {
+        background-color: #9471DE; /* Selected row background color */
+        color: #fff; /* Selected row text color */
+    }
 
-.nav-borders .nav-link.active {
-    color: #0061f2;
-    border-bottom-color: #0061f2;
-}
-
-.nav-borders .nav-link {
-    color: #69707a;
-    border-bottom-width: 0.125rem;
-    border-bottom-style: solid;
-    border-bottom-color: transparent;
-    padding-top: 0.5rem;
-    padding-bottom: 0.5rem;
-    padding-left: 0;
-    padding-right: 0;
-    margin-left: 1rem;
-    margin-right: 1rem;
-}

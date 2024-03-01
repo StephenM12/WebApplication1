@@ -73,21 +73,54 @@ namespace WebApplication1
             }
 
         }
-        protected void addBtnClk(object sender, EventArgs e)
+        protected void deployBTNclk(object sender, EventArgs e)
         {
-            string courseCode = RCourseCodeTB.Text;
-            string sec = RSectionTB.Text;
-            //string fac = RFacultyDL.Text;
-            //string prof = ProfTB.Text;
-            string bui = RBuildingTB.Text;
-            string room = RRoomNumberTB.Text;
-            string college = RFacultyDL.Text;
-            //string classTime = TimeDL.Text;
+            string courseCode = RCourseCodeTB.Text; //course code
+            string sec = RSectionTB.Text; //section
+            string prof = RProfTB.Text; //prof/instructor
+            string bui = RBuildingTB.Text; //building
+            string room = RRoomNumberTB.Text; //room number
+            string selectedCollege = RFacultyDL.SelectedValue; //college value
+            string selectedTime = RTimeDL.SelectedValue; //Selected Time
+            var date = RCalendar1.SelectedDate;
+            var dayOfWeek = date.ToString("dddd"); //Monday-Sunday
+
+
+
+            SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+            {
+                String query = "UPDATE insertTesttbl Set @dayofWeek = @courseCode+'.'+ @courseSection+'.'+@prof+'.'+@building +'.'+@room+'.'+@selectedCollege WHERE ID = 12";
+
+                using (SqlCommand command = new SqlCommand(query, storename))
+                {
+                    command.Parameters.AddWithValue("@courseCode", courseCode);
+                    command.Parameters.AddWithValue("@courseSection", sec);
+                    command.Parameters.AddWithValue("@prof", prof);
+                    command.Parameters.AddWithValue("@building", bui);
+                    command.Parameters.AddWithValue("@room", room);
+                    command.Parameters.AddWithValue("@selectedCollege", selectedCollege);
+                    command.Parameters.AddWithValue("@dayofWeek", dayOfWeek);
+
+
+
+
+                    storename.Open();
+                    int result = command.ExecuteNonQuery();
+
+                    // Check Error
+                    if (result < 0)
+                        Console.WriteLine("Error inserting data into Database!");
+                }
+
+            }
+
+                
+
 
 
         }
 
-
+        
     }
         
 }
