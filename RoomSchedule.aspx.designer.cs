@@ -33,76 +33,94 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.GridView GridView1;
 
         /// <summary>
-        /// CourseCodeTB control.
+        /// RAddSchedBtn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox CourseCodeTB;
+        protected global::System.Web.UI.WebControls.Button RAddSchedBtn;
 
         /// <summary>
-        /// SectionTB control.
+        /// REditBtn control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox SectionTB;
+        protected global::System.Web.UI.WebControls.Button REditBtn;
 
         /// <summary>
-        /// ProfTB control.
+        /// RCourseCodeTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ProfTB;
+        protected global::System.Web.UI.WebControls.TextBox RCourseCodeTB;
 
         /// <summary>
-        /// BuildingTB control.
+        /// RSectionTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox BuildingTB;
+        protected global::System.Web.UI.WebControls.TextBox RSectionTB;
 
         /// <summary>
-        /// RoomNumberTB control.
+        /// RProfTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox RoomNumberTB;
+        protected global::System.Web.UI.WebControls.TextBox RProfTB;
 
         /// <summary>
-        /// FacultyDL control.
+        /// RBuildingTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList FacultyDL;
+        protected global::System.Web.UI.WebControls.TextBox RBuildingTB;
 
         /// <summary>
-        /// TimeDL control.
+        /// RRoomNumberTB control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList TimeDL;
+        protected global::System.Web.UI.WebControls.TextBox RRoomNumberTB;
 
         /// <summary>
-        /// Calendar1 control.
+        /// RFacultyDL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar Calendar1;
+        protected global::System.Web.UI.WebControls.DropDownList RFacultyDL;
+
+        /// <summary>
+        /// RTimeDL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RTimeDL;
+
+        /// <summary>
+        /// RCalendar1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar RCalendar1;
 
         /// <summary>
         /// DeployBtn control.

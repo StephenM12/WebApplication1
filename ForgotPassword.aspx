@@ -26,8 +26,7 @@
                         <div class="mb-4">
                             <div class="row mb-0">
                                 <p class="text-start fs-4">
-                                    <a href="ForgotPassword.aspx"
-                                        style="color: #3B1867; font-weight: bold; text-decoration: none;">Forgot Password?</a>
+                                    <a style="color: #3B1867; font-weight: bold; text-decoration: none;">Forgot Password?</a>
                                 </p>
                             </div>
                             <p class="mb-2">
@@ -40,7 +39,7 @@
                                 <asp:TextBox ID="EmailTB" runat="server" class="form-control mb-3" type="text" placeholder="Enter Your Email"></asp:TextBox>
                                 <div class="d-flex align-items-center justify-content-center pb-1">
                                     <!--ID for Reset Password Button-->
-                                    <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple" />
+                                    <asp:Button ID="RVerifyEmailBtn" runat="server" Text="Verify Email" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple" />
                                 </div>
                             </div>
                             <span>Don't have an account? <a href="CreateAccount.aspx">Sign In</a></span>
