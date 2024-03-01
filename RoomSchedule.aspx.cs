@@ -18,6 +18,14 @@ namespace WebApplication1
 
         }
 
+        ///Code to connect db to gridview
+        private void BindGridView()
+        {
+
+            BindGridView();
+
+        }
+
         //To breakline the content
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -78,9 +86,105 @@ namespace WebApplication1
             }
 
 
+            try
+            {
+                SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                storename.Open();
+                SqlCommand select = new SqlCommand("SELECT * FROM schedtbl3", storename);
+                SqlDataAdapter adap = new SqlDataAdapter(select);
+                DataSet ds = new DataSet();
+                adap.Fill(ds);
+
+                
+                if (ds.Tables[0].Rows.Count > 0)
+                {
+                    GridView1.DataSource = ds.Tables[0];
+
+                    GridView1.DataBind();
+
+                    
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+                throw;
+
+            }
+
         }
+        protected void addBtnClk(object sender, EventArgs e)
+        {
+            string courseCode = CourseCodeTB.Text;
+            string sec = SectionTB.Text;
+            string fac = FacultyTB.Text;
+            string prof = ProfTB.Text;
+            string bui = BuildingTB.Text;
+            string room = RoomNumberTB.Text;
+            string college = FacultyDL.Text;
+            string classTime = TimeDL.Text;
+
+
+            try 
+            {
+                SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                storename.Open();
+                //code starts here then insert later
+
+
+
+
+                SqlCommand insert = new SqlCommand("EXEC dbo.insertName @Name", storename);
+
+
+            }
+            catch
+            {
+
+                throw;
+
+            }
         
+        
+        }
+        }
+        protected void addBtnClk(object sender, EventArgs e)
+        {
+            string courseCode = CourseCodeTB.Text;
+            string sec = SectionTB.Text;
+            string fac = FacultyTB.Text;
+            string prof = ProfTB.Text;
+            string bui = BuildingTB.Text;
+            string room = RoomNumberTB.Text;
+            string college = FacultyDL.Text;
+            string classTime = TimeDL.Text;
 
 
-    }
+            try 
+            {
+                SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
+                storename.Open();
+                //code starts here then insert later
+
+
+
+        }
+
+                SqlCommand insert = new SqlCommand("EXEC dbo.insertName @Name", storename);
+
+
+            }
+            catch
+            {
+
+                throw;
+
+            }
+        
+        
+        }
+
+
+        }
 }
