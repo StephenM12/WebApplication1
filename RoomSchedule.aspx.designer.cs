@@ -51,15 +51,6 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox SectionTB;
 
         /// <summary>
-        /// FacultyTB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox FacultyTB;
-
-        /// <summary>
         /// ProfTB control.
         /// </summary>
         /// <remarks>
@@ -112,5 +103,14 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar Calendar1;
+
+        /// <summary>
+        /// DeployBtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeployBtn;
     }
 }

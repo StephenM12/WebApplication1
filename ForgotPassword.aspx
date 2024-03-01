@@ -35,13 +35,11 @@
                             </p>
                         </div>
                         <form id="form1" runat="server">
-                            <div class="mb-3">
-                                <%--<label for="email" class="form-label">Email</label>--%>
+                            <div class="mb-3">                              
                                 <!--ID for Email Text Box-->
                                 <asp:TextBox ID="EmailTB" runat="server" class="form-control mb-3" type="text" placeholder="Enter Your Email"></asp:TextBox>
                                 <div class="d-flex align-items-center justify-content-center pb-1">
                                     <!--ID for Reset Password Button-->
-                                    <!--<asp:Button ID="ResetPassBtn2" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="btn btn-primary btn-block fa-lg full-width bg-purple" />-->
                                     <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple" />
                                 </div>
                             </div>

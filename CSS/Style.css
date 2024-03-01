@@ -19,6 +19,12 @@
     width: 100%;
 }
 
+.lower-left {
+    position: fixed;
+    bottom: 20px; /* Adjust the distance from the bottom as needed */
+    left: 200px; /* Adjust the distance from the left as needed */
+}
+
 a {
     text-decoration: none;
 }

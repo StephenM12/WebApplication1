@@ -5,68 +5,91 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <link rel="stylesheet" href="./CSS/Style.css" />
 
-   
+
     <form id="form1" runat="server">
         <%-- grid code--%>
 
         <asp:GridView ID="GridView1" runat="server" BackColor="White" BorderColor="White" BorderStyle="Ridge" BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False">
-        <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
-        <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" />
-        <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />
-        <RowStyle BackColor="#DEDFDE" ForeColor="Black" />
-        <SelectedRowStyle BackColor="#9471DE" Font-Bold="True" ForeColor="White" />
-        <SortedAscendingCellStyle BackColor="#F1F1F1" />
-        <SortedAscendingHeaderStyle BackColor="#594B9C" />
-        <SortedDescendingCellStyle BackColor="#CAC9C9" />
-        <SortedDescendingHeaderStyle BackColor="#33276A" />
+            <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
+            <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" />
+            <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />
+            <RowStyle BackColor="#DEDFDE" ForeColor="Black" />
+            <SelectedRowStyle BackColor="#9471DE" Font-Bold="True" ForeColor="White" />
+            <SortedAscendingCellStyle BackColor="#F1F1F1" />
+            <SortedAscendingHeaderStyle BackColor="#594B9C" />
+            <SortedDescendingCellStyle BackColor="#CAC9C9" />
+            <SortedDescendingHeaderStyle BackColor="#33276A" />
 
-        <Columns>
-        <asp:BoundField DataField="Scheds" HeaderText="Schedule" />
-        </Columns>
-        <Columns>
-        <asp:BoundField DataField="Monday" HeaderText="Monday" />
-        </Columns>
-        <Columns>
-        <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
-        </Columns>
-        <Columns>
-        <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
-        </Columns>
-        <Columns>
-        <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
-        </Columns>
-        <Columns>
-        <asp:BoundField DataField="Friday" HeaderText="Friday" />
-        </Columns>
-        <Columns>
-        <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
-        </Columns>
-        <Columns>
-        <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
-        </Columns>
+            <Columns>
+                <asp:BoundField DataField="Scheds" HeaderText="Schedule" />
+            </Columns>
+            <Columns>
+                <asp:BoundField DataField="Monday" HeaderText="Monday" />
+            </Columns>
+            <Columns>
+                <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
+            </Columns>
+            <Columns>
+                <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
+            </Columns>
+            <Columns>
+                <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
+            </Columns>
+            <Columns>
+                <asp:BoundField DataField="Friday" HeaderText="Friday" />
+            </Columns>
+            <Columns>
+                <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
+            </Columns>
+            <Columns>
+                <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
+            </Columns>
 
         </asp:GridView>
 
 
-    <!-- Button trigger modal -->
-    <button type="button" class=" bg-color btn btn-primary bg-color lower-right" data-bs-toggle="modal" data-bs-target="#exampleModal">
-        ADD TO SCHEDULE
-    </button>
 
 
-    <!-- Modal -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"> <br>
-        <div class="modal-dialog modal-fullscreen">
-            <div class="modal-content">
+        <!-- Start of Modal Button-->
 
-                <!-- Put ASP Controls here-->
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Add New Schedule</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
+        <!-- Button for ADD TO SCHEDULE-->
 
-                <!-- Modal Body-->
-                <div class="modal-body">
+        <button type="button" class="lower-right bg-color btn btn-primary bg-color" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            ADD TO SCHEDULE
+        </button>
+
+      <%--  <asp:Button ID="AddBtn" runat="server" Text="ADD TO SCHEDULE" class="lower-right bg-color btn btn-primary bg-color" OnClientClick="showModal()" />
+
+        <script type="text/javascript">
+            function showModal() {
+                $("exampleModal").modal('show');
+                return false; // Prevent postback
+            }
+        </script>--%>
+
+
+
+        <!-- Button for EDIT/CANCEL SCHEDULE-->
+        <button type="button" class="lower-left bg-color btn btn-primary bg-color" data-bs-toggle="modal" data-bs-target="#secondModal">
+            EDIT/CANCEL SCHEDULE
+        </button>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <br>
+            <div class="modal-dialog modal-fullscreen-xxl-down">
+                <div class="modal-content">
+
+
+                    <!-- Put ASP Controls here-->
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Add New Schedule</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <!-- Modal Body-->
+                    <div class="modal-body">
 
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Course Code:</label>
@@ -77,12 +100,6 @@
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Section:</label>
                             <asp:TextBox ID="SectionTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Section"></asp:TextBox>
                         </div>
-
-                        <div class="form-outline mb-4">
-                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Faculty:</label>
-                            <asp:TextBox ID="FacultyTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Username"></asp:TextBox>
-                        </div>
-
 
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Professor/Instructor:</label>
@@ -112,7 +129,6 @@
                             </asp:DropDownList>
                         </div>
 
-
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Time:</label>
                             <asp:DropDownList ID="TimeDL" runat="server">
@@ -127,24 +143,15 @@
                                 <asp:ListItem Text="5:00 PM - 6:15 PM" Value="Value9"></asp:ListItem>
                                 <asp:ListItem Text="6:15 PM - 7:30 PM" Value="Value10"></asp:ListItem>
                                 <asp:ListItem Text="7:30 PM - 8:45 PM" Value="Value11"></asp:ListItem>
-
-
-
-
                             </asp:DropDownList>
                         </div>
-
                         <asp:Calendar ID="Calendar1" runat="server"></asp:Calendar>
-
-
-
+                        <br />
+                        <asp:Button ID="DeployBtn" runat="server" Text="Deploy" class="btn btn-primary btn-block fa-lg full-width bg-color" />
+                    </div>
                 </div>
-                
             </div>
         </div>
-    </div>
+    </form>
 
-
-</form>
-   
 </asp:Content>
