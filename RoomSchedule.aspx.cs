@@ -19,12 +19,7 @@ namespace WebApplication1
         }
 
         ///Code to connect db to gridview
-        private void BindGridView()
-        {
-
-            BindGridView();
-
-        }
+        
 
         //To breakline the content
 
@@ -90,7 +85,7 @@ namespace WebApplication1
             {
                 SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
                 storename.Open();
-                SqlCommand select = new SqlCommand("SELECT * FROM schedtbl3", storename);
+                SqlCommand select = new SqlCommand("SELECT * FROM roomSchedtbl", storename);
                 SqlDataAdapter adap = new SqlDataAdapter(select);
                 DataSet ds = new DataSet();
                 adap.Fill(ds);
@@ -148,43 +143,6 @@ namespace WebApplication1
         
         
         }
-        }
-        protected void addBtnClk(object sender, EventArgs e)
-        {
-            string courseCode = CourseCodeTB.Text;
-            string sec = SectionTB.Text;
-            string fac = FacultyTB.Text;
-            string prof = ProfTB.Text;
-            string bui = BuildingTB.Text;
-            string room = RoomNumberTB.Text;
-            string college = FacultyDL.Text;
-            string classTime = TimeDL.Text;
-
-
-            try 
-            {
-                SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                storename.Open();
-                //code starts here then insert later
-
-
-
-        }
-
-                SqlCommand insert = new SqlCommand("EXEC dbo.insertName @Name", storename);
-
-
-            }
-            catch
-            {
-
-                throw;
-
-            }
-        
-        
-        }
-
-
-        }
+    }
+   
 }
