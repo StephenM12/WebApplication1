@@ -18,6 +18,26 @@ namespace WebApplication1
 
         }
 
+        //To breakline the content
+
+        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                
+               
+                e.Row.Cells[1].Text = e.Row.Cells[1].Text.Replace(".", "</br>");
+                e.Row.Cells[2].Text = e.Row.Cells[2].Text.Replace(".", "</br>");
+                e.Row.Cells[3].Text = e.Row.Cells[3].Text.Replace(".", "</br>");
+                e.Row.Cells[4].Text = e.Row.Cells[4].Text.Replace(".", "</br>");
+                e.Row.Cells[5].Text = e.Row.Cells[5].Text.Replace(".", "</br>");
+                e.Row.Cells[6].Text = e.Row.Cells[6].Text.Replace(".", "</br>");
+                e.Row.Cells[7].Text = e.Row.Cells[7].Text.Replace(".", "</br>");
+
+
+            }
+        }
+
         ///Code to connect db to gridview
         private void BindGridView()
         {
@@ -26,19 +46,27 @@ namespace WebApplication1
             {
                 SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
                 storename.Open();
-                SqlCommand select = new SqlCommand("SELECT * FROM schedtbl3", storename);
+                SqlCommand select = new SqlCommand("SELECT * FROM roomSchedtbl", storename);
                 SqlDataAdapter adap = new SqlDataAdapter(select);
                 DataSet ds = new DataSet();
                 adap.Fill(ds);
 
+
                 
                 if (ds.Tables[0].Rows.Count > 0)
                 {
-                    GridView1.DataSource = ds.Tables[0];
 
+
+                   
+
+                    GridView1.DataSource = ds.Tables[0];
+                    
                     GridView1.DataBind();
 
+
                     
+
+
 
 
                 }
@@ -51,5 +79,8 @@ namespace WebApplication1
 
 
         }
+        
+
+
     }
 }

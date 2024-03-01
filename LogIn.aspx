@@ -27,7 +27,7 @@
                                                 <label style="font-weight: bold;" class="form-label ms-3"
                                                     for="form2Example11">
                                                     Username</label>
-                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a user name" ControlToValidate="UsernameTB" ForeColor="#CC3300"></asp:RequiredFieldValidator>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a user name" ControlToValidate="UsernameTB" ForeColor="#CC3300" ValidationGroup="valgrp1" ></asp:RequiredFieldValidator>
 
                                                 <div class="input-group">
                                                     <div class="input-group-text">
@@ -47,7 +47,7 @@
                                                 <label style="font-weight: bold;" class="form-label ms-3"
                                                     for="PasswordTB">
                                                     Password</label>
-                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter a password" ControlToValidate="PasswordTB" ForeColor="#CC3300"></asp:RequiredFieldValidator>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter a password" ControlToValidate="PasswordTB" ForeColor="#CC3300" ValidationGroup="valgrp1" ></asp:RequiredFieldValidator>
 
                                                 <div class="input-group">
                                                     <div class="input-group-text">
@@ -81,7 +81,7 @@
                                             </div>
                                             <div class="text-center pt-1 mb-5 pb-1">
                                                 <!--ID for LogIn Button-->
-                                                <asp:Button ID="LogInBtn" runat="server" Text="Log In" OnClick="LogInBtn_Click" class="btn btn-primary btn-block fa-lg full-width bg-purple" />
+                                                <asp:Button ID="LogInBtn" runat="server" Text="Log In" OnClick="LogInBtn_Click" class="btn btn-primary btn-block fa-lg full-width bg-purple" ValidationGroup="valgrp1" />
                                             </div>
                                             <div class="custom-line">
                                             </div>

@@ -8,7 +8,8 @@
    
     <form id="form1" runat="server">
         <%-- grid code--%>
-        <asp:GridView ID="GridView1" runat="server" BackColor="White" BorderColor="White" BorderStyle="Ridge" BorderWidth="2px" CellPadding="3" CellSpacing="1" GridLines="None">
+
+        <asp:GridView ID="GridView1" runat="server" BackColor="White" BorderColor="White" BorderStyle="Ridge" BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False">
         <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
         <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" />
         <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />
@@ -18,10 +19,33 @@
         <SortedAscendingHeaderStyle BackColor="#594B9C" />
         <SortedDescendingCellStyle BackColor="#CAC9C9" />
         <SortedDescendingHeaderStyle BackColor="#33276A" />
+
+        <Columns>
+        <asp:BoundField DataField="Scheds" HeaderText="Schedule" />
+        </Columns>
+        <Columns>
+        <asp:BoundField DataField="Monday" HeaderText="Monday" />
+        </Columns>
+        <Columns>
+        <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
+        </Columns>
+        <Columns>
+        <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
+        </Columns>
+        <Columns>
+        <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
+        </Columns>
+        <Columns>
+        <asp:BoundField DataField="Friday" HeaderText="Friday" />
+        </Columns>
+        <Columns>
+        <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
+        </Columns>
+        <Columns>
+        <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
+        </Columns>
+
         </asp:GridView>
-
-
-<%--    nag add ako dito--%>
 
 
     <!-- Button trigger modal -->
