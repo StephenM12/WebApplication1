@@ -10,7 +10,7 @@
     <form id="form1" runat="server">
         <%-- grid code--%>
 
-        <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge" BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False" > 
+        <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge" BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False">
             <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
             <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" CssClass="schedule-gridview" />
             <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />
@@ -53,7 +53,6 @@
 
         <!-- Start of Modal Button-->
 
-        <!-- Button for ADD TO SCHEDULE-->
         <asp:Button ID="RAddSchedBtn" runat="server" Text="ADD TO SCHEDULE" CssClass="lower-right bg-color btn btn-primary bg-color" OnClientClick="openModal(); return false;" />
 
         <script type="text/javascript">
@@ -62,15 +61,20 @@
             }
         </script>
 
-
         <!-- Button for EDIT/CANCEL SCHEDULE-->
-        <asp:Button ID="REditBtn" runat="server" Text="EDIT/CANCEL SCHEDULE" CssClass="lower-left bg-color btn btn-primary bg-color" OnClientClick="openModal(); return false;" />
+        <asp:Button ID="REditBtn" runat="server" Text="EDIT/CANCEL SCHEDULE" CssClass="lower-left bg-color btn btn-primary bg-color" OnClientClick="openSched(); return false;" />
 
         <script type="text/javascript">
-            function openModal() {
-                $('#exampleModal').modal('show');
+            function openSched() {
+                $('#RoomEdit').modal('show');
             }
         </script>
+
+
+        <%--<button type="button" class="lower-right bg-color btn btn-primary bg-color" data-bs-toggle="modal" data-bs-target="#exampleModal">
+        EDIT/CANCEL BUTTON
+</button>--%>
+
 
 
         <!-- Modal -->
@@ -127,6 +131,14 @@
                             </asp:DropDownList>
                         </div>
 
+                        <%-- <asp:Calendar ID="RCalendar1" runat="server"></asp:Calendar>--%>
+                        <div class="form-outline mb-4">
+                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Date:</label>
+                            <asp:TextBox ID="Calendar1" runat="server" TextMode="Date"></asp:TextBox>
+                        </div>
+
+
+
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Time:</label>
                             <asp:DropDownList ID="RTimeDL" runat="server">
@@ -143,9 +155,28 @@
                                 <asp:ListItem Text="7:30 PM - 8:45 PM" Value="Value11"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
-                        <asp:Calendar ID="RCalendar1" runat="server"></asp:Calendar>
                         <br />
-                        <asp:Button ID="DeployBtn" runat="server" Text="Deploy" class="btn btn-primary btn-block fa-lg full-width bg-color" OnClick="deployBTNclk"/>
+                        <asp:Button ID="DeployBtn" runat="server" Text="Deploy" class="btn btn-primary btn-block fa-lg full-width bg-color" OnClick="deployBTNclk" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="modal fade" id="RoomEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-fullscreen">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="RoomEdit">Modal title</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
+                        Edit Modal
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
                     </div>
                 </div>
             </div>

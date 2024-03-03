@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-
+using System.Diagnostics;
 using System.Data.SqlClient;
 using System.Data;
 
@@ -68,8 +68,7 @@ namespace WebApplication1
             }
             catch (Exception ex)
             {
-                throw;
-
+                Debug.WriteLine(ex.Message);
             }
 
         }
@@ -82,7 +81,9 @@ namespace WebApplication1
             string room = RRoomNumberTB.Text; //room number
             string selectedCollege = RFacultyDL.SelectedValue; //college value
             string selectedTime = RTimeDL.SelectedValue; //Selected Time
-            var date = RCalendar1.SelectedDate;
+            //var date = Calendar1.SelectedDate;
+            var dateStr = Calendar1.Text; //YYYY-MM-DD
+            var date = new DateTime(2024, 03, 03); // instantiate DateTime struct. replace test values from dateStr.
             var dayOfWeek = date.ToString("dddd"); //Monday-Sunday
 
 

@@ -105,6 +105,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.DropDownList RFacultyDL;
 
         /// <summary>
+        /// Calendar1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Calendar1;
+
+        /// <summary>
         /// RTimeDL control.
         /// </summary>
         /// <remarks>
@@ -112,15 +121,6 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList RTimeDL;
-
-        /// <summary>
-        /// RCalendar1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar RCalendar1;
 
         /// <summary>
         /// DeployBtn control.
