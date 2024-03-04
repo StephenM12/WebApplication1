@@ -49,7 +49,7 @@ namespace WebApplication1
             {
                 SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
                 storename.Open();
-                SqlCommand select = new SqlCommand("SELECT * FROM roomSchedtbl", storename);
+                SqlCommand select = new SqlCommand("SELECT * FROM savedschedules1", storename);
                 SqlDataAdapter adap = new SqlDataAdapter(select);
                 DataSet ds = new DataSet();
                 adap.Fill(ds);
@@ -79,28 +79,42 @@ namespace WebApplication1
             string prof = RProfTB.Text; //prof/instructor
             string bui = RBuildingTB.Text; //building
             string room = RRoomNumberTB.Text; //room number
-            string selectedCollege = RFacultyDL.SelectedValue; //college value
-            string selectedTime = RTimeDL.SelectedValue; //Selected Time
-            //var date = Calendar1.SelectedDate;
+            string selectedCollege = RFacultyDL.SelectedItem.Text; //college value
+            string selectedTimerealValue = RTimeDL.SelectedItem.Text; //Selected Time
+            string selectedTime = RTimeDL.SelectedValue; //Selected Time ID
+
+            //calendar code:
             var dateStr = Calendar1.Text; //YYYY-MM-DD
-            var date = new DateTime(2024, 03, 03); // instantiate DateTime struct. replace test values from dateStr.
-            var dayOfWeek = date.ToString("dddd"); //Monday-Sunday
+            DateTime date; //attempts to parse the dateStr string into a DateTime object
+            DateTime.TryParse(dateStr, out date);
+            string dayOfWeekString = date.ToString("dddd");//print Monday-Sunday
 
 
 
             SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
             {
-                String query = "UPDATE insertTesttbl Set @dayofWeek = @courseCode+'.'+ @courseSection+'.'+@prof+'.'+@building +'.'+@room+'.'+@selectedCollege WHERE ID = 12";
+                
+                
+
+                String query = "UPDATE savedschedules1 SET " + dayOfWeekString + " = @courseCode+'.'+ @courseSection+'.'+@prof+'.'+@building +'.'+@room+'.'+@selectedCollege WHERE ID = @selectedSched";
+
 
                 using (SqlCommand command = new SqlCommand(query, storename))
                 {
+
+
+                    
+
+
                     command.Parameters.AddWithValue("@courseCode", courseCode);
                     command.Parameters.AddWithValue("@courseSection", sec);
                     command.Parameters.AddWithValue("@prof", prof);
                     command.Parameters.AddWithValue("@building", bui);
                     command.Parameters.AddWithValue("@room", room);
                     command.Parameters.AddWithValue("@selectedCollege", selectedCollege);
-                    command.Parameters.AddWithValue("@dayofWeek", dayOfWeek);
+                    command.Parameters.AddWithValue("@selectedSchedvalue", selectedTimerealValue);
+                    command.Parameters.AddWithValue("@selectedSched", selectedTime);
+                    
 
 
 

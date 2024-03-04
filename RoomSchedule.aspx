@@ -22,7 +22,7 @@
             <SortedDescendingHeaderStyle BackColor="#33276A" />
 
             <Columns>
-                <asp:BoundField DataField="Scheds" HeaderText="Schedule" />
+                <asp:BoundField DataField="Schedule" HeaderText="Schedule" />
             </Columns>
             <Columns>
                 <asp:BoundField DataField="Monday" HeaderText="Monday" />
@@ -142,17 +142,17 @@
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Time:</label>
                             <asp:DropDownList ID="RTimeDL" runat="server">
-                                <asp:ListItem Text="7:15 AM - 8:15 AM" Value="Value1"></asp:ListItem>
-                                <asp:ListItem Text="8:15 AM - 9:30 AM" Value="Value2"></asp:ListItem>
-                                <asp:ListItem Text="9:30 AM - 10:45 AM" Value="Value3"></asp:ListItem>
-                                <asp:ListItem Text="10:45 AM - 12:00 PM" Value="Value4"></asp:ListItem>
-                                <asp:ListItem Text="12:00 PM - 1:15 PM" Value="Value5"></asp:ListItem>
-                                <asp:ListItem Text="1:15 PM - 2:30 PM" Value="Value6"></asp:ListItem>
-                                <asp:ListItem Text="2:30 PM - 3:45 PM" Value="Value7"></asp:ListItem>
-                                <asp:ListItem Text="3:45 PM - 5:00 PM" Value="Value8"></asp:ListItem>
-                                <asp:ListItem Text="5:00 PM - 6:15 PM" Value="Value9"></asp:ListItem>
-                                <asp:ListItem Text="6:15 PM - 7:30 PM" Value="Value10"></asp:ListItem>
-                                <asp:ListItem Text="7:30 PM - 8:45 PM" Value="Value11"></asp:ListItem>
+                                <asp:ListItem Text="7:15 AM - 8:15 AM" Value="1"></asp:ListItem>
+                                <asp:ListItem Text="8:15 AM - 9:30 AM" Value="2"></asp:ListItem>
+                                <asp:ListItem Text="9:30 AM - 10:45 AM" Value="3"></asp:ListItem>
+                                <asp:ListItem Text="10:45 AM - 12:00 PM" Value="4"></asp:ListItem>
+                                <asp:ListItem Text="12:00 PM - 1:15 PM" Value="5"></asp:ListItem>
+                                <asp:ListItem Text="1:15 PM - 2:30 PM" Value="6"></asp:ListItem>
+                                <asp:ListItem Text="2:30 PM - 3:45 PM" Value="7"></asp:ListItem>
+                                <asp:ListItem Text="3:45 PM - 5:00 PM" Value="8"></asp:ListItem>
+                                <asp:ListItem Text="5:00 PM - 6:15 PM" Value="9"></asp:ListItem>
+                                <asp:ListItem Text="6:15 PM - 7:30 PM" Value="10"></asp:ListItem>
+                                <asp:ListItem Text="7:30 PM - 8:45 PM" Value="11"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
                         <br />
