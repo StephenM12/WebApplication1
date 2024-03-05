@@ -3,8 +3,12 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container mx-auto">
-        <div class="card" style="width: 20rem;">
+        <h1>WELCOME USER _________</h1> <%--dapat lalabas dito name ng user na nag login--%>
+
+       <%-- <div class="card" style="width: 20rem;">
+            
             <div class="card-body">
+                
                 <h5 class="card-title">Einstein - 313</h5>
                 <p class="card-text">Course Code: IT123P<br>
                     Section: B58<br>
@@ -13,6 +17,7 @@
                     Professor/Instructor: Dennis Martillano</p>
                 <a href="#" class="btn btn-primary">View</a>
             </div>
-        </div>
+        </div>--%>
+
     </div>       
 </asp:Content>

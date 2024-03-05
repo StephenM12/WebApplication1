@@ -5,8 +5,11 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Diagnostics;
+
+//sql connection:
 using System.Data.SqlClient;
 using System.Data;
+using WebApplication1.cs_files;
 
 namespace WebApplication1
 {
@@ -18,11 +21,7 @@ namespace WebApplication1
 
         }
 
-        ///Code to connect db to gridview
-
-
-        //To breakline the content
-
+        
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
@@ -47,24 +46,28 @@ namespace WebApplication1
 
             try
             {
-                SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-                storename.Open();
-                SqlCommand select = new SqlCommand("SELECT * FROM savedschedules1", storename);
-                SqlDataAdapter adap = new SqlDataAdapter(select);
-                DataSet ds = new DataSet();
-                adap.Fill(ds);
+                // Open database connection
+                SqlConnection connection = dbConnection.GetConnection();
 
-
-                if (ds.Tables[0].Rows.Count > 0)
+                if (connection.State == System.Data.ConnectionState.Open)
                 {
-                    GridView1.DataSource = ds.Tables[0];
+                    SqlCommand select = new SqlCommand("SELECT * FROM savedschedules1", connection);
+                    SqlDataAdapter adap = new SqlDataAdapter(select);
+                    DataSet ds = new DataSet();
+                    adap.Fill(ds);
 
-                    GridView1.DataBind();
 
+                    if (ds.Tables[0].Rows.Count > 0)
+                    {
+                        GridView1.DataSource = ds.Tables[0];
 
+                        GridView1.DataBind();
 
+                    }
 
+                    connection.Close();
                 }
+               
             }
             catch (Exception ex)
             {
@@ -89,21 +92,15 @@ namespace WebApplication1
             DateTime.TryParse(dateStr, out date);
             string dayOfWeekString = date.ToString("dddd");//print Monday-Sunday
 
+            // Open database connection
+            SqlConnection connection = dbConnection.GetConnection();
 
-
-            SqlConnection storename = new SqlConnection("Server=tcp:bagongserver.database.windows.net,1433;Initial Catalog=bagongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;");
-            {
-                
-                
+            if (connection.State == System.Data.ConnectionState.Open)
+            {// Perform your database operations here:
 
                 String query = "UPDATE savedschedules1 SET " + dayOfWeekString + " = @courseCode+'.'+ @courseSection+'.'+@prof+'.'+@building +'.'+@room+'.'+@selectedCollege WHERE ID = @selectedSched";
-
-
-                using (SqlCommand command = new SqlCommand(query, storename))
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-
-
-                    
 
 
                     command.Parameters.AddWithValue("@courseCode", courseCode);
@@ -114,25 +111,20 @@ namespace WebApplication1
                     command.Parameters.AddWithValue("@selectedCollege", selectedCollege);
                     command.Parameters.AddWithValue("@selectedSchedvalue", selectedTimerealValue);
                     command.Parameters.AddWithValue("@selectedSched", selectedTime);
+
                     
-
-
-
-
-                    storename.Open();
                     int result = command.ExecuteNonQuery();
 
                     // Check Error
                     if (result < 0)
                         Console.WriteLine("Error inserting data into Database!");
+
+                    connection.Close();
                 }
 
             }
 
-                
-
-
-
+            
         }
 
         
