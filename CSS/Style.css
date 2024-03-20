@@ -1,5 +1,26 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
 
+
+.upload-label {
+    display: inline-block;
+    padding: 6px 12px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border-radius: 4px;
+}
+
+.upload-file {
+    display: none; /* Hide the actual FileUpload control */
+}
+
+.file-name {
+    display: inline-block;
+    margin-left: 10px;
+}
+
+
+
 ::after,
 ::before {
     box-sizing: border-box;
@@ -173,28 +194,3 @@ a.sidebar-link:hover {
 
 @media (max-width: 600px) {
 }
-.schedule-gridview {
-    width: 100%;
-    border-collapse: collapse;
-}
-
-    .schedule-gridview th,
-    .schedule-gridview td {
-        padding: 10px;
-        border: 1px solid #000; /* Adjust border color and thickness as needed */
-    }
-
-    .schedule-gridview th {
-        background-color: #4A3C8C; /* Header background color */
-        color: #E7E7FF; /* Header text color */
-    }
-
-    .schedule-gridview tr:nth-child(even) {
-        background-color: #DEDFDE; /* Alternate row background color */
-    }
-
-    .schedule-gridview tr.selected {
-        background-color: #9471DE; /* Selected row background color */
-        color: #fff; /* Selected row text color */
-    }
-

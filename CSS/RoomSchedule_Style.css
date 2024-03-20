@@ -1,0 +1,49 @@
+﻿.bg-color {
+    background-color: #3B1867;
+}
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.calendar-container {
+    flex: 1;
+    margin-left: 100px; /* Adjust as needed */
+    position: relative; /* Position the calendar container */
+    top: -150px; /* Move the calendar 20px upward */
+}
+
+.schedule-container {
+    /*flex: 1;*/
+}
+
+.schedule-gridview {
+    width: auto;
+    height: 90%;
+    border-collapse: collapse;
+    table-layout: fixed; /* Ensure uniform column width */
+}
+
+    .schedule-gridview th,
+    .schedule-gridview td {
+        width: 120px;
+        padding: 10px;
+        border: 1px solid #000;
+        text-align: center; /* Center-align content */
+    }
+
+    .schedule-gridview th {
+        background-color: #4A3C8C;
+        color: #E7E7FF;
+    }
+
+    .schedule-gridview tr:nth-child(even) {
+        background-color: #DEDFDE;
+    }
+
+    .schedule-gridview tr.selected {
+        background-color: #9471DE;
+        color: #fff;
+    }

@@ -1,0 +1,13 @@
+﻿.full-width {
+    width: 2000px;
+    max-width: none;
+}
+
+.bg-color {
+    background-color: #3B1867;
+}
+
+.width {
+    width: 450px;
+    max-width: none;
+}

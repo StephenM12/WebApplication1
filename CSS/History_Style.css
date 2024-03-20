@@ -1,0 +1,63 @@
+﻿.full-width {
+    width: 100%;
+}
+
+.bg-purple {
+    background-color: #3B1867;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 10px; /* Adjust the value as needed */
+    position: relative;
+    top: 20px; /* Adjust the value as needed */
+}
+
+.card {
+    width: 50%;
+    height: 120px
+    /* Adjust width as needed */
+}
+
+.button-container {
+    position: absolute;
+    bottom: 20px;
+    right: 400px;
+}
+
+
+
+.card .btn {
+    width: 400%; /* Set desired width */
+    max-width: none;
+}
+
+.card-title {
+    margin-left: 60px; /* Adjust the value as needed */
+    font-size: 25px; /* Adjust the value as needed */
+}
+
+.view-history-title {
+    margin-left: 500px; /* Adjust the value as needed */
+    margin-top: 20px; /* Adjust the value as needed */
+    padding-top: 40px; /* Adjust the value as needed */
+}
+
+@media screen and (max-width: 768px) {
+    .card {
+        width: 80%; /* Adjust width for smaller screens */
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .card {
+        width: 90%; /* Adjust width for even smaller screens */
+    }
+
+    .view-history-title {
+        margin-top: 30px; /* Adjust as needed */
+    }
+}
+

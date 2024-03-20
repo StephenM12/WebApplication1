@@ -123,8 +123,11 @@
     <Content Include="CreateAccount.aspx" />
     <Content Include="CSS\CreateAccount_Style.css" />
     <Content Include="CSS\ForgotPassword_Style.css" />
+    <Content Include="CSS\History_Style.css" />
     <Content Include="CSS\LogIn_Style.css" />
+    <Content Include="CSS\Profile_Style.css" />
     <Content Include="CSS\ResetPassword_Style.css" />
+    <Content Include="CSS\RoomSchedule_Style.css" />
     <Content Include="CSS\Style.css" />
     <Content Include="favicon.ico" />
     <Content Include="ForgotPassword.aspx" />
