@@ -38,7 +38,7 @@
                                 <asp:TextBox ID="EmailTB" runat="server" class="form-control mb-3" type="text" placeholder="Enter Your Email"></asp:TextBox>
                                 <div class="d-flex align-items-center justify-content-center pb-1">
                                     <!--ID for Reset Password Button-->
-                                    <asp:Button ID="RVerifyEmailBtn" runat="server" Text="Verify Email" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple" />
+                                    <asp:Button ID="RVerifyEmailBtn" runat="server" Text="Verify Email" OnClick="verify_Email_BTN" class="bg-purple btn btn-primary full-width bg-purple" />
                                 </div>
                             </div>
                             <span>Don't have an account? <a href="CreateAccount.aspx">Sign In</a></span>
