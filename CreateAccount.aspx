@@ -56,6 +56,7 @@
                                         <label style="font-weight: bold;" class="form-label ms-3" for="form3Example6cdg">Confirm Password</label>
                                         <asp:TextBox ID="ConfirmPasswordID" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Confirm Password"></asp:TextBox>
                                     </div>
+                                    <br />
                                     <!--ID for Create Account Button-->
                                     <div class="d-flex justify-content-center">
                                         <asp:Button ID="CreateAccBtn" runat="server" Text="Create Account" OnClick="CreateAccBtn_Click" class="btn btn-primary btn-block btn-lg full-width bg-purple" />

@@ -1,5 +1,10 @@
-﻿.bg-color {
+﻿
+.bg-color {
     background-color: #3B1867;
+}
+
+.full-width {
+    width: 100%; 
 }
 
 .container {

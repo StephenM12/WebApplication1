@@ -87,7 +87,7 @@ namespace WebApplication1
             string selectedTime = RTimeDL.SelectedValue; //Selected Time ID
 
             //calendar code:
-            var dateStr = Calendar1.Text; //YYYY-MM-DD
+            var dateStr = SelectDateTB.Text; //YYYY-MM-DD
             DateTime date; //attempts to parse the dateStr string into a DateTime object
             DateTime.TryParse(dateStr, out date);
             string dayOfWeekString = date.ToString("dddd");//print Monday-Sunday
