@@ -80,7 +80,6 @@ namespace WebApplication1
             string courseCode = RCourseCodeTB.Text; //course code
             string sec = RSectionTB.Text; //section
             string prof = RProfTB.Text; //prof/instructor
-            string bui = RBuildingTB.Text; //building
             string room = RRoomNumberTB.Text; //room number
             string selectedCollege = RFacultyDL.SelectedItem.Text; //college value
             string selectedTimerealValue = RTimeDL.SelectedItem.Text; //Selected Time
@@ -106,7 +105,6 @@ namespace WebApplication1
                     command.Parameters.AddWithValue("@courseCode", courseCode);
                     command.Parameters.AddWithValue("@courseSection", sec);
                     command.Parameters.AddWithValue("@prof", prof);
-                    command.Parameters.AddWithValue("@building", bui);
                     command.Parameters.AddWithValue("@room", room);
                     command.Parameters.AddWithValue("@selectedCollege", selectedCollege);
                     command.Parameters.AddWithValue("@selectedSchedvalue", selectedTimerealValue);

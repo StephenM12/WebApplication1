@@ -108,16 +108,20 @@
                             <asp:TextBox ID="RProfTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Professor/Instructor"></asp:TextBox>
                         </div>
 
-
-                        <div class="form-outline mb-4">
-                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Building:</label>
-                            <asp:TextBox ID="RBuildingTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Building"></asp:TextBox>
-                        </div>
-
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Room Number:</label>
                             <asp:TextBox ID="RRoomNumberTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Room Number"></asp:TextBox>
                         </div>
+
+                        <div class="form-outline mb-4">
+                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label>
+                            <asp:DropDownList ID="SelectBuildingDL" runat="server">
+                                <asp:ListItem Text="RIZAL" Value="Value1"></asp:ListItem>
+                                <asp:ListItem Text="EINSTEIN" Value="Value2"></asp:ListItem>
+                                <asp:ListItem Text="ETYCB" Value="Value3"></asp:ListItem>
+                            </asp:DropDownList>
+                        </div>
+
 
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Faculty:</label>
@@ -127,7 +131,6 @@
                                 <asp:ListItem Text="CMET" Value="Value3"></asp:ListItem>
                                 <asp:ListItem Text="ETYCB" Value="Value4"></asp:ListItem>
                                 <asp:ListItem Text="CAS" Value="Value5"></asp:ListItem>
-                                <asp:ListItem Text="SHS" Value="Value6"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
 
