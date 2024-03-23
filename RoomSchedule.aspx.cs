@@ -51,7 +51,7 @@ namespace WebApplication1
 
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
-                    SqlCommand select = new SqlCommand("SELECT * FROM savedschedules1", connection);
+                    SqlCommand select = new SqlCommand("SELECT * FROM roomSched", connection);
                     SqlDataAdapter adap = new SqlDataAdapter(select);
                     DataSet ds = new DataSet();
                     adap.Fill(ds);
@@ -97,7 +97,7 @@ namespace WebApplication1
             if (connection.State == System.Data.ConnectionState.Open)
             {// Perform your database operations here:
 
-                String query = "UPDATE savedschedules1 SET " + dayOfWeekString + " = @courseCode+'.'+ @courseSection+'.'+@prof+'.'+@building +'.'+@room+'.'+@selectedCollege WHERE ID = @selectedSched";
+                String query = "UPDATE roomSched SET " + dayOfWeekString + " = @courseCode+'.'+ @courseSection+'.'+@prof+'.'+@building +'.'+@room+'.'+@selectedCollege WHERE ID = @selectedSched";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
 

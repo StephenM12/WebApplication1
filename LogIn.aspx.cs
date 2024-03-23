@@ -5,9 +5,12 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
+//temporarytable
+using System.Data;
+
 //sql connection:
 using System.Data.SqlClient;
-using System.Data;
+
 using WebApplication1.cs_files;
 
 namespace WebApplication1
@@ -22,7 +25,7 @@ namespace WebApplication1
         {
 
             //variable that will hold login values (username and password)
-            String username, password;
+            string username, password;
             username = UsernameTB.Text;
             password = PasswordTB.Text;
 
@@ -33,7 +36,7 @@ namespace WebApplication1
             {// Perform your database operations here:
 
                 
-                String querry = "SELECT * FROM userLogin WHERE username= '" + username + "' AND password = '" + password + "'";
+                String querry = "SELECT * FROM userInfo WHERE UserName= '" + username + "' AND UserPassword = '" + password + "'";
 
                     SqlDataAdapter sda = new SqlDataAdapter(querry, connection);
 

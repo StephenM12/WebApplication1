@@ -8,7 +8,7 @@ namespace WebApplication1.cs_files
 {
     public static class dbConnection
     {
-        private static readonly string connectionString = "Server=tcp:pangatlongserver.database.windows.net,1433;Initial Catalog=pangatlongdb;Persist Security Info=False;User ID=Frankdb;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private static readonly string connectionString = "Server=tcp:pangapatnaserver.database.windows.net,1433;Initial Catalog=pangapatnadb;Persist Security Info=False;User ID=FrankDB;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         public static SqlConnection GetConnection()
         {
