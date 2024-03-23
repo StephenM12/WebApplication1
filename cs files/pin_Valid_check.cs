@@ -19,6 +19,7 @@ namespace WebApplication1.cs_files
 
         public static bool IsPinValid(string pin)
         {
+            DateTime expiryTime;
 
             // Open database connection
             SqlConnection connection = dbConnection.GetConnection();
@@ -27,23 +28,37 @@ namespace WebApplication1.cs_files
             if (connection.State == System.Data.ConnectionState.Open)
             {// Perform your database operations here:
 
-                string selectQuery = "SELECT COUNT(*) FROM PinCode WHERE PinCode = @PinCode AND CONVERT(TIME, ExpiryTime) > CONVERT(TIME, GETDATE())";
-
+                
+                string selectQuery = "SELECT ExpiryTime FROM ayoko_na WHERE PinCode = @PinCode_";
 
                 using (SqlCommand command = new SqlCommand(selectQuery, connection))
                 {
 
                     // Check if PIN exists and has not expired in the database
-                    command.Parameters.AddWithValue("@PinCode", pin);
-                    int count = (int)command.ExecuteScalar();
-
-
-                    //connection.Close();
-                    //return true if pin IS NOT VALID
-                    //return false if pin IN VALID
-                    return count > 0;
+                    command.Parameters.AddWithValue("@PinCode_", pin);
                     
+
+                    // Execute the query and retrieve the expiry time
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            expiryTime = reader.GetDateTime(0);
+                        }
+                        else
+                        {
+                            // Pin not found in the database
+                            return false;
+                        }
+                    }
+
+                    connection.Close();
+                    
+                    return DateTime.Now < expiryTime;
+
                 }
+
+               
             }
             else
             {

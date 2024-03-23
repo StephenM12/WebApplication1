@@ -23,11 +23,9 @@ namespace WebApplication1
 
             bool isPincorrect = pin_Valid_check.IsPinValid(concatenatedString);
 
-            if (isPincorrect==false) { Response.Redirect("ResetPassword.aspx"); } 
-            else { Response.Write("Pin is not Valid"); }
-
-            
-
+            if (isPincorrect==true) { Response.Redirect("ResetPassword.aspx"); }
+            else { Response.Write("Invalid"); }
+           
 
         }
     }

@@ -37,35 +37,25 @@ namespace WebApplication1
 
                 string query = "SELECT COUNT(*) FROM userInfo WHERE Email = @Email";
 
-                string insertQuery = "INSERT INTO pinCode (PinCode, ExpiryTime) VALUES (@PinCode, @ExpiryTime)";
-
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
 
-                    //get value from textbox to db
+                    //get Email
                     command.Parameters.AddWithValue("@Email", verify_Email);
 
-                    // Execute the query
+                    // Check if the email exists in the database
                     int count = (int)command.ExecuteScalar();
 
                    
-
-                    // Check if the email exists in the database
                     if (count > 0) //if yes
                     {
 
-                        // Generate a PIN and 10min limit
+                        // Generate a PIN
                         string pin = pinGenerator.GeneratePin();
-                        string expiryTime = pinGenerator.Generate_expiry_Time();
-
-
                         
 
-                        SqlCommand command_ = new SqlCommand(insertQuery, connection);
-                        command_.Parameters.AddWithValue("@PinCode", pin);
-                        command_.Parameters.AddWithValue("@ExpiryTime", expiryTime); //still not final
-                        command_.ExecuteNonQuery();
-
+                        //generate time for the pin
+                        pinGenerator.Generate_expiry_Time();
                         
 
                         //send PIN to email
