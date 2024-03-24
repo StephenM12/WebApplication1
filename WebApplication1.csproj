@@ -232,9 +232,11 @@
     <Compile Include="CreateAccount.aspx.designer.cs">
       <DependentUpon>CreateAccount.aspx</DependentUpon>
     </Compile>
+    <Compile Include="cs files\changePassword.cs" />
     <Compile Include="cs files\dbConnection.cs" />
     <Compile Include="cs files\pinGenerator.cs" />
     <Compile Include="cs files\pin_Valid_check.cs" />
+    <Compile Include="cs files\user_Identity.cs" />
     <Compile Include="ForgotPassword.aspx.cs">
       <DependentUpon>ForgotPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>

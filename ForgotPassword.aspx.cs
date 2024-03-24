@@ -50,12 +50,16 @@ namespace WebApplication1
                     if (count > 0) //if yes
                     {
 
+                        //hold whose user logged
+                        user_Identity.verify_User_email(verify_Email);
+
                         // Generate a PIN
                         string pin = pinGenerator.GeneratePin();
                         
 
                         //generate time for the pin
                         pinGenerator.Generate_expiry_Time();
+
                         
 
                         //send PIN to email
