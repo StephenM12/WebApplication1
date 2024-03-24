@@ -72,7 +72,7 @@ namespace WebApplication1
                             mail.From = new MailAddress("testingproject2001@gmail.com");
                             mail.To.Add(verify_Email);
                             mail.Subject = "testing 1.1";
-                            mail.Body = "Your code is: "+ pin;
+                            mail.Body = "Dear [User],\n\nWe've received a request from you to reset the password for your account. To ensure the security of your account, we require you to verify your email address. Please use this verification code provided below to complete the verification process and gain access to your account.\n\nVerification Code:" + pin + "\n\nThank you for helping us maintain the security of your account.\n\nBest regards,\nECMS";
                             smtp.Port = 587;
                             smtp.Credentials = new System.Net.NetworkCredential("testingproject2001@gmail.com", "uxws wbem dspt pdjd");
                             smtp.EnableSsl = true;

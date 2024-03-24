@@ -20,6 +20,9 @@
 
     <script>
         $(document).ready(function () {
+            // Set focus on TextBox1 when the document is ready
+            $("#<%=TextBox1.ClientID %>").focus();
+
             $(".otp-letter-input").keydown(function (event) {
                 // Allow: backspace, delete, tab, escape, enter, and numbers
                 if (event.keyCode == 46 || event.keyCode == 8 || event.keyCode == 9 || event.keyCode == 27 ||
@@ -36,9 +39,29 @@
                     }
                 }
             });
+
+            $(".otp-letter-input").on('input', function () {
+                var maxLength = parseInt($(this).attr('maxlength'));
+                var currentLength = $(this).val().length;
+                if (currentLength === maxLength) {
+                    // Move to the next input element
+                    if ($(this).is('#<%=TextBox1.ClientID %>')) {
+                        // If current input is TextBox1, move to TextBox2
+                        $("#<%=TextBox2.ClientID %>").focus();
+                    } else if ($(this).is('#<%=TextBox2.ClientID %>')) {
+                        // If current input is TextBox2, move to TextBox3
+                        $("#<%=TextBox3.ClientID %>").focus();
+                    } else if ($(this).is('#<%=TextBox3.ClientID %>')) {
+                        // If current input is TextBox3, move to TextBox4
+                        $("#<%=TextBox4.ClientID %>").focus();
+                    } else {
+                        // Otherwise, move to the next input
+                        $(this).next('.otp-letter-input').focus();
+                    }
+                }
+            });
         });
     </script>
-
 </head>
 <body>
     <form id="form1" runat="server">
@@ -57,7 +80,7 @@
                                 <i class="fa-solid fa-envelope-circle-check" style="color: #3B1867;"></i>
                             </p>
                             <p class="text-center text-center h5 ">Please check your email</p>
-                            <p class="text-center">We've sent a verification code to contact@curfcode.com</p> 
+                            <p class="text-center">We've sent a verification code to contact@curfcode.com</p>
                             <div class="row pt-4 pb-2">
                                 <div class="col-3">
                                     <asp:TextBox ID="TextBox1" runat="server" CssClass="otp-letter-input" MaxLength="1"></asp:TextBox>
@@ -78,8 +101,50 @@
                                     <asp:Button ID="VOTPBtn" runat="server" Text="Verify Code" OnClick="VOTPBtn_Click" class="bg-purple btn btn:hover btn-primary full-width bg-purple" />
                                 </div>
                                 <br />
-                                <p class="text-center pt-4">Didn't get the code? <a href="#">Click to resend</a></p>
+                                <p class="text-center pt-4">Didn't get the code? <a href="#" id="resendLink">Click to resend</a></p>
+                                <p class="text-center pt-2">Resend Verification Code In: <span id="timer">10:00</span></p>
                             </div>
+
+                            <script>
+                                $(document).ready(function () {
+                                    // Timer countdown function
+                                    function startTimer(duration, display) {
+                                        var timer = duration, minutes, seconds;
+                                        var intervalId = setInterval(function () {
+                                            minutes = parseInt(timer / 60, 10);
+                                            seconds = parseInt(timer % 60, 10);
+
+                                            minutes = minutes < 10 ? "0" + minutes : minutes;
+                                            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                                            display.text(minutes + "m " + seconds + "s");
+
+                                            if (--timer < 0) {
+                                                clearInterval(intervalId); // Clear interval when timer reaches 0
+                                                $('#resendLink').removeClass('disabled');
+                                            }
+                                        }, 1000);
+
+                                        return intervalId; // Return interval id for clearing later
+                                    }
+
+                                    // Resend link click event
+                                    $('#resendLink').click(function (e) {
+                                        e.preventDefault();
+                                        // Clear existing interval if any
+                                        clearInterval(timerIntervalId);
+                                        // Add your resend functionality here
+                                        // For example, make an AJAX call to resend the code
+                                        $(this).addClass('disabled'); // Disable the link while waiting for the timer
+                                        timerIntervalId = startTimer(600, $('#timer')); // Set timer to 10 minutes (600 seconds)
+                                    });
+
+                                    // Start the initial timer
+                                    var timerIntervalId = startTimer(600, $('#timer'));
+                                });
+
+                            </script>
+
                         </div>
                     </div>
                 </div>
@@ -88,3 +153,5 @@
     </form>
 </body>
 </html>
+
+

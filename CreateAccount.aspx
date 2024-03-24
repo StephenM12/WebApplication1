@@ -2,6 +2,9 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
     <link rel="stylesheet" href="./CSS/CreateAccount_Style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="Scripts/createaccount.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <section class="vh-100 bg-image"
@@ -47,15 +50,31 @@
                                         <asp:TextBox ID="EmailID" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Email"></asp:TextBox>
                                     </div>
 
-                                    <div class="form-outline mb-4">
+                                    <div class="form-outline mb-4 position-relative">
                                         <label style="font-weight: bold;" class="form-label ms-3" for="form3Example5cdg">Password</label>
-                                        <asp:TextBox ID="PasswordID" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Password"></asp:TextBox>
+                                        <div class="input-group">
+                                            <asp:TextBox ID="PasswordID" runat="server" class="form-control" Style="background-color: #ECECEC;" type="password" placeholder="Enter Password"></asp:TextBox>
+                                            <div class="input-group-text show-password-icon" id="showPassword">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                                </svg>
+                                            </div>
+                                        </div>
                                     </div>
 
-                                    <div class="form-outline mb-4">
-                                        <label style="font-weight: bold;" class="form-label ms-3" for="form3Example6cdg">Confirm Password</label>
-                                        <asp:TextBox ID="ConfirmPasswordID" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Confirm Password"></asp:TextBox>
-                                    </div>
+                                    <div class="form-outline mb-4 position-relative">
+                                        <label style="font-weight: bold;" class="form-label ms-3" for="form3Example5cdg">Confirm Password</label>
+                                        <div class="input-group">
+                                            <asp:TextBox ID="ConfirmPasswordID" runat="server" class="form-control" Style="background-color: #ECECEC;" type="password" placeholder="Confirm Password"></asp:TextBox>
+                                            <div class="input-group-text show-password-icon" id="togglePassword">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                    <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
+                                                    <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                                </svg>
+                                            </div>
+                                        </div>
+ </div>
                                     <br />
                                     <!--ID for Create Account Button-->
                                     <div class="d-flex justify-content-center">
@@ -70,3 +89,8 @@
         </div>
     </section>
 </asp:Content>
+
+
+
+
+

@@ -21,14 +21,13 @@
                                             </h4>
                                         </div>
 
-                                      
                                         <form>
                                             <!--Input Username-->
                                             <div class="form-outline mb-4">
                                                 <label style="font-weight: bold;" class="form-label ms-3"
                                                     for="form2Example11">
                                                     Username</label>
-                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a user name" ControlToValidate="UsernameTB" ForeColor="#CC3300" ValidationGroup="valgrp1" ></asp:RequiredFieldValidator>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Please enter a user name" ControlToValidate="UsernameTB" ForeColor="#CC3300" ValidationGroup="valgrp1"></asp:RequiredFieldValidator>
 
                                                 <div class="input-group">
                                                     <div class="input-group-text">
@@ -43,35 +42,31 @@
                                                     <asp:TextBox ID="UsernameTB" runat="server" class="form-control" type="text" placeholder="Enter Username"></asp:TextBox>
                                                 </div>
                                             </div>
+
                                             <!--Input Password-->
                                             <div class="form-outline mb-2">
-                                                <label style="font-weight: bold;" class="form-label ms-3"
-                                                    for="PasswordTB">
-                                                    Password</label>
-                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter a password" ControlToValidate="PasswordTB" ForeColor="#CC3300" ValidationGroup="valgrp1" ></asp:RequiredFieldValidator>
+                                                <label style="font-weight: bold;" class="form-label ms-3" for="PasswordTB">
+                                                    Password
+                                                </label>
+                                                <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ErrorMessage="Please enter a password" ControlToValidate="PasswordTB" ForeColor="#CC3300" ValidationGroup="valgrp1"></asp:RequiredFieldValidator>
 
                                                 <div class="input-group">
                                                     <div class="input-group-text">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                            height="16" fill="currentColor" class="bi bi-lock-fill"
-                                                            viewBox="0 0 16 16">
-                                                            <path
-                                                                d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2" />
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-lock-fill" viewBox="0 0 16 16">
+                                                            <path d="M8 1a2 2 0 0 1 2 2v4H6V3a2 2 0 0 1 2-2m3 6V3a3 3 0 0 0-6 0v4a2 2 0 0 0-2 2v5a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2" />
                                                         </svg>
                                                     </div>
                                                     <!--ID for Password TextBox-->
-                                                    <asp:TextBox ID="PasswordTB" runat="server" class="form-control" type="text" placeholder="Enter Password"></asp:TextBox>
-                                                    <div class="input-group-text">
-                                                        <svg id="togglePassword" xmlns="http://www.w3.org/2000/svg"
-                                                            width="16" height="16" fill="currentColor"
-                                                            class="bi bi-eye-fill" viewBox="0 0 16 16">
+                                                    <asp:TextBox ID="PasswordTB" runat="server" class="form-control" type="password" placeholder="Enter Password"></asp:TextBox>
+                                                    <div class="input-group-text" id="togglePassword">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                                             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                                                            <path
-                                                                d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
+                                                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
                                                         </svg>
                                                     </div>
                                                 </div>
                                             </div>
+
                                             <!-- Redirect to Forgot Password-->
                                             <div class="row mb-3">
                                                 <p class="text-end">
@@ -105,3 +100,10 @@
         </div>
     </section>
 </asp:Content>
+
+
+
+
+
+
+
