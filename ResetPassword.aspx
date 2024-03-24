@@ -44,6 +44,7 @@
 
                                 <div class="mb-3">
                                    <!--ID for Confirm New Password-->
+                                    <asp:CompareValidator ID="cvConfirmPassword" runat="server" ControlToValidate="RConfirmPassTB" ControlToCompare="RNewPassTB" Operator="Equal" ErrorMessage="Passwords do not match" ForeColor="#CC0000"></asp:CompareValidator>
                                     <asp:TextBox ID="RConfirmPassTB" runat="server" class="form-control mb-3" type="text" placeholder="Confirm New Password"></asp:TextBox>
                                     <div class="d-flex align-items-center justify-content-center pb-1">
                                     </div>
