@@ -3,7 +3,11 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
 
     <div class="container mx-auto">
-        <h1>WELCOME USER _________</h1> <%--dapat lalabas dito name ng user na nag login hayssssssss--%>
+        <h1>
+
+            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+
+        </h1> 
 
     </div>       
 </asp:Content>

@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 
 //temporarytable
 using System.Data;
@@ -23,7 +18,6 @@ namespace WebApplication1
 
         protected void LogInBtn_Click(object sender, EventArgs e)
         {
-
             //variable that will hold login values (username and password)
             string username, password;
             username = UsernameTB.Text;
@@ -34,34 +28,29 @@ namespace WebApplication1
 
             if (connection.State == System.Data.ConnectionState.Open)
             {// Perform your database operations here:
-
-                
                 String querry = "SELECT * FROM userInfo WHERE UserName= '" + username + "' AND UserPassword = '" + password + "'";
 
-                    SqlDataAdapter sda = new SqlDataAdapter(querry, connection);
+                SqlDataAdapter sda = new SqlDataAdapter(querry, connection);
 
-                    DataTable dtable = new DataTable();
+                DataTable dtable = new DataTable();
 
-                    sda.Fill(dtable);
+                sda.Fill(dtable);
 
-                    if (dtable.Rows.Count > 0)
-                    {
-                        username = UsernameTB.Text;
-                        password = PasswordTB.Text;
+                //means user is authenticated
+                if (dtable.Rows.Count > 0)
+                {
+                    user_Identity.verify_UserName(username);
 
-                        Response.Redirect("Home.aspx");
+                    username = UsernameTB.Text;
+                    password = PasswordTB.Text;
 
-
-                    }
-
-               
-                connection.Close();
+                    Response.Redirect("Home.aspx");
+                }
             }
             else
             {
                 Console.WriteLine("Failed to connect to the database.");
             }
-            
         }
 
         protected void CreateAccBtn_Click(object sender, EventArgs e)
