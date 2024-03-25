@@ -6,6 +6,7 @@ namespace WebApplication1.cs_files
     public class user_Identity
     {
         public static int userID { get; set; }
+        public static string userName { get; set; }
         public static string user_FName { get; set; }
         public static string user_LName { get; set; }
         public static string user_Email { get; set; }
@@ -31,6 +32,7 @@ namespace WebApplication1.cs_files
                         while (reader.Read())
                         {
                             user_Identity.userID = reader.GetInt32(0);
+                            user_Identity.userName = reader.GetString(1);
                             user_Identity.user_FName = reader.GetString(3);
                             user_Identity.user_LName = reader.GetString(4);
                             user_Identity.user_Email = reader.GetString(5);
@@ -64,6 +66,7 @@ namespace WebApplication1.cs_files
                         while (reader.Read())
                         {
                             user_Identity.userID = reader.GetInt32(0);
+                            user_Identity.userName = reader.GetString(1);
                             user_Identity.user_FName = reader.GetString(3);
                             user_Identity.user_LName = reader.GetString(4);
                             user_Identity.user_Email = reader.GetString(5);
