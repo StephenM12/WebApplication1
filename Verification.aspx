@@ -13,6 +13,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title></title>
 
+    <style>
+        .hyperlink-button {
+            background: none;
+            border: none;
+            color: blue; /* or any color you prefer for hyperlinks */
+            text-decoration: underline;
+            cursor: pointer;
+            padding: 0; /* Remove padding */
+            margin: 0; /* Remove margin */
+            font-size: inherit; /* Inherit font size */
+        }
+    </style>
+
     <!-- bootstrap 5 stylesheet -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.0.1/css/bootstrap.min.css" integrity="sha512-Ez0cGzNzHR1tYAv56860NLspgUGuQw16GiOOp/I2LuTmpSK9xDXlgJz3XN4cnpXWDmkNBKXR/VDMTCnAaEooxA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <!-- fontawesome 6 stylesheet -->
@@ -101,7 +114,9 @@
                                     <asp:Button ID="VOTPBtn" runat="server" Text="Verify Code" OnClick="VOTPBtn_Click" class="bg-purple btn btn:hover btn-primary full-width bg-purple" />
                                 </div>
                                 <br />
-                                <p class="text-center pt-4">Didn't get the code? <a href="#" id="resendLink">Click to resend</a></p>
+                                <p class="text-center pt-4">Didn't get the code? <asp:Button ID="resendLink" runat="server" Text="Click to resend" CssClass="hyperlink-button" />
+
+
                                 <p class="text-center pt-2">Resend Verification Code In: <span id="timer">10:00</span></p>
                             </div>
 

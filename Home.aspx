@@ -3,7 +3,6 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <link rel="stylesheet" href="./CSS/Home_Style.css" />
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
     <form id="form1" runat="server">
 
         <div class="container mx-auto">
@@ -12,6 +11,7 @@
             </h1>
             <br />
 
+            <!-- Add the dropdown and GridView HTML code here -->
             <div class="btn-group">
                 <button class="btn btn-secondary dropdown-toggle" type="button" id="defaultDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
                     Default dropdown
@@ -23,11 +23,8 @@
                 </ul>
             </div>
 
-
-
-            <!-- Add the dropdown and GridView HTML code here -->
             <div class="dropdown">
-                <asp:Button ID="SelectBuildingBtn" runat="server" Text="Select a Building" CssClass="btn btn-primary btn-block full-width bg-color fa-lg" />
+                <asp:Button ID="SelectBuildingBtn" runat="server" Text="Select a Building" CssClass="btn btn-primary btn-block full-width bg-color dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" />
                 <div class="dropdown-content">
                     <a href="#" onclick="showSchedule('Rizal Building')">Rizal Building</a>
                     <a href="#" onclick="showSchedule('Einstein Building')">Einstein Building</a>
@@ -47,3 +44,7 @@
         </asp:PlaceHolder>
     </form>
 </asp:Content>
+
+
+
+

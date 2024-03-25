@@ -36,9 +36,9 @@
 
             // Call the function for each password field when the page is loaded
             togglePasswordVisibility('<%= PCurrentPassTB.ClientID %>', 'showCurrentPass');
-        togglePasswordVisibility('<%= PNewPassTB.ClientID %>', 'showPassword');
-        togglePasswordVisibility('<%= PConfirmTB.ClientID %>', 'toggleConfirmPassword');
-    });
+            togglePasswordVisibility('<%= PNewPassTB.ClientID %>', 'showPassword');
+            togglePasswordVisibility('<%= PConfirmTB.ClientID %>', 'toggleConfirmPassword');
+        });
     </script>
 
 
@@ -179,12 +179,75 @@
                         </div>
                         <div class="modal-footer">
                             <asp:Button ID="PCloseBtn" runat="server" Text="Close" CssClass="bg-color btn btn-primary bg-color" />
-                            <asp:Button ID="PSaveChangesBtn" runat="server" Text="Save Changes" CssClass="bg-color btn btn-primary bg-color" OnClick="save_password_Changes"/>
+                            <asp:Button ID="PSaveChangesBtn" runat="server" Text="Save Changes" CssClass="bg-color btn btn-primary bg-color" OnClick="save_password_Changes" />
+                        </div>
+
+                        <script>
+                            $(document).ready(function () {
+                                $('#<%= PSaveChangesBtn.ClientID %>').click(function () {
+                                    $('#PasswordSecurity').modal('show');
+                                });
+                            });
+                        </script>
+
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="PasswordSecurity" tabindex="-1" role="dialog" aria-labelledby="PasswordSecurityLabel" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="PasswordSecurityLabel">Modal title</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Save changes</button>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
     </form>
+
+
+
+    <script>
+        $(document).ready(function () {
+            $('#<%= PSaveChangesBtn.ClientID %>').click(function () {
+            $('#exampleModal').modal('show');
+        });
+    });
+    </script>
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="passwordSecurity" tabindex="-1" aria-labelledby="passwordSecurityLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="passwordSecurityLabel">Modal title</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 </asp:Content>
 
 
