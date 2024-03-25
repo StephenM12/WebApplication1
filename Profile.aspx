@@ -87,12 +87,17 @@
                                 <div class="form-outline mb-4">
                                     <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Change Email Address:</label>
                                     <asp:TextBox ID="ProfileEmail" runat="server" class="width form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter New Email Address"></asp:TextBox>
+                                    <asp:RegularExpressionValidator ID="EmailValidator" runat="server"
+                                        ControlToValidate="ProfileEmail"
+                                        ErrorMessage="Please enter a valid email address"
+                                        ValidationExpression="\w+([-+.']\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*">
+                                    </asp:RegularExpressionValidator>
                                 </div>
 
                             </div>
                             <div class="modal-footer">
                                 <asp:Button ID="Button1" runat="server" Text="Close" CssClass="bg-color btn btn-primary bg-color" />
-                                <asp:Button ID="Button2" runat="server" Text="Save Changes" CssClass="bg-color btn btn-primary bg-color" />
+                                <asp:Button ID="Button2" runat="server" Text="Save Changes" CssClass="bg-color btn btn-primary bg-color" OnClick="save_Email_Changes" />
                             </div>
                         </div>
                     </div>
@@ -174,7 +179,7 @@
                         </div>
                         <div class="modal-footer">
                             <asp:Button ID="PCloseBtn" runat="server" Text="Close" CssClass="bg-color btn btn-primary bg-color" />
-                            <asp:Button ID="PSaveChangesBtn" runat="server" Text="Save Changes" CssClass="bg-color btn btn-primary bg-color" />
+                            <asp:Button ID="PSaveChangesBtn" runat="server" Text="Save Changes" CssClass="bg-color btn btn-primary bg-color" OnClick="save_password_Changes"/>
                         </div>
                     </div>
                 </div>
