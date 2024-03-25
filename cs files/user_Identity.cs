@@ -1,23 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-//sql connection:
+﻿//sql connection:
 using System.Data.SqlClient;
-using System.Data;
-using WebApplication1.cs_files;
-
-
 
 namespace WebApplication1.cs_files
 {
     public class user_Identity
     {
-
-        
         public static int userID { get; set; }
         public static string user_FName { get; set; }
-
+        public static string user_LName { get; set; }
+        public static string user_Email { get; set; }
 
         //get user ID with email
         public static int verify_User_email(string userEmail)
@@ -27,25 +18,31 @@ namespace WebApplication1.cs_files
 
             if (connection.State == System.Data.ConnectionState.Open)
             {// Perform your database operations here:
-                string query = "SELECT UserID FROM  userInfo WHERE Email = @userEmail";
+                string query = "SELECT * FROM  userInfo WHERE Email = @userEmail";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@userEmail", userEmail);
 
-                    // Execute the query and get the result
-                    int count = (int)command.ExecuteScalar();
-                    connection.Close();
+                    // Execute the SQL command and get a data reader
+                    using (SqlDataReader reader = command.ExecuteReader())
+                    {
+                        // Loop through each row in the result set
+                        while (reader.Read())
+                        {
+                            user_Identity.userID = reader.GetInt32(0);
+                            user_Identity.user_FName = reader.GetString(3);
+                            user_Identity.user_LName = reader.GetString(4);
+                            user_Identity.user_Email = reader.GetString(5);
+                        }
+                        connection.Close();
+                    }
 
-                    user_Identity.userID = count;
-                    return count;
+                    return 0;
                 }
-
             }
             else { return 0; }
-            
         }
-
 
         public static string verify_UserName(string userName)
         {
@@ -54,32 +51,30 @@ namespace WebApplication1.cs_files
 
             if (connection.State == System.Data.ConnectionState.Open)
             {// Perform your database operations here:
-                string query = "SELECT FirstName FROM userInfo WHERE UserName = @userName";
+                string query = "SELECT * FROM userInfo WHERE UserName = @userName";
 
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-
                     command.Parameters.AddWithValue("@userName", userName);
-                    object result = command.ExecuteScalar();
-                    connection.Close();
 
-                    if (result != null)
+                    // Execute the SQL command and get a data reader
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        user_Identity.user_FName = result.ToString();
-                        return result.ToString(); // Return the first name
-                    }
-                    else
-                    {
-                        // Return null or empty string if the first name is not found
-                        return string.Empty;
+                        // Loop through each row in the result set
+                        while (reader.Read())
+                        {
+                            user_Identity.userID = reader.GetInt32(0);
+                            user_Identity.user_FName = reader.GetString(3);
+                            user_Identity.user_LName = reader.GetString(4);
+                            user_Identity.user_Email = reader.GetString(5);
+                        }
+                        connection.Close();
                     }
 
+                    return "User is Verified";
                 }
-
             }
-            else { return "Failed";}
-
-                   
+            else { return "Failed"; }
         }
     }
 }
