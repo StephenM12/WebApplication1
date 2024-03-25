@@ -6,16 +6,21 @@ namespace WebApplication1
 {
     public partial class Verification : System.Web.UI.Page
     {
+        public static DateTime timeNow { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
+
+            DateTime currentTime = DateTime.Now;
+            Verification.timeNow = currentTime;
+
+            myParagraph.InnerText = "We've sent a verification code to " + user_Identity.user_Email;
+
+
         }
         protected void resend_Code(object sender, EventArgs e)
         {
-            //this time plus 10min for validation
-            DateTime currentTime = DateTime.Now.AddMinutes(10);
-
-            bool sample = true;
-            if (/*DateTime.Now < currentTime*/ sample == true)
+            
+            if (DateTime.Now >= Verification.timeNow)
             {
                 // Generate a PIN
                 string pin = pinGenerator.GeneratePin();
@@ -39,6 +44,8 @@ namespace WebApplication1
                     emailSender emailSender = new emailSender(smtpServer, smtpPort, smtpUsername, smtpPassword);
 
                     emailSender.SendEmail("testingproject2001@gmail.com", user_Identity.user_Email, subject, body);
+                    DateTime currentTime_ = DateTime.Now.AddMinutes(1);
+                    Verification.timeNow = currentTime_;
                 }
                 catch (Exception ex)
                 {
@@ -47,7 +54,7 @@ namespace WebApplication1
             }
             else
             {
-                Response.Write("Pls wait for 10 minutes before u can resend code again");
+                Response.Write("Pls wait for a minute before u can resend code again");
             }
         }
 

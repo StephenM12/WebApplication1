@@ -93,7 +93,7 @@
                                 <i class="fa-solid fa-envelope-circle-check" style="color: #3B1867;"></i>
                             </p>
                             <p class="text-center text-center h5 ">Please check your email</p>
-                            <p class="text-center">We've sent a verification code to contact@curfcode.com</p>
+                            <p class="text-center" id="myParagraph" runat="server"></p>
                             <div class="row pt-4 pb-2">
                                 <div class="col-3">
                                     <asp:TextBox ID="TextBox1" runat="server" CssClass="otp-letter-input" MaxLength="1"></asp:TextBox>
@@ -114,8 +114,9 @@
                                     <asp:Button ID="VOTPBtn" runat="server" Text="Verify Code" OnClick="VOTPBtn_Click" class="bg-purple btn btn:hover btn-primary full-width bg-purple" />
                                 </div>
                                 <br />
-                                <p class="text-center pt-4">Didn't get the code? <asp:Button ID="resendLink" runat="server" Text="Click to resend" CssClass="hyperlink-button" />
 
+                                <p class="text-center pt-4">Didn't get the code?
+                                    <asp:Button ID="Button1" runat="server" Text="Button" OnClick="resend_Code" /></p>
 
                                 <p class="text-center pt-2">Resend Verification Code In: <span id="timer">10:00</span></p>
                             </div>
@@ -157,9 +158,7 @@
                                     // Start the initial timer
                                     var timerIntervalId = startTimer(600, $('#timer'));
                                 });
-
                             </script>
-
                         </div>
                     </div>
                 </div>
@@ -168,5 +167,3 @@
     </form>
 </body>
 </html>
-
-
