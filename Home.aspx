@@ -1,64 +1,49 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="Home.aspx.cs" Inherits="WebApplication1.Home" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
-      <link rel="stylesheet" href="./CSS/Home_Style.css" />
+    <link rel="stylesheet" href="./CSS/Home_Style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <form id="form1" runat="server">
 
-    <div class="container mx-auto">
-        <h1>
+        <div class="container mx-auto">
+            <h1>
+                <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+            </h1>
+            <br />
 
-            <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
+            <div class="btn-group">
+                <button class="btn btn-secondary dropdown-toggle" type="button" id="defaultDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
+                    Default dropdown
+                </button>
+                <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
+                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                    <li><a class="dropdown-item" href="#">Menu item</a></li>
+                </ul>
+            </div>
 
-        </h1> 
 
-        <!-- Add the dropdown and GridView HTML code here -->
-        <div class="dropdown">
-            <button class="dropbtn">Select Building</button>
-            <div class="dropdown-content">
-                <a href="#" onclick="showSchedule('Rizal Building')">Rizal Building</a>
-                <a href="#" onclick="showSchedule('Einstein Building')">Einstein Building</a>
-                <a href="#" onclick="showSchedule('ETYCB Building')">ETYCB Building</a>
+
+            <!-- Add the dropdown and GridView HTML code here -->
+            <div class="dropdown">
+                <asp:Button ID="SelectBuildingBtn" runat="server" Text="Select a Building" CssClass="btn btn-primary btn-block full-width bg-color fa-lg" />
+                <div class="dropdown-content">
+                    <a href="#" onclick="showSchedule('Rizal Building')">Rizal Building</a>
+                    <a href="#" onclick="showSchedule('Einstein Building')">Einstein Building</a>
+                    <a href="#" onclick="showSchedule('ETYCB Building')">ETYCB Building</a>
+                </div>
+            </div>
+
+            <div class="table-responsive" id="scheduleTable">
+                <!-- GridView will be populated here based on selection -->
             </div>
         </div>
 
-        <div class="table-responsive" id="scheduleTable">
-            <!-- GridView will be populated here based on selection -->
-        </div>
-    </div>
 
-    <script>
-        function showSchedule(building) {
-            // Dummy data, you need to replace this with your actual data retrieval logic
-            var scheduleData = {
-                "Rizal Building": [
-                    { room: "Room 101", time: "9:00 AM - 10:00 AM" },
-                    { room: "Room 102", time: "10:00 AM - 11:00 AM" },
-                    // Add more schedule data for Rizal Building if needed
-                ],
-                "Einstein Building": [
-                    { room: "Room A", time: "9:00 AM - 10:00 AM" },
-                    { room: "Room B", time: "10:00 AM - 11:00 AM" },
-                    // Add more schedule data for Einstein Building if needed
-                ],
-                "ETYCB Building": [
-                    { room: "Room X", time: "9:00 AM - 10:00 AM" },
-                    { room: "Room Y", time: "10:00 AM - 11:00 AM" },
-                    // Add more schedule data for ETYCB Building if needed
-                ]
-            };
-
-            var scheduleHtml = "<table>";
-            scheduleHtml += "<tr><th>Room</th><th>Time</th></tr>";
-
-            // Generate HTML for the selected building's schedule
-            scheduleData[building].forEach(function (item) {
-                scheduleHtml += "<tr><td>" + item.room + "</td><td>" + item.time + "</td></tr>";
-            });
-
-            scheduleHtml += "</table>";
-
-            // Display the schedule in the designated div
-            document.getElementById("scheduleTable").innerHTML = scheduleHtml;
-        }
-    </script>
-
+        <asp:PlaceHolder runat="server">
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+            <script src="Scripts/home.js"></script>
+        </asp:PlaceHolder>
+    </form>
 </asp:Content>
