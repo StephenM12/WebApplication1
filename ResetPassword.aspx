@@ -38,7 +38,7 @@
                             <div class="form-outline mb-3 position-relative">
                                 <label style="font-weight: bold;" class="form-label ms-3" for="RNewPassTB">New Password</label>
                                 <div class="input-group">
-                                    <asp:TextBox ID="RNewPassTB" runat="server" class="form-control" type="password" placeholder="Enter New Password"></asp:TextBox>
+                                    <asp:TextBox ID="RNewPassTB" runat="server" class="form-control" type="password" placeholder="Enter New Password" ValidationGroup="valgrp1"></asp:TextBox>
                                     <div class="input-group-text show-password-icon" id="showPassword">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
@@ -54,7 +54,7 @@
                                 <label style="font-weight: bold;" class="form-label ms-3" for="RConfirmPassTB">Confirm New Password</label>
                                   <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="RConfirmPassTB" ControlToCompare="RNewPassTB" Operator="Equal" ErrorMessage="Passwords do not match" ForeColor="#CC0000"></asp:CompareValidator>
                                 <div class="input-group">
-                                    <asp:TextBox ID="RConfirmPassTB" runat="server" class="form-control" type="password" placeholder="Confirm New Password"></asp:TextBox>
+                                    <asp:TextBox ID="RConfirmPassTB" runat="server" class="form-control" type="password" placeholder="Confirm New Password" ValidationGroup="valgrp1"></asp:TextBox>
                                     <div class="input-group-text show-password-icon" id="toggleConfirmPassword">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
                                             <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
@@ -65,7 +65,7 @@
                             </div>
 
                             <!--ID for Reset Password Button-->
-                            <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple" />
+                            <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple"  ValidationGroup="valgrp1"/>
 
                         </form>
                     </div>
