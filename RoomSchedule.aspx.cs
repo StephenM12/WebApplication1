@@ -5,7 +5,6 @@ using System.Data;
 
 //sql connection:
 using System.Data.SqlClient;
-using System.Diagnostics;
 
 //file processing
 using System.IO;
@@ -18,7 +17,36 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            BindGridView();
+            //BindGridView();
+
+            defaultTable_show();
+            
+        }
+
+        private void defaultTable_show()
+        {
+            // Open database connection
+            SqlConnection connection = dbConnection.GetConnection();
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+
+                SqlCommand selectCommand = new SqlCommand("SELECT * FROM roomSched", connection);
+
+
+                SqlDataAdapter adapter = new SqlDataAdapter(selectCommand);
+
+
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+
+                GridView1.DataSource = table;
+                GridView1.DataBind();
+
+                // Close the connection
+                connection.Close();
+
+
+            }
         }
 
         protected void Upload_File(object sender, EventArgs e)
@@ -52,7 +80,9 @@ namespace WebApplication1
                 }
             }
 
+
             Response.Write("File Upload successfully");
+            BindGridView();
         }
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
@@ -72,10 +102,8 @@ namespace WebApplication1
         ///Code to connect db to gridview
         private void BindGridView()
         {
-
             try
             {
-
                 // Open database connection
                 SqlConnection connection = dbConnection.GetConnection();
 
@@ -133,25 +161,17 @@ namespace WebApplication1
 
                                 GridView1.DataSource = dataTable;
                                 GridView1.DataBind();
-
                             }
                         }
 
                         connection.Close();
                     }
                 }
-
-
             }
             catch
             {
                 Response.Write("Failed to Show Table");
-
-
             }
-
-
-             
         }
 
         protected void deployBTNclk(object sender, EventArgs e)
