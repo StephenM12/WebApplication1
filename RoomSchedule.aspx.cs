@@ -1,14 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Diagnostics;
+﻿//for excel package
+using OfficeOpenXml;
+using System;
+using System.Data;
 
 //sql connection:
 using System.Data.SqlClient;
-using System.Data;
+using System.Diagnostics;
+
+//file processing
+using System.IO;
+using System.Web.UI.WebControls;
 using WebApplication1.cs_files;
 
 namespace WebApplication1
@@ -18,16 +19,46 @@ namespace WebApplication1
         protected void Page_Load(object sender, EventArgs e)
         {
             BindGridView();
-
         }
 
-        
+        protected void Upload_File(object sender, EventArgs e)
+        {
+            string fileName = Path.GetFileName(FileUpload1.PostedFile.FileName);
+            string contentType = FileUpload1.PostedFile.ContentType;
+
+            using (Stream fs = FileUpload1.PostedFile.InputStream)
+            {
+                using (BinaryReader br = new BinaryReader(fs))
+                {
+                    byte[] bytes = br.ReadBytes((Int32)fs.Length);
+                    //string conString = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
+
+                    // Open database connection
+                    SqlConnection connection = dbConnection.GetConnection();
+
+                    if (connection.State == System.Data.ConnectionState.Open)
+                    {// Perform your database operations here:
+                        String query = "INSERT INTO tblFiles VALUES (@Name, @ContentType, @Data)";
+                        using (SqlCommand command = new SqlCommand(query, connection))
+                        {
+                            command.Parameters.AddWithValue("@Name", fileName);
+                            command.Parameters.AddWithValue("@ContentType", contentType);
+                            command.Parameters.AddWithValue("@Data", bytes);
+
+                            command.ExecuteNonQuery();
+                            connection.Close();
+                        }
+                    }
+                }
+            }
+
+            Response.Write("File Upload successfully");
+        }
+
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             if (e.Row.RowType == DataControlRowType.DataRow)
             {
-
-
                 e.Row.Cells[1].Text = e.Row.Cells[1].Text.Replace(".", "</br>");
                 e.Row.Cells[2].Text = e.Row.Cells[2].Text.Replace(".", "</br>");
                 e.Row.Cells[3].Text = e.Row.Cells[3].Text.Replace(".", "</br>");
@@ -35,8 +66,6 @@ namespace WebApplication1
                 e.Row.Cells[5].Text = e.Row.Cells[5].Text.Replace(".", "</br>");
                 e.Row.Cells[6].Text = e.Row.Cells[6].Text.Replace(".", "</br>");
                 e.Row.Cells[7].Text = e.Row.Cells[7].Text.Replace(".", "</br>");
-
-
             }
         }
 
@@ -46,35 +75,85 @@ namespace WebApplication1
 
             try
             {
+
                 // Open database connection
                 SqlConnection connection = dbConnection.GetConnection();
 
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
-                    SqlCommand select = new SqlCommand("SELECT * FROM roomSched", connection);
-                    SqlDataAdapter adap = new SqlDataAdapter(select);
-                    DataSet ds = new DataSet();
-                    adap.Fill(ds);
+                    SqlCommand selectCommand = new SqlCommand("SELECT Data FROM tblFiles WHERE Name = @FileName", connection);
+                    selectCommand.Parameters.AddWithValue("@FileName", "AY_2023-24_2T_Rizal_Labs.xlsx");
 
+                    byte[] excelData = (byte[])selectCommand.ExecuteScalar();
+                    ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-                    if (ds.Tables[0].Rows.Count > 0)
+                    using (MemoryStream stream = new MemoryStream(excelData))
                     {
-                        GridView1.DataSource = ds.Tables[0];
+                        using (ExcelPackage package = new ExcelPackage(stream))
+                        {
+                            int worksheetIndex = 1; // Example index
 
-                        GridView1.DataBind();
+                            if (worksheetIndex <= package.Workbook.Worksheets.Count)
+                            {
+                                ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
 
+                                int startRow = 6; // Starting row index
+                                int endRow = 15;
+                                int startColumn = 1; // Starting column index (A)
+                                int endColumn = 8; // Ending column index (H)
+
+                                // Create a DataTable to store the extracted data
+                                DataTable dataTable = new DataTable();
+
+                                // Add columns to the DataTable based on the number of columns in the range
+                                for (int col = startColumn; col <= endColumn; col++)
+                                {
+                                    dataTable.Columns.Add("Column " + col.ToString()); // You can customize column names here
+                                }
+
+                                // Iterate over each row in the range
+                                for (int row = startRow; row <= endRow; row++)
+                                {
+                                    // Create a new DataRow to store the values of the current row
+                                    DataRow dataRow = dataTable.NewRow();
+
+                                    // Iterate over each column in the range
+                                    for (int col = startColumn; col <= endColumn; col++)
+                                    {
+                                        // Get the value of the current cell
+                                        object cellValue = worksheet.Cells[row, col].Value;
+
+                                        // Add the cell value to the DataRow
+                                        dataRow[col - startColumn] = cellValue != null ? cellValue.ToString() : ""; // Convert cell value to string
+                                    }
+
+                                    // Add the DataRow to the DataTable
+                                    dataTable.Rows.Add(dataRow);
+                                }
+
+                                GridView1.DataSource = dataTable;
+                                GridView1.DataBind();
+
+                            }
+                        }
+
+                        connection.Close();
                     }
-
-                    connection.Close();
                 }
-               
+
+
             }
-            catch (Exception ex)
+            catch
             {
-                Debug.WriteLine(ex.Message);
+                Response.Write("Failed to Show Table");
+
+
             }
 
+
+             
         }
+
         protected void deployBTNclk(object sender, EventArgs e)
         {
             string courseCode = RCourseCodeTB.Text; //course code
@@ -96,12 +175,9 @@ namespace WebApplication1
 
             if (connection.State == System.Data.ConnectionState.Open)
             {// Perform your database operations here:
-
                 String query = "UPDATE roomSched SET " + dayOfWeekString + " = @courseCode+'.'+ @courseSection+'.'+@prof+'.'+@building +'.'+@room+'.'+@selectedCollege WHERE ID = @selectedSched";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
-
-
                     command.Parameters.AddWithValue("@courseCode", courseCode);
                     command.Parameters.AddWithValue("@courseSection", sec);
                     command.Parameters.AddWithValue("@prof", prof);
@@ -110,7 +186,6 @@ namespace WebApplication1
                     command.Parameters.AddWithValue("@selectedSchedvalue", selectedTimerealValue);
                     command.Parameters.AddWithValue("@selectedSched", selectedTime);
 
-                    
                     int result = command.ExecuteNonQuery();
 
                     // Check Error
@@ -119,17 +194,11 @@ namespace WebApplication1
 
                     connection.Close();
                 }
-
             }
-
-            
         }
 
         protected void Calendar2_SelectionChanged(object sender, EventArgs e)
         {
-
         }
     }
-        
 }
-   

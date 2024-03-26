@@ -1,7 +1,6 @@
 ﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="RoomSchedule.aspx.cs"
     Inherits="WebApplication1.RoomSchedule" %>
 
-
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <link rel="stylesheet" href="./CSS/RoomSchedule_Style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
@@ -11,7 +10,11 @@
     <form id="form1" runat="server">
         <div>
             <div class="row">
+                <%--                upload file button--%>
                 <asp:FileUpload ID="FileUpload1" runat="server" />
+
+                <%--                to save the file that been uploaded--%>
+                <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Upload_File" />
             </div>
             <div class="row align-items-center">
                 <div class=" calendar-container col-3">
@@ -20,6 +23,7 @@
 
                 <div class="schedule-container col-sm-9">
                     <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge" BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False">
+                        <%--make this ToolTip false later--%>
                         <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
                         <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" CssClass="schedule-gridview" />
                         <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />
@@ -31,32 +35,30 @@
                         <SortedDescendingHeaderStyle BackColor="#33276A" />
 
                         <Columns>
-                            <asp:BoundField DataField="Schedule" HeaderText="Schedule" />
+                            <asp:BoundField DataField="Column 1" HeaderText="Time" />
                         </Columns>
                         <Columns>
-                            <asp:BoundField DataField="Monday" HeaderText="Monday" />
+                            <asp:BoundField DataField="Column 2" HeaderText="Monday" />
                         </Columns>
                         <Columns>
-                            <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
+                            <asp:BoundField DataField="Column 3" HeaderText="Tuesday" />
                         </Columns>
                         <Columns>
-                            <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
+                            <asp:BoundField DataField="Column 4" HeaderText="Wednesday" />
                         </Columns>
                         <Columns>
-                            <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
+                            <asp:BoundField DataField="Column 5" HeaderText="Thursday" />
                         </Columns>
                         <Columns>
-                            <asp:BoundField DataField="Friday" HeaderText="Friday" />
+                            <asp:BoundField DataField="Column 6" HeaderText="Friday" />
                         </Columns>
                         <Columns>
-                            <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
+                            <asp:BoundField DataField="Column 7" HeaderText="Saturday" />
                         </Columns>
                         <Columns>
-                            <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
+                            <asp:BoundField DataField="Column 8" HeaderText="Sunday" />
                         </Columns>
-
                     </asp:GridView>
-
                 </div>
             </div>
         </div>
@@ -121,7 +123,6 @@
                                 <asp:ListItem Text="ETYCB" Value="Value3"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
-
 
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Faculty:</label>
