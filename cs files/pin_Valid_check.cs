@@ -29,7 +29,7 @@ namespace WebApplication1.cs_files
             {// Perform your database operations here:
 
                 
-                string selectQuery = "SELECT ExpiryTime FROM ayoko_na WHERE PinCode = @PinCode_";
+                string selectQuery = "SELECT ExpiryTime FROM pinCodes WHERE PinCode = @PinCode_";
 
                 using (SqlCommand command = new SqlCommand(selectQuery, connection))
                 {
