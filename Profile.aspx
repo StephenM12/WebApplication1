@@ -4,45 +4,6 @@
     <link rel="stylesheet" href="./CSS/Profile_Style.css" />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Function to toggle password visibility
-            function togglePasswordVisibility(inputFieldId, eyeIconId) {
-                const passwordField = document.getElementById(inputFieldId);
-                const eyeIcon = document.getElementById(eyeIconId);
-
-                // Initially hide the password
-                passwordField.setAttribute('type', 'password');
-
-                eyeIcon.addEventListener('click', function () {
-                    const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordField.setAttribute('type', type);
-                    // Change the SVG icon based on the current state
-                    if (type === 'text') {
-                        eyeIcon.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-slash-fill" viewBox="0 0 16 16">
-                            <path d="m10.79 12.912-1.614-1.615a3.5 3.5 0 0 1-4.474-4.474l-2.06-2.06C.938 6.278 0 8 0 8s3 5.5 8 5.5a7 7 0 0 0 2.79-.588M5.21 3.088A7 7 0 0 1 8 2.5c5 0 8 5.5 8 5.5s-.939 1.721-2.641 3.238l-2.062-2.062a3.5 3.5 0 0 0-4.474-4.474z"/>
-                            <path d="M5.525 7.646a2.5 2.5 0 0 0 2.829 2.829zm4.95.708-2.829-2.83a2.5 2.5 0 0 1 2.829 2.829zm3.171 6-12-12 .708-.708 12 12z"/>
-                        </svg>`;
-                    } else {
-                        eyeIcon.innerHTML = `
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                            <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                            <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                        </svg>`;
-                    }
-                });
-            }
-
-            // Call the function for each password field when the page is loaded
-            togglePasswordVisibility('<%= PCurrentPassTB.ClientID %>', 'showCurrentPass');
-            togglePasswordVisibility('<%= PNewPassTB.ClientID %>', 'showPassword');
-            togglePasswordVisibility('<%= PConfirmTB.ClientID %>', 'toggleConfirmPassword');
-        });
-    </script>
-
-
-
     <form id="form1" runat="server">
 
         <!-- Account details card-->
@@ -140,12 +101,7 @@
                             <label style="font-weight: bold;" class="form-label ms-3" for="PCurrentPassTB">Current Password</label>
                             <div class="input-group">
                                 <asp:TextBox ID="PCurrentPassTB" runat="server" class="width form-control" type="text" placeholder="Enter Current Password"></asp:TextBox>
-                                <div class="input-group-text show-password-icon" id="showCurrentPass">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                                    </svg>
-                                </div>
+
                             </div>
                         </div>
 
@@ -155,12 +111,7 @@
                             <label style="font-weight: bold;" class="form-label ms-3" for="PNewPassTB">New Password</label>
                             <div class="input-group">
                                 <asp:TextBox ID="PNewPassTB" runat="server" class="width form-control" type="text" placeholder="Enter New Password"></asp:TextBox>
-                                <div class="input-group-text show-password-icon" id="showPassword">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                                    </svg>
-                                </div>
+
                             </div>
                         </div>
 
@@ -169,12 +120,7 @@
                             <label style="font-weight: bold;" class="form-label ms-3" for="PConfirmTB">Confirm New Password</label>
                             <div class="input-group">
                                 <asp:TextBox ID="PConfirmTB" runat="server" class="width form-control" type="text" placeholder="Confirm New Password"></asp:TextBox>
-                                <div class="input-group-text show-password-icon" id="toggleConfirmPassword">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
-                                        <path d="M10.5 8a2.5 2.5 0 1 1-5 0 2.5 2.5 0 0 1 5 0" />
-                                        <path d="M0 8s3-5.5 8-5.5S16 8 16 8s-3 5.5-8 5.5S0 8 0 8m8 3.5a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7" />
-                                    </svg>
-                                </div>
+
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -214,42 +160,6 @@
                     </div>
                 </div>
             </div>
-         </div>
-    </form>
-
-
-
-    <script>
-        $(document).ready(function () {
-            $('#<%= PSaveChangesBtn.ClientID %>').click(function () {
-            $('#exampleModal').modal('show');
-        });
-    });
-    </script>
-
-
-
-<!-- Modal -->
-<div class="modal fade" id="passwordSecurity" tabindex="-1" aria-labelledby="passwordSecurityLabel" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="passwordSecurityLabel">Modal title</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                ...
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary">Save changes</button>
-            </div>
         </div>
-    </div>
-</div>
-
-
+    </form>
 </asp:Content>
-
-
-

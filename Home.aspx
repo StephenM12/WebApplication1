@@ -11,21 +11,9 @@
             </h1>
             <br />
 
-            <!-- Add the dropdown and GridView HTML code here -->
-            <div class="btn-group">
-                <button class="btn btn-secondary dropdown-toggle" type="button" id="defaultDropdown" data-bs-toggle="dropdown" data-bs-auto-close="true" aria-expanded="false">
-                    Default dropdown
-                </button>
-                <ul class="dropdown-menu" aria-labelledby="defaultDropdown">
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                    <li><a class="dropdown-item" href="#">Menu item</a></li>
-                </ul>
-            </div>
-
             <div class="dropdown">
                 <asp:Button ID="SelectBuildingBtn" runat="server" Text="Select a Building" CssClass="btn btn-primary btn-block full-width bg-color dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false" />
-                <div class="dropdown-content">
+                <div class="dropdown-content full-width">
                     <a href="#" onclick="showSchedule('Rizal Building')">Rizal Building</a>
                     <a href="#" onclick="showSchedule('Einstein Building')">Einstein Building</a>
                     <a href="#" onclick="showSchedule('ETYCB Building')">ETYCB Building</a>

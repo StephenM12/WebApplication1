@@ -116,7 +116,7 @@
                                 <br />
 
                                 <p class="text-center pt-4">Didn't get the code?
-                                    <asp:Button ID="Button1" runat="server" Text="Button" OnClick="resend_Code" /></p>
+                                    <asp:Button ID="ResendCodeBtn" runat="server" Text="Resend Code" CssClass="hyperlink-button" OnClick="resend_Code" /></p>
 
                                 <p class="text-center pt-2">Resend Verification Code In: <span id="timer">10:00</span></p>
                             </div>
