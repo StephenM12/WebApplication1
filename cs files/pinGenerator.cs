@@ -43,7 +43,7 @@ namespace WebApplication1.cs_files
 
                 
 
-                string insertQuery = "INSERT INTO ayoko_na (PinCode, ExpiryTime) VALUES (@PinCode, @ExpiryTime)";
+                string insertQuery = "INSERT INTO pinCodes (PinCode, ExpiryTime) VALUES (@PinCode, @ExpiryTime)";
                 using (SqlCommand command = new SqlCommand(insertQuery, connection))
                 {
                     command.Parameters.AddWithValue("@PinCode", pin);
