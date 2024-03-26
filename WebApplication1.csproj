@@ -262,6 +262,7 @@
       <DependentUpon>CreateAccount.aspx</DependentUpon>
     </Compile>
     <Compile Include="cs files\changePassword.cs" />
+    <Compile Include="cs files\createAcc_Validation.cs" />
     <Compile Include="cs files\dbConnection.cs" />
     <Compile Include="cs files\emailSender.cs" />
     <Compile Include="cs files\pinGenerator.cs" />
