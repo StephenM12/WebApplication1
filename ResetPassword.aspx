@@ -38,7 +38,7 @@
                             <div class="form-outline mb-3 position-relative">
                                 <label style="font-weight: bold;" class="form-label ms-3" for="RNewPassTB">New Password</label>
                                 <div class="input-group">
-                                    <asp:TextBox ID="RNewPassTB" runat="server" class="form-control" type="password" placeholder="Enter New Password" ValidationGroup="valgrp1"></asp:TextBox>
+                                    <asp:TextBox ID="RNewPassTB" runat="server" class="form-control" type="password" placeholder="Enter New Password" ValidationGroup="valgrp2"></asp:TextBox>
                                 </div>
                             </div>
 
@@ -47,13 +47,13 @@
                             <div class="form-outline mb-3 position-relative">
                                 <label style="font-weight: bold;" class="form-label ms-3" for="RConfirmPassTB">Confirm New Password</label>
                                 <div class="input-group">
-                                    <asp:TextBox ID="RConfirmPassTB" runat="server" class="form-control" type="password" placeholder="Confirm New Password" ValidationGroup="valgrp1"></asp:TextBox>                                 
+                                    <asp:TextBox ID="RConfirmPassTB" runat="server" class="form-control" type="password" placeholder="Confirm New Password" ValidationGroup="valgrp2"></asp:TextBox>                                 
                                 </div>
-                                <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="RConfirmPassTB" ControlToCompare="RNewPassTB" Operator="Equal" ErrorMessage="Passwords do not match" ForeColor="#CC0000"></asp:CompareValidator>
+                                <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="RNewPassTB" ControlToCompare="RConfirmPassTB" Operator="Equal" ErrorMessage="Passwords do not match" ForeColor="#CC0000" ValidationGroup="valgrp2"></asp:CompareValidator>
                             </div>
 
                             <!--ID for Reset Password Button-->
-                            <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple"  ValidationGroup="valgrp1"/>
+                            <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple"  ValidationGroup="valgrp2"/>
 
                         </form>
                     </div>
