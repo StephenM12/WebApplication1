@@ -68,7 +68,7 @@ namespace WebApplication1
 
 
                         //email content
-                        string subject = "testing 1.2";
+                        string subject = "Reset your password";
                         string body = $"Dear {user_Identity.user_FName},\n\nWe've received a request from you to reset the password for your account. To ensure the security of your account, we require you to verify your email address. Please use this verification code provided below to complete the verification process and gain access to your account.\n\nVerification Code: {pin}\n\nThank you for helping us maintain the security of your account.\n\nBest regards,\nECMS";
 
 
