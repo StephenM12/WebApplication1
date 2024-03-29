@@ -17,38 +17,65 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            //BindGridView();
 
-            defaultTable_show();
-            
-        }
-
-        private void defaultTable_show()
-        {
             // Open database connection
             SqlConnection connection = dbConnection.GetConnection();
             if (connection.State == System.Data.ConnectionState.Open)
             {
+                //default table 
+                //SqlCommand selectCommand = new SqlCommand("SELECT * FROM --------", connection);
+                //SqlDataAdapter adapter = new SqlDataAdapter(selectCommand);
+                //DataTable table = new DataTable();
+                //adapter.Fill(table);
+                //GridView1.DataSource = table;
+                //GridView1.DataBind();
 
-                SqlCommand selectCommand = new SqlCommand("SELECT * FROM roomSched", connection);
+
+                if (!IsPostBack)
+                {
+                    dropdown_Data(sender, e);
 
 
-                SqlDataAdapter adapter = new SqlDataAdapter(selectCommand);
+                }
 
 
-                DataTable table = new DataTable();
-                adapter.Fill(table);
-
-                GridView1.DataSource = table;
-                GridView1.DataBind();
-
-                // Close the connection
-                connection.Close();
 
 
             }
         }
 
+        protected void dropdown_Data(object sender, EventArgs e)
+        {
+
+
+
+            // Open database connection
+            SqlConnection connection = dbConnection.GetConnection();
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+
+                //Dropdown datas from sql 
+                SqlCommand cmd = new SqlCommand("SELECT Id, Name FROM upload_Scheds", connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                
+
+
+                // Bind the data to the dropdown list
+                DropDownList1.DataTextField = "Name"; // Column name to display
+                DropDownList1.DataValueField = "ID"; // Column name to use as value
+                DropDownList1.DataSource = reader;
+                DropDownList1.DataBind();
+                reader.Close();
+
+
+
+            }
+            
+
+
+
+        }
         protected void Upload_File(object sender, EventArgs e)
         {
             string fileName = Path.GetFileName(FileUpload1.PostedFile.FileName);
@@ -59,14 +86,13 @@ namespace WebApplication1
                 using (BinaryReader br = new BinaryReader(fs))
                 {
                     byte[] bytes = br.ReadBytes((Int32)fs.Length);
-                    //string conString = ConfigurationManager.ConnectionStrings["constr"].ConnectionString;
 
                     // Open database connection
                     SqlConnection connection = dbConnection.GetConnection();
 
                     if (connection.State == System.Data.ConnectionState.Open)
                     {// Perform your database operations here:
-                        String query = "INSERT INTO tblFiles VALUES (@Name, @ContentType, @Data)";
+                        String query = "INSERT INTO upload_Scheds VALUES (@Name, @ContentType, @Data)";
                         using (SqlCommand command = new SqlCommand(query, connection))
                         {
                             command.Parameters.AddWithValue("@Name", fileName);
@@ -80,28 +106,14 @@ namespace WebApplication1
                 }
             }
 
-
             Response.Write("File Upload successfully");
-            BindGridView();
+            
         }
-
-        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        
+        protected void Bind_Uploaded_GridView(object sender, EventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                e.Row.Cells[1].Text = e.Row.Cells[1].Text.Replace(".", "</br>");
-                e.Row.Cells[2].Text = e.Row.Cells[2].Text.Replace(".", "</br>");
-                e.Row.Cells[3].Text = e.Row.Cells[3].Text.Replace(".", "</br>");
-                e.Row.Cells[4].Text = e.Row.Cells[4].Text.Replace(".", "</br>");
-                e.Row.Cells[5].Text = e.Row.Cells[5].Text.Replace(".", "</br>");
-                e.Row.Cells[6].Text = e.Row.Cells[6].Text.Replace(".", "</br>");
-                e.Row.Cells[7].Text = e.Row.Cells[7].Text.Replace(".", "</br>");
-            }
-        }
-
-        ///Code to connect db to gridview
-        private void BindGridView()
-        {
+            string selected_ID = DropDownList1.SelectedValue;
+            
             try
             {
                 // Open database connection
@@ -109,8 +121,8 @@ namespace WebApplication1
 
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
-                    SqlCommand selectCommand = new SqlCommand("SELECT Data FROM tblFiles WHERE Name = @FileName", connection);
-                    selectCommand.Parameters.AddWithValue("@FileName", "AY_2023-24_2T_Rizal_Labs.xlsx");
+                    SqlCommand selectCommand = new SqlCommand("SELECT Data FROM upload_Scheds WHERE ID = @File_ID", connection);
+                    selectCommand.Parameters.AddWithValue("@File_ID", selected_ID);
 
                     byte[] excelData = (byte[])selectCommand.ExecuteScalar();
                     ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
@@ -157,10 +169,12 @@ namespace WebApplication1
 
                                     // Add the DataRow to the DataTable
                                     dataTable.Rows.Add(dataRow);
+
                                 }
 
                                 GridView1.DataSource = dataTable;
                                 GridView1.DataBind();
+
                             }
                         }
 
@@ -174,6 +188,21 @@ namespace WebApplication1
             }
         }
 
+
+        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            if (e.Row.RowType == DataControlRowType.DataRow)
+            {
+                e.Row.Cells[1].Text = e.Row.Cells[1].Text.Replace(".", "</br>");
+                e.Row.Cells[2].Text = e.Row.Cells[2].Text.Replace(".", "</br>");
+                e.Row.Cells[3].Text = e.Row.Cells[3].Text.Replace(".", "</br>");
+                e.Row.Cells[4].Text = e.Row.Cells[4].Text.Replace(".", "</br>");
+                e.Row.Cells[5].Text = e.Row.Cells[5].Text.Replace(".", "</br>");
+                e.Row.Cells[6].Text = e.Row.Cells[6].Text.Replace(".", "</br>");
+                e.Row.Cells[7].Text = e.Row.Cells[7].Text.Replace(".", "</br>");
+            }
+        }
+
         protected void deployBTNclk(object sender, EventArgs e)
         {
             string courseCode = RCourseCodeTB.Text; //course code
@@ -183,6 +212,7 @@ namespace WebApplication1
             string selectedCollege = RFacultyDL.SelectedItem.Text; //college value
             string selectedTimerealValue = RTimeDL.SelectedItem.Text; //Selected Time
             string selectedTime = RTimeDL.SelectedValue; //Selected Time ID
+            string building = SelectBuildingDL.SelectedItem.Text;
 
             //calendar code:
             var dateStr = SelectDateTB.Text; //YYYY-MM-DD
@@ -195,7 +225,7 @@ namespace WebApplication1
 
             if (connection.State == System.Data.ConnectionState.Open)
             {// Perform your database operations here:
-                String query = "UPDATE roomSched SET " + dayOfWeekString + " = @courseCode+'.'+ @courseSection+'.'+@prof+'.'+@building +'.'+@room+'.'+@selectedCollege WHERE ID = @selectedSched";
+                String query = "UPDATE room_Sched SET " + dayOfWeekString + " =@room+'.'+ @courseCode+'.'+ @courseSection+'.'+@prof+'.'+@building +'.'+@selectedCollege WHERE ID = @selectedSched";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
                     command.Parameters.AddWithValue("@courseCode", courseCode);
@@ -205,6 +235,7 @@ namespace WebApplication1
                     command.Parameters.AddWithValue("@selectedCollege", selectedCollege);
                     command.Parameters.AddWithValue("@selectedSchedvalue", selectedTimerealValue);
                     command.Parameters.AddWithValue("@selectedSched", selectedTime);
+                    command.Parameters.AddWithValue("@building", building);
 
                     int result = command.ExecuteNonQuery();
 

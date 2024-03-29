@@ -12,17 +12,26 @@
             <div class="row">
                 <%--                upload file button--%>
                 <asp:FileUpload ID="FileUpload1" runat="server" />
-
-                <%--                to save the file that been uploaded--%>
-                <asp:Button ID="Button1" runat="server" Text="Button" OnClick="Upload_File" />
             </div>
+            <div>
+                <asp:DropDownList ID="DropDownList1" runat="server"  AutoPostBack="true" OnSelectedIndexChanged="Bind_Uploaded_GridView">
+                </asp:DropDownList>
+
+                <asp:Button ID="Button2" runat="server" Text="Button" />
+            </div>
+
             <div class="row align-items-center">
-                <div class=" calendar-container col-3">
+                <%--                to save the file that been uploaded--%>
+                <asp:Button ID="Button1" runat="server" Text="Upload file" OnClick="Upload_File" />
+                <%--<div class=" calendar-container col-3">
                     <asp:Calendar ID="Calendar2" runat="server" OnSelectionChanged="Calendar2_SelectionChanged"></asp:Calendar>
-                </div>
+                </div>--%>
 
                 <div class="schedule-container col-sm-9">
-                    <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge" BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False">
+                    <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
+                        BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True"
+                        EmptyDataText="No records found">
+
                         <%--make this ToolTip false later--%>
                         <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
                         <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" CssClass="schedule-gridview" />
@@ -183,7 +192,6 @@
                     </div>
                     <div class="modal-body">
                         <!--Content of Edit Schedule / Gridview Put Here-->
-                        Put the Content Here
                     </div>
                     <div class="modal-footer">
                         <asp:Button ID="RCloseBtn" runat="server" Text="Close" CssClass="bg-color btn btn-primary bg-color" />
