@@ -8,21 +8,37 @@
     <script src="Scripts/script.js"></script>
 
     <form id="form1" runat="server">
+        <asp:ScriptManager runat="server"></asp:ScriptManager>
         <div>
             <div class="row">
-                <%--                upload file button--%>
+                <%--make this ToolTip false later--%>
                 <asp:FileUpload ID="FileUpload1" runat="server" />
             </div>
             <div>
-                <asp:DropDownList ID="DropDownList1" runat="server"  AutoPostBack="true" OnSelectedIndexChanged="Bind_Uploaded_GridView">
+                <asp:Button ID="Button1" runat="server" Text="Upload file" OnClick="Upload_File" />
+            </div>
+            <div>
+                <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Bind_Uploaded_GridView">
                 </asp:DropDownList>
-
-                <asp:Button ID="Button2" runat="server" Text="Button" />
+            </div>
+            <div>
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <asp:Calendar ID="Calendar1" runat="server"></asp:Calendar>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
+            </div>
+            <div>
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>
+                        <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
+                    </ContentTemplate>
+                </asp:UpdatePanel>
             </div>
 
             <div class="row align-items-center">
                 <%--                to save the file that been uploaded--%>
-                <asp:Button ID="Button1" runat="server" Text="Upload file" OnClick="Upload_File" />
+
                 <%--<div class=" calendar-container col-3">
                     <asp:Calendar ID="Calendar2" runat="server" OnSelectionChanged="Calendar2_SelectionChanged"></asp:Calendar>
                 </div>--%>
@@ -177,7 +193,7 @@
                             </asp:DropDownList>
                         </div>
                         <br />
-                        <asp:Button ID="DeployBtn" runat="server" Text="Deploy" CssClass="btn btn-primary btn-block full-width bg-color fa-lg" OnClick="deployBTNclk" />
+                        <asp:Button ID="DeployBtn" runat="server" Text="Deploy" CssClass="btn btn-primary btn-block full-width bg-color fa-lg" OnClick="DeployBTNclk" />
                     </div>
                 </div>
             </div>

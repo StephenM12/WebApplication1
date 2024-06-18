@@ -1,6 +1,7 @@
 ﻿//for excel package
 using OfficeOpenXml;
 using System;
+using System.Collections.Generic;
 using System.Data;
 
 //sql connection:
@@ -15,105 +16,416 @@ namespace WebApplication1
 {
     public partial class RoomSchedule : System.Web.UI.Page
     {
+        private class ScheduleRow
+        {
+            public object RoomID { get; set; }
+            public object SectionID { get; set; }
+            public object CourseID { get; set; }
+            public object InstructorID { get; set; }
+            public int Day { get; set; }
+            public TimeSpan StartTime { get; set; }
+            public TimeSpan EndTime { get; set; }
+            public DateTime StartDate { get; set; }
+            public DateTime EndDate { get; set; }
+        }
+        private (int roomID, int sectionID, int courseID, int instructorID) CheckAndInsertValues(SqlConnection connection, string room, string section, string course, string instructor)
+        {
+            int roomID = GetOrInsertRoom(connection, room);
+            int sectionID = GetOrInsertSection(connection, section);
+            int courseID = GetOrInsertCourse(connection, course);
+            int instructorID = GetOrInsertInstructor(connection, instructor);
+
+            return (roomID, sectionID, courseID, instructorID);
+        }
         protected void Page_Load(object sender, EventArgs e)
         {
-
             // Open database connection
             SqlConnection connection = dbConnection.GetConnection();
             if (connection.State == System.Data.ConnectionState.Open)
             {
-                //default table 
-                //SqlCommand selectCommand = new SqlCommand("SELECT * FROM --------", connection);
-                //SqlDataAdapter adapter = new SqlDataAdapter(selectCommand);
-                //DataTable table = new DataTable();
-                //adapter.Fill(table);
-                //GridView1.DataSource = table;
-                //GridView1.DataBind();
-
-
                 if (!IsPostBack)
                 {
                     dropdown_Data(sender, e);
 
-
+                   
                 }
-
-
-
-
             }
         }
 
-        protected void dropdown_Data(object sender, EventArgs e)
-        {
 
 
 
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-
-                //Dropdown datas from sql 
-                SqlCommand cmd = new SqlCommand("SELECT Id, Name FROM upload_Scheds", connection);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-                
 
 
-                // Bind the data to the dropdown list
-                DropDownList1.DataTextField = "Name"; // Column name to display
-                DropDownList1.DataValueField = "ID"; // Column name to use as value
-                DropDownList1.DataSource = reader;
-                DropDownList1.DataBind();
-                reader.Close();
-
-
-
-            }
-            
-
-
-
-        }
         protected void Upload_File(object sender, EventArgs e)
         {
             string fileName = Path.GetFileName(FileUpload1.PostedFile.FileName);
             string contentType = FileUpload1.PostedFile.ContentType;
 
-            using (Stream fs = FileUpload1.PostedFile.InputStream)
+            string uploader = user_Identity.user_FName + user_Identity.user_LName; // Replace with actual uploader name
+            DateTime uploadDate = DateTime.Now;
+
+
+            if (FileUpload1.HasFile)
             {
-                using (BinaryReader br = new BinaryReader(fs))
+                if (Calendar1.SelectedDate != DateTime.MinValue && Calendar2.SelectedDate != DateTime.MinValue)
                 {
-                    byte[] bytes = br.ReadBytes((Int32)fs.Length);
-
-                    // Open database connection
-                    SqlConnection connection = dbConnection.GetConnection();
-
-                    if (connection.State == System.Data.ConnectionState.Open)
-                    {// Perform your database operations here:
-                        String query = "INSERT INTO upload_Scheds VALUES (@Name, @ContentType, @Data)";
-                        using (SqlCommand command = new SqlCommand(query, connection))
+                    try
+                    {
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (Stream excelStream = FileUpload1.PostedFile.InputStream)
                         {
-                            command.Parameters.AddWithValue("@Name", fileName);
-                            command.Parameters.AddWithValue("@ContentType", contentType);
-                            command.Parameters.AddWithValue("@Data", bytes);
+                            using (BinaryReader br = new BinaryReader(excelStream))
+                            {
+                                byte[] bytes = br.ReadBytes((Int32)excelStream.Length);
 
-                            command.ExecuteNonQuery();
-                            connection.Close();
+                                // Open database connection
+                                SqlConnection connection = dbConnection.GetConnection();
+                                if (connection.State == System.Data.ConnectionState.Open)
+                                {
+                                    // Perform your database operations here:
+                                    string query = @"INSERT INTO upload_SchedsTBL (FileName, ContentType, Data, Uploader, Upload_Date) VALUES (@FileName, @ContentType, @FileData, @Uploader, @UploadDate)";
+
+                                    using (SqlCommand command = new SqlCommand(query, connection))
+                                    {
+                                        try
+                                        {
+                                            command.Parameters.AddWithValue("@FileName", fileName);
+                                            command.Parameters.AddWithValue("@ContentType", contentType);
+                                            command.Parameters.AddWithValue("@FileData", bytes);
+                                            command.Parameters.AddWithValue("@Uploader", uploader);
+                                            command.Parameters.AddWithValue("@UploadDate", uploadDate);
+
+                                            command.ExecuteNonQuery();
+
+
+                                            ReadExcelData(excelStream);
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            // Handle the error here
+                                            Console.WriteLine("An error occurred while inserting into upload_SchedsTBL: " + ex.Message);
+                                            // Optionally, you may choose to rollback any changes or perform other cleanup actions.
+                                        }
+                                    }
+                                    //ReadExcelData(excelStream);
+                                }
+                            }
+                            
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // Log the exception or handle it accordingly
+                        Console.WriteLine("An error occurred during the file upload process: " + ex.Message);
+                        Response.Write("An error occurred during the file upload process. Please try again." + ex.Message);
+                    }
+                }
+                else
+                {
+                    // Calendar1 does not have a selected date
+                    Response.Write("Pls Select the Start and End date from the Calendars");
+                }
+            }
+            else
+            {
+                // Handle the case when no file is uploaded
+                Response.Write("Please upload a file.");
+            }
+
+            // Calendar1 has a selected date
+        }
+
+        public void ReadExcelData(Stream excelStream)
+        {
+            // Open database connection
+            using (SqlConnection connection = dbConnection.GetConnection())
+            {
+                if (connection.State == System.Data.ConnectionState.Open)
+                {
+                    using (ExcelPackage package = new ExcelPackage(excelStream))
+                    {
+                        ExcelWorksheet worksheet = package.Workbook.Worksheets[0]; // Assuming data is in the first worksheet
+                        int rowCount = worksheet.Dimension.Rows;
+                        int colCount = worksheet.Dimension.Columns;
+
+                        string currentRoom = string.Empty;
+                        List<ScheduleRow> scheduleRows = new List<ScheduleRow>();
+
+                        // Loop through each row in the Excel worksheet
+                        for (int row = 1; row <= rowCount; row++)
+                        {
+                            string firstCellText = worksheet.Cells[row, 1].Text;
+
+                            if (firstCellText.StartsWith("R") || firstCellText.StartsWith("E"))
+                            {
+                                currentRoom = firstCellText; // Update current room when room header is found
+                            }
+                            else if (firstCellText.Equals("Time", StringComparison.OrdinalIgnoreCase))
+                            {
+                                // Skip header row
+                                continue;
+                            }
+                            else if (!string.IsNullOrEmpty(currentRoom) && !string.IsNullOrEmpty(firstCellText))
+                            {
+                                string time = worksheet.Cells[row, 1].Text;
+
+                                for (int col = 2; col <= colCount; col++)
+                                {
+                                    //hmmm try 4
+                                    string day = worksheet.Cells[5, col].Text; // Assuming row 3 contains day names
+                                                                               // Get DayID from days_of_week table based on day name
+                                    int dayID = GetDayID(day, connection);
+
+                                    string schedule = worksheet.Cells[row, col].Text;
+
+                                    if (!string.IsNullOrEmpty(schedule))
+                                    {
+                                        // Split the schedule into parts
+                                        string[] scheduleParts = schedule.Split(new[] { '-' }, StringSplitOptions.RemoveEmptyEntries);
+                                        if (scheduleParts.Length > 0)
+                                        {
+                                            string courseCode = scheduleParts[0];
+                                            string section = "";
+                                            string instructor = "";
+
+                                            if (scheduleParts.Length == 2 && scheduleParts[1].Contains(" "))
+                                            {
+                                                string[] sectionAndInstructor = scheduleParts[1].Split(' ');
+                                                section = sectionAndInstructor[0];
+                                                instructor = sectionAndInstructor[1];
+                                            }
+                                            else if (scheduleParts.Length >= 2 && !scheduleParts[1].Contains(" "))
+                                            {
+                                                section = scheduleParts[1];
+                                            }
+                                            else if (scheduleParts.Length >= 3 && !scheduleParts[2].Contains(" "))
+                                            {
+                                                section = scheduleParts[2];
+                                            }
+                                            //Response.Write($"Room: {currentRoom}, Section: {section}, CourseCode: {courseCode}, Instructor: {instructor}, Day: {dayID}, StartTime: {time.Split('-')[0]}, EndTime: {time.Split('-')[1]}, StartDate: {DateTime.Today.ToShortDateString()}, EndDate: {DateTime.Today.ToShortDateString()}<br />");
+                                            // Create a new ScheduleRow object
+                                            var ids = CheckAndInsertValues(connection, currentRoom, section, courseCode, instructor);
+
+                                            ScheduleRow newRow = new ScheduleRow
+                                            {
+                                                RoomID = ids.roomID == -1 ? (object)DBNull.Value : ids.roomID,
+                                                SectionID = ids.sectionID == -1 ? (object)DBNull.Value : ids.sectionID,
+                                                CourseID = ids.courseID == -1 ? (object)DBNull.Value : ids.courseID,
+                                                InstructorID = ids.instructorID == -1 ? (object)DBNull.Value : ids.instructorID,
+                                                Day = dayID,
+                                                StartTime = TimeSpan.Parse(time.Split('-')[0].Replace("AM", "").Replace("PM", "").Trim()),
+                                                EndTime = TimeSpan.Parse(time.Split('-')[1].Replace("AM", "").Replace("PM", "").Trim()),
+
+                                                //StartDate = DateTime.Today,
+                                                //EndDate = DateTime.Today
+
+                                                StartDate = Calendar1.SelectedDate,
+                                                EndDate = Calendar2.SelectedDate
+                                            };
+
+                                            // Add the new row to the list
+                                            scheduleRows.Add(newRow);
+                                        }
+                                    }
+                                }
+                            }
+                        }
+
+                        // After collecting all schedule data, convert it to DataTable
+                        DataTable scheduleDataTable = ConvertToDataTable(scheduleRows);
+
+                        // Bulk insert into Schedule table using SqlBulkCopy
+                        using (SqlBulkCopy bulkCopy = new SqlBulkCopy(connection))
+                        {
+                            bulkCopy.DestinationTableName = "Schedule";
+
+                            // Map DataTable columns to SQL Server table columns
+                            bulkCopy.ColumnMappings.Add("RoomID", "RoomID");
+                            bulkCopy.ColumnMappings.Add("SectionID", "SectionID");
+                            bulkCopy.ColumnMappings.Add("CourseID", "CourseID");
+                            bulkCopy.ColumnMappings.Add("InstructorID", "InstructorID");
+                            bulkCopy.ColumnMappings.Add("Day", "DayID");
+                            bulkCopy.ColumnMappings.Add("StartTime", "StartTime");
+                            bulkCopy.ColumnMappings.Add("EndTime", "EndTime");
+                            bulkCopy.ColumnMappings.Add("StartDate", "StartDate");
+                            bulkCopy.ColumnMappings.Add("EndDate", "EndDate");
+
+                            // Perform the bulk copy
+                            bulkCopy.WriteToServer(scheduleDataTable);
                         }
                     }
                 }
             }
-
-            Response.Write("File Upload successfully");
-            
         }
-        
+
+
+
+
+
+        private DataTable ConvertToDataTable(List<ScheduleRow> scheduleRows)
+        {
+            DataTable dataTable = new DataTable();
+
+            // Define the schema of the DataTable
+            dataTable.Columns.Add("RoomID", typeof(object));
+            dataTable.Columns.Add("SectionID", typeof(object));
+            dataTable.Columns.Add("CourseID", typeof(object));
+            dataTable.Columns.Add("InstructorID", typeof(object));
+            dataTable.Columns.Add("Day", typeof(string));
+            dataTable.Columns.Add("StartTime", typeof(TimeSpan)); // Adjusted to TimeSpan
+            dataTable.Columns.Add("EndTime", typeof(TimeSpan)); // Adjusted to TimeSpan
+            dataTable.Columns.Add("StartDate", typeof(DateTime));
+            dataTable.Columns.Add("EndDate", typeof(DateTime));
+
+            // Fill the DataTable with data from List<ScheduleRow>
+            foreach (var scheduleRow in scheduleRows)
+            {
+                DataRow row = dataTable.NewRow();
+                row["RoomID"] = scheduleRow.RoomID;
+                row["SectionID"] = scheduleRow.SectionID;
+                row["CourseID"] = scheduleRow.CourseID;
+                row["InstructorID"] = scheduleRow.InstructorID;
+                row["Day"] = scheduleRow.Day;
+                row["StartTime"] = scheduleRow.StartTime;
+                row["EndTime"] = scheduleRow.EndTime;
+                row["StartDate"] = scheduleRow.StartDate;
+                row["EndDate"] = scheduleRow.EndDate;
+                dataTable.Rows.Add(row);
+            }
+
+            return dataTable;
+        }
+        private int GetOrInsertRoom(SqlConnection connection, string room)
+        {
+            // Example logic for retrieving or inserting a room
+            string query = "SELECT RoomID FROM Rooms WHERE RoomName = @RoomName";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@RoomName", room);
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    return Convert.ToInt32(result);
+                }
+            }
+
+            string insertQuery = "INSERT INTO Rooms (RoomName) OUTPUT INSERTED.RoomID VALUES (@RoomName)";
+            using (SqlCommand command = new SqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue("@RoomName", room);
+                return (int)command.ExecuteScalar();
+            }
+        }
+
+        private int GetOrInsertSection(SqlConnection connection, string section)
+        {
+            // Example logic for retrieving or inserting a section
+            string query = "SELECT SectionID FROM Sections WHERE SectionName = @SectionName";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@SectionName", section);
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    return Convert.ToInt32(result);
+                }
+            }
+
+            string insertQuery = "INSERT INTO Sections (SectionName) OUTPUT INSERTED.SectionID VALUES (@SectionName)";
+            using (SqlCommand command = new SqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue("@SectionName", section);
+                return (int)command.ExecuteScalar();
+            }
+        }
+
+        private int GetOrInsertCourse(SqlConnection connection, string course)
+        {
+            // Example logic for retrieving or inserting a course
+            string query = "SELECT CourseID FROM Courses WHERE CourseCode = @CourseCode";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@CourseCode", course);
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    return Convert.ToInt32(result);
+                }
+            }
+
+            string insertQuery = "INSERT INTO Courses (CourseCode) OUTPUT INSERTED.CourseID VALUES (@CourseCode)";
+            using (SqlCommand command = new SqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue("@CourseCode", course);
+                return (int)command.ExecuteScalar();
+            }
+        }
+
+        private int GetOrInsertInstructor(SqlConnection connection, string instructor)
+        {
+            // Example logic for retrieving or inserting an instructor
+            string query = "SELECT InstructorID FROM Instructors WHERE InstructorName = @InstructorName";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@InstructorName", instructor);
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    return Convert.ToInt32(result);
+                }
+            }
+
+            string insertQuery = "INSERT INTO Instructors (InstructorName) OUTPUT INSERTED.InstructorID VALUES (@InstructorName)";
+            using (SqlCommand command = new SqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue("@InstructorName", instructor);
+                return (int)command.ExecuteScalar();
+            }
+        }
+
+        private int GetDayID(string dayName, SqlConnection connection)
+        {
+            int dayID = 0;
+            string query = "SELECT day_id FROM days_of_week WHERE day = @DayName;";
+
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@DayName", dayName);
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    dayID = Convert.ToInt32(result);
+                }
+                // Handle case where dayName is not found in days_of_week table
+            }
+
+            return dayID;
+        }
+
+        protected void dropdown_Data(object sender, EventArgs e)
+        {
+            // Open database connection
+            SqlConnection connection = dbConnection.GetConnection();
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                //Dropdown datas from sql
+                SqlCommand cmd = new SqlCommand("SELECT UploadID, FileName FROM upload_SchedsTBL", connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+                // Bind the data to the dropdown list
+                DropDownList1.DataTextField = "FileName"; // Column name to display
+                DropDownList1.DataValueField = "UploadID"; // Column name to use as value
+                DropDownList1.DataSource = reader;
+                DropDownList1.DataBind();
+                reader.Close();
+            }
+        }
+
         protected void Bind_Uploaded_GridView(object sender, EventArgs e)
         {
             string selected_ID = DropDownList1.SelectedValue;
-            
+
             try
             {
                 // Open database connection
@@ -121,7 +433,7 @@ namespace WebApplication1
 
                 if (connection.State == System.Data.ConnectionState.Open)
                 {
-                    SqlCommand selectCommand = new SqlCommand("SELECT Data FROM upload_Scheds WHERE ID = @File_ID", connection);
+                    SqlCommand selectCommand = new SqlCommand("SELECT Data FROM scheduleTBL WHERE ID = @File_ID", connection);
                     selectCommand.Parameters.AddWithValue("@File_ID", selected_ID);
 
                     byte[] excelData = (byte[])selectCommand.ExecuteScalar();
@@ -169,12 +481,10 @@ namespace WebApplication1
 
                                     // Add the DataRow to the DataTable
                                     dataTable.Rows.Add(dataRow);
-
                                 }
 
                                 GridView1.DataSource = dataTable;
                                 GridView1.DataBind();
-
                             }
                         }
 
@@ -187,7 +497,6 @@ namespace WebApplication1
                 Response.Write("Failed to Show Table");
             }
         }
-
 
         protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
         {
@@ -203,7 +512,7 @@ namespace WebApplication1
             }
         }
 
-        protected void deployBTNclk(object sender, EventArgs e)
+        protected void DeployBTNclk(object sender, EventArgs e)
         {
             string courseCode = RCourseCodeTB.Text; //course code
             string sec = RSectionTB.Text; //section
