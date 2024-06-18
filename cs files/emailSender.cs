@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-//for email sending 
+﻿//for email sending
 using System.Net;
 using System.Net.Mail;
 
@@ -23,7 +19,6 @@ namespace WebApplication1.cs_files
             this.smtpPassword = smtpPassword;
         }
 
-
         public void SendEmail(string from, string to, string subject, string body)
         {
             MailMessage mail = new MailMessage();
@@ -40,8 +35,5 @@ namespace WebApplication1.cs_files
 
             smtp.Send(mail);
         }
-
-
-
     }
 }

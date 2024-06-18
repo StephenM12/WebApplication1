@@ -21,11 +21,9 @@ namespace WebApplication1.cs_files
                     return false;
                 }
                 connection.Close();
-
             }
             return true;
         }
-
 
         public static bool isPass_Valid(string userPass)
         {
@@ -39,17 +37,12 @@ namespace WebApplication1.cs_files
                 int usernameCount = (int)commandCheckUsername.ExecuteScalar();
                 if (usernameCount > 0)
                 {
-                    
                     return false;
                 }
                 connection.Close();
-
             }
 
             return true;
-
-
-
         }
-        }
+    }
 }
