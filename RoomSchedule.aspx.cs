@@ -85,7 +85,7 @@ namespace WebApplication1
                                 if (connection.State == System.Data.ConnectionState.Open)
                                 {
                                     // Perform your database operations here:
-                                    string query = @"INSERT INTO upload_SchedsTBL (FileName, ContentType, Data, Uploader, Upload_Date) VALUES (@FileName, @ContentType, @FileData, @Uploader, @UploadDate)";
+                                    string query = @"INSERT INTO upload_SchedsTBL (FileName, ContentType, Data, Uploader, UploadDate) VALUES (@FileName, @ContentType, @FileData, @Uploader, @UploadDate)";
 
                                     using (SqlCommand command = new SqlCommand(query, connection))
                                     {
@@ -607,12 +607,6 @@ namespace WebApplication1
             }
         }
 
-        
-
-
-        
-
-        
 
         protected void Calendar2_SelectionChanged(object sender, EventArgs e)
         {
