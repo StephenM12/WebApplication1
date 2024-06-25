@@ -35,6 +35,9 @@
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>
+            <div>
+                <asp:DropDownList ID="DropDownList2" runat="server" AutoPostBack="true" OnSelectedIndexChanged="BindScheduleData"></asp:DropDownList>
+            </div>
 
             <div class="row align-items-center">
                 <%--                to save the file that been uploaded--%>
@@ -59,7 +62,7 @@
                         <SortedDescendingCellStyle BackColor="#CAC9C9" />
                         <SortedDescendingHeaderStyle BackColor="#33276A" />
 
-                        <Columns>
+                       <%-- <Columns>
                             <asp:BoundField DataField="Column 1" HeaderText="Time" />
                         </Columns>
                         <Columns>
@@ -82,6 +85,18 @@
                         </Columns>
                         <Columns>
                             <asp:BoundField DataField="Column 8" HeaderText="Sunday" />
+                        </Columns>--%>
+
+
+                         <Columns>
+                            <asp:BoundField DataField="Time" HeaderText="Time" />
+                            <asp:BoundField DataField="Monday" HeaderText="Monday" />
+                            <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
+                            <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
+                            <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
+                            <asp:BoundField DataField="Friday" HeaderText="Friday" />
+                            <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
+                            <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
                         </Columns>
                     </asp:GridView>
                 </div>
