@@ -49,15 +49,18 @@ namespace WebApplication1
             SqlConnection connection = dbConnection.GetConnection();
             if (connection.State == System.Data.ConnectionState.Open)
             {
+                
                 if (!IsPostBack)
                 {
                     dropdown_Data(sender, e);
                     room_dropdown_Data(sender, e);
 
                     BindScheduleData(sender, e);
+                    
                 }
             }
         }
+
 
         protected void Upload_File(object sender, EventArgs e)
         {
@@ -267,8 +270,16 @@ namespace WebApplication1
 
                             // Perform the bulk copy
                             bulkCopy.WriteToServer(scheduleDataTable);
+
+                            Response.Write("File uploaded successfully.");
                         }
                     }
+
+
+
+                    BindScheduleData(null, EventArgs.Empty);
+
+
                 }
             }
         }
@@ -478,6 +489,7 @@ namespace WebApplication1
 
         protected void Bind_Uploaded_GridView(object sender, EventArgs e)
         {
+            
             //string selected_ID = DropDownList1.SelectedValue;
 
             //try
@@ -550,9 +562,12 @@ namespace WebApplication1
             //{
             //    Response.Write("Failed to Show Table");
             //}
+
+
         }
 
-        protected void BindScheduleData(/*int? roomId*/object sender, EventArgs e)
+        
+        protected void BindScheduleData(object sender, EventArgs e)
         {
             string selected_ID_ROOM = DropDownList2.SelectedValue;
 

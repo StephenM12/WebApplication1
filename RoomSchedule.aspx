@@ -11,7 +11,6 @@
         <asp:ScriptManager runat="server"></asp:ScriptManager>
         <div>
             <div class="row">
-                <%--make this ToolTip false later--%>
                 <asp:FileUpload ID="FileUpload1" runat="server" />
             </div>
             <div>
@@ -40,65 +39,35 @@
             </div>
 
             <div class="row align-items-center">
-                <%--                to save the file that been uploaded--%>
-
-                <%--<div class=" calendar-container col-3">
-                    <asp:Calendar ID="Calendar2" runat="server" OnSelectionChanged="Calendar2_SelectionChanged"></asp:Calendar>
-                </div>--%>
-
                 <div class="schedule-container col-sm-9">
-                    <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
-                        BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True"
-                        EmptyDataText="No records found">
+                    <asp:UpdatePanel runat="server" ID="UpdatePanelGridView">
+                        <ContentTemplate>
+                            <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
+                                BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True"
+                                EmptyDataText="No records found">
+                                <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
+                                <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" CssClass="schedule-gridview" />
+                                <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />
+                                <RowStyle BackColor="#DEDFDE" ForeColor="Black" CssClass="schedule-gridview" />
+                                <SelectedRowStyle BackColor="#9471DE" Font-Bold="True" ForeColor="White" />
+                                <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                                <SortedAscendingHeaderStyle BackColor="#594B9C" />
+                                <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                                <SortedDescendingHeaderStyle BackColor="#33276A" />
 
-                        <%--make this ToolTip false later--%>
-                        <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
-                        <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" CssClass="schedule-gridview" />
-                        <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />
-                        <RowStyle BackColor="#DEDFDE" ForeColor="Black" CssClass="schedule-gridview" />
-                        <SelectedRowStyle BackColor="#9471DE" Font-Bold="True" ForeColor="White" />
-                        <SortedAscendingCellStyle BackColor="#F1F1F1" />
-                        <SortedAscendingHeaderStyle BackColor="#594B9C" />
-                        <SortedDescendingCellStyle BackColor="#CAC9C9" />
-                        <SortedDescendingHeaderStyle BackColor="#33276A" />
-
-                       <%-- <Columns>
-                            <asp:BoundField DataField="Column 1" HeaderText="Time" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 2" HeaderText="Monday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 3" HeaderText="Tuesday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 4" HeaderText="Wednesday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 5" HeaderText="Thursday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 6" HeaderText="Friday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 7" HeaderText="Saturday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 8" HeaderText="Sunday" />
-                        </Columns>--%>
-
-
-                         <Columns>
-                            <asp:BoundField DataField="Time" HeaderText="Time" />
-                            <asp:BoundField DataField="Monday" HeaderText="Monday" />
-                            <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
-                            <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
-                            <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
-                            <asp:BoundField DataField="Friday" HeaderText="Friday" />
-                            <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
-                            <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
-                        </Columns>
-                    </asp:GridView>
+                                <Columns>
+                                    <asp:BoundField DataField="Time" HeaderText="Time" />
+                                    <asp:BoundField DataField="Monday" HeaderText="Monday" />
+                                    <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
+                                    <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
+                                    <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
+                                    <asp:BoundField DataField="Friday" HeaderText="Friday" />
+                                    <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
+                                    <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
+                                </Columns>
+                            </asp:GridView>
+                        </ContentTemplate>
+                    </asp:UpdatePanel>
                 </div>
             </div>
         </div>
