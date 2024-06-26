@@ -159,6 +159,7 @@
     <Content Include="CSS\ForgotPassword_Style.css" />
     <Content Include="CSS\History_Style.css" />
     <Content Include="CSS\Home_Style.css" />
+    <Content Include="CSS\Image_Style.css" />
     <Content Include="CSS\LogIn_Style.css" />
     <Content Include="CSS\Profile_Style.css" />
     <Content Include="CSS\ResetPassword_Style.css" />
@@ -170,6 +171,7 @@
     <Content Include="Global.asax" />
     <Content Include="History.aspx" />
     <Content Include="Home.aspx" />
+    <Content Include="ImageDisplay.aspx" />
     <Content Include="Images\Capture.png" />
     <Content Include="Images\logo.png" />
     <Content Include="LogIn.aspx" />
@@ -291,6 +293,13 @@
     </Compile>
     <Compile Include="Home.aspx.designer.cs">
       <DependentUpon>Home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ImageDisplay.aspx.cs">
+      <DependentUpon>ImageDisplay.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ImageDisplay.aspx.designer.cs">
+      <DependentUpon>ImageDisplay.aspx</DependentUpon>
     </Compile>
     <Compile Include="LogIn.aspx.cs">
       <DependentUpon>LogIn.aspx</DependentUpon>
