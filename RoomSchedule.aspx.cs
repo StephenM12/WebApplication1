@@ -165,8 +165,8 @@ namespace WebApplication1
                                     string day = worksheet.Cells[5, col].Text; // Assuming row 3 contains day names
 
                                     // Get DayID from days_of_week table based on day name
-                                    int dayID = GetDayID(day);
-
+                                    get_ID getDay = new get_ID();
+                                    int dayID = getDay.GetDayID(day);
 
                                     string schedule = worksheet.Cells[row, col].Text;
 
@@ -306,7 +306,6 @@ namespace WebApplication1
 
             try
             {
-               
                 // Retrieve values from the form controls
                 string roomNumber = RRoomNumberTB.Text;
                 string section = RSectionTB.Text;
@@ -339,7 +338,9 @@ namespace WebApplication1
                 {
                     // Get the day of the week and corresponding DayID
                     string dayName = date.DayOfWeek.ToString();
-                    int dayID = GetDayID(dayName);
+
+                    get_ID getDay_ = new get_ID();
+                    int dayID = getDay_.GetDayID(dayName);
 
                     // Construct the SQL insert query
                     string insertQuery = @"
@@ -381,37 +382,6 @@ namespace WebApplication1
             }
         }
 
-        private int GetDayID(string dayName)
-        {
-           
-            switch (dayName)
-            {
-                case "Sunday":
-                    return 1;
-
-                case "Monday":
-                    return 2;
-
-                case "Tuesday":
-                    return 3;
-
-                case "Wednesday":
-                    return 4;
-
-                case "Thursday":
-                    return 5;
-
-                case "Friday":
-                    return 6;
-
-                case "Saturday":
-                    return 7;
-
-                default:
-                    throw new ArgumentException("Invalid day name");
-            }
-        }
-
         protected void dropdown_Data(object sender, EventArgs e)
         {
             // Open database connection
@@ -450,81 +420,81 @@ namespace WebApplication1
             }
         }
 
-        protected void Bind_Uploaded_GridView(object sender, EventArgs e)
-        {
-            //string selected_ID = DropDownList1.SelectedValue;
+        //protected void Bind_Uploaded_GridView(object sender, EventArgs e)
+        //{
+        //    //string selected_ID = DropDownList1.SelectedValue;
 
-            //try
-            //{
-            //    // Open database connection
-            //    SqlConnection connection = dbConnection.GetConnection();
+        //    //try
+        //    //{
+        //    //    // Open database connection
+        //    //    SqlConnection connection = dbConnection.GetConnection();
 
-            //    if (connection.State == System.Data.ConnectionState.Open)
-            //    {
-            //        SqlCommand selectCommand = new SqlCommand("SELECT Data FROM scheduleTBL WHERE ID = @File_ID", connection);
-            //        selectCommand.Parameters.AddWithValue("@File_ID", selected_ID);
+        //    //    if (connection.State == System.Data.ConnectionState.Open)
+        //    //    {
+        //    //        SqlCommand selectCommand = new SqlCommand("SELECT Data FROM scheduleTBL WHERE ID = @File_ID", connection);
+        //    //        selectCommand.Parameters.AddWithValue("@File_ID", selected_ID);
 
-            //        byte[] excelData = (byte[])selectCommand.ExecuteScalar();
-            //        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+        //    //        byte[] excelData = (byte[])selectCommand.ExecuteScalar();
+        //    //        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
 
-            //        using (MemoryStream stream = new MemoryStream(excelData))
-            //        {
-            //            using (ExcelPackage package = new ExcelPackage(stream))
-            //            {
-            //                int worksheetIndex = 1; // Example index
+        //    //        using (MemoryStream stream = new MemoryStream(excelData))
+        //    //        {
+        //    //            using (ExcelPackage package = new ExcelPackage(stream))
+        //    //            {
+        //    //                int worksheetIndex = 1; // Example index
 
-            //                if (worksheetIndex <= package.Workbook.Worksheets.Count)
-            //                {
-            //                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
+        //    //                if (worksheetIndex <= package.Workbook.Worksheets.Count)
+        //    //                {
+        //    //                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
 
-            //                    int startRow = 6; // Starting row index
-            //                    int endRow = 15;
-            //                    int startColumn = 1; // Starting column index (A)
-            //                    int endColumn = 8; // Ending column index (H)
+        //    //                    int startRow = 6; // Starting row index
+        //    //                    int endRow = 15;
+        //    //                    int startColumn = 1; // Starting column index (A)
+        //    //                    int endColumn = 8; // Ending column index (H)
 
-            //                    // Create a DataTable to store the extracted data
-            //                    DataTable dataTable = new DataTable();
+        //    //                    // Create a DataTable to store the extracted data
+        //    //                    DataTable dataTable = new DataTable();
 
-            //                    // Add columns to the DataTable based on the number of columns in the range
-            //                    for (int col = startColumn; col <= endColumn; col++)
-            //                    {
-            //                        dataTable.Columns.Add("Column " + col.ToString()); // You can customize column names here
-            //                    }
+        //    //                    // Add columns to the DataTable based on the number of columns in the range
+        //    //                    for (int col = startColumn; col <= endColumn; col++)
+        //    //                    {
+        //    //                        dataTable.Columns.Add("Column " + col.ToString()); // You can customize column names here
+        //    //                    }
 
-            //                    // Iterate over each row in the range
-            //                    for (int row = startRow; row <= endRow; row++)
-            //                    {
-            //                        // Create a new DataRow to store the values of the current row
-            //                        DataRow dataRow = dataTable.NewRow();
+        //    //                    // Iterate over each row in the range
+        //    //                    for (int row = startRow; row <= endRow; row++)
+        //    //                    {
+        //    //                        // Create a new DataRow to store the values of the current row
+        //    //                        DataRow dataRow = dataTable.NewRow();
 
-            //                        // Iterate over each column in the range
-            //                        for (int col = startColumn; col <= endColumn; col++)
-            //                        {
-            //                            // Get the value of the current cell
-            //                            object cellValue = worksheet.Cells[row, col].Value;
+        //    //                        // Iterate over each column in the range
+        //    //                        for (int col = startColumn; col <= endColumn; col++)
+        //    //                        {
+        //    //                            // Get the value of the current cell
+        //    //                            object cellValue = worksheet.Cells[row, col].Value;
 
-            //                            // Add the cell value to the DataRow
-            //                            dataRow[col - startColumn] = cellValue != null ? cellValue.ToString() : ""; // Convert cell value to string
-            //                        }
+        //    //                            // Add the cell value to the DataRow
+        //    //                            dataRow[col - startColumn] = cellValue != null ? cellValue.ToString() : ""; // Convert cell value to string
+        //    //                        }
 
-            //                        // Add the DataRow to the DataTable
-            //                        dataTable.Rows.Add(dataRow);
-            //                    }
+        //    //                        // Add the DataRow to the DataTable
+        //    //                        dataTable.Rows.Add(dataRow);
+        //    //                    }
 
-            //                    GridView1.DataSource = dataTable;
-            //                    GridView1.DataBind();
-            //                }
-            //            }
+        //    //                    GridView1.DataSource = dataTable;
+        //    //                    GridView1.DataBind();
+        //    //                }
+        //    //            }
 
-            //            connection.Close();
-            //        }
-            //    }
-            //}
-            //catch
-            //{
-            //    Response.Write("Failed to Show Table");
-            //}
-        }
+        //    //            connection.Close();
+        //    //        }
+        //    //    }
+        //    //}
+        //    //catch
+        //    //{
+        //    //    Response.Write("Failed to Show Table");
+        //    //}
+        //}
 
         protected void BindScheduleData(object sender, EventArgs e)
         {
@@ -553,7 +523,7 @@ namespace WebApplication1
                 MAX(CASE WHEN s.DayID = 6 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Friday],
                 MAX(CASE WHEN s.DayID = 7 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Saturday]
                 FROM Schedule s
-                JOIN Sections sec ON s.SectionID = sec.SectionID 
+                JOIN Sections sec ON s.SectionID = sec.SectionID
                 JOIN Courses c ON s.CourseID = c.CourseID
                 JOIN Instructors i ON s.InstructorID = i.InstructorID
                 WHERE (@RoomID IS NULL OR s.RoomID = @RoomID)
