@@ -78,6 +78,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.DropDownList DropDownList2;
 
         /// <summary>
+        /// Calendar3 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Calendar Calendar3;
+
+        /// <summary>
         /// UpdatePanelGridView control.
         /// </summary>
         /// <remarks>
@@ -150,6 +159,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox RRoomNumberTB;
 
         /// <summary>
+        /// RRemarksTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox RRemarksTB;
+
+        /// <summary>
         /// SelectBuildingDL control.
         /// </summary>
         /// <remarks>
@@ -186,13 +204,22 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox EndDateTB;
 
         /// <summary>
-        /// RTimeDL control.
+        /// RTimeStart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList RTimeDL;
+        protected global::System.Web.UI.WebControls.DropDownList RTimeStart;
+
+        /// <summary>
+        /// RTimeEnd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RTimeEnd;
 
         /// <summary>
         /// DeployBtn control.

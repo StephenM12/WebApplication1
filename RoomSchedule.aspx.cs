@@ -12,8 +12,6 @@ using System.Globalization;
 
 //file processing
 using System.IO;
-using System.Threading.Tasks;
-using System.Web.UI.WebControls;
 using WebApplication1.cs_files;
 
 namespace WebApplication1
@@ -31,16 +29,7 @@ namespace WebApplication1
             public TimeSpan EndTime { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
-        }
-
-        private (int roomID, int sectionID, int courseID, int instructorID) CheckAndInsertValues(SqlConnection connection, string room, string section, string course, string instructor)
-        {
-            int roomID = GetOrInsertRoom(connection, room);
-            int sectionID = GetOrInsertSection(connection, section);
-            int courseID = GetOrInsertCourse(connection, course);
-            int instructorID = GetOrInsertInstructor(connection, instructor);
-
-            return (roomID, sectionID, courseID, instructorID);
+            public string Remarks { get; set; }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -49,18 +38,15 @@ namespace WebApplication1
             SqlConnection connection = dbConnection.GetConnection();
             if (connection.State == System.Data.ConnectionState.Open)
             {
-                
                 if (!IsPostBack)
                 {
                     dropdown_Data(sender, e);
                     room_dropdown_Data(sender, e);
 
                     BindScheduleData(sender, e);
-                    
                 }
             }
         }
-
 
         protected void Upload_File(object sender, EventArgs e)
         {
@@ -177,8 +163,10 @@ namespace WebApplication1
                                 {
                                     //hmmm try 4
                                     string day = worksheet.Cells[5, col].Text; // Assuming row 3 contains day names
-                                                                               // Get DayID from days_of_week table based on day name
-                                    int dayID = GetDayID(day, connection);
+
+                                    // Get DayID from days_of_week table based on day name
+                                    int dayID = GetDayID(day);
+
 
                                     string schedule = worksheet.Cells[row, col].Text;
 
@@ -208,21 +196,15 @@ namespace WebApplication1
                                             }
                                             //Response.Write($"Room: {currentRoom}, Section: {section}, CourseCode: {courseCode}, Instructor: {instructor}, Day: {dayID}, StartTime: {time.Split('-')[0]}, EndTime: {time.Split('-')[1]}, StartDate: {DateTime.Today.ToShortDateString()}, EndDate: {DateTime.Today.ToShortDateString()}<br />");
                                             // Create a new ScheduleRow object
-                                            var ids = CheckAndInsertValues(connection, currentRoom, section, courseCode, instructor);
-
-                                            //// Parse the string using ParseExact with custom format specifier
-                                            //DateTime parsedTime = DateTime.ParseExact(timeParts[0], "h:mmtt", CultureInfo.InvariantCulture);
-                                            //TimeSpan timeOfDay = parsedTime.TimeOfDay;
-
-                                            //// Parse the string using ParseExact with custom format specifier
-                                            //DateTime END_parsedTime = DateTime.ParseExact(timeParts[1], "h:mmtt", CultureInfo.InvariantCulture);
-                                            //TimeSpan END_timeOfDay = END_parsedTime.TimeOfDay;
 
                                             DateTime parsedTime = DateTime.ParseExact(timeParts[0].Trim(), "h:mmtt", CultureInfo.InvariantCulture);
                                             TimeSpan timeOfDay = parsedTime.TimeOfDay;
 
                                             DateTime END_parsedTime = DateTime.ParseExact(timeParts[1].Trim(), "h:mmtt", CultureInfo.InvariantCulture);
                                             TimeSpan END_timeOfDay = END_parsedTime.TimeOfDay;
+
+                                            get_ID dbHelper = new get_ID();
+                                            var ids = dbHelper.CheckAndInsertValues(connection, currentRoom, section, courseCode, instructor);
 
                                             ScheduleRow newRow = new ScheduleRow
                                             {
@@ -231,14 +213,11 @@ namespace WebApplication1
                                                 CourseID = ids.courseID == -1 ? (object)DBNull.Value : ids.courseID,
                                                 InstructorID = ids.instructorID == -1 ? (object)DBNull.Value : ids.instructorID,
                                                 Day = dayID,
-                                                //StartTime = TimeSpan.Parse(time.Split('-')[0].Replace("AM", "").Replace("PM", "").Trim()),
-                                                //EndTime = TimeSpan.Parse(time.Split('-')[1].Replace("AM", "").Replace("PM", "").Trim()),
-
                                                 StartTime = timeOfDay,
                                                 EndTime = END_timeOfDay,
-
                                                 StartDate = Calendar1.SelectedDate,
-                                                EndDate = Calendar2.SelectedDate
+                                                EndDate = Calendar2.SelectedDate,
+                                                Remarks = null // Set remarks to null
                                             };
 
                                             // Add the new row to the list
@@ -267,6 +246,7 @@ namespace WebApplication1
                             bulkCopy.ColumnMappings.Add("EndTime", "EndTime");
                             bulkCopy.ColumnMappings.Add("StartDate", "StartDate");
                             bulkCopy.ColumnMappings.Add("EndDate", "EndDate");
+                            bulkCopy.ColumnMappings.Add("Remarks", "Remarks");
 
                             // Perform the bulk copy
                             bulkCopy.WriteToServer(scheduleDataTable);
@@ -275,11 +255,9 @@ namespace WebApplication1
                         }
                     }
 
-
-
+                    //will update the contents of this:
+                    room_dropdown_Data(null, EventArgs.Empty);
                     BindScheduleData(null, EventArgs.Empty);
-
-
                 }
             }
         }
@@ -293,11 +271,13 @@ namespace WebApplication1
             dataTable.Columns.Add("SectionID", typeof(object));
             dataTable.Columns.Add("CourseID", typeof(object));
             dataTable.Columns.Add("InstructorID", typeof(object));
+
             dataTable.Columns.Add("Day", typeof(string));
             dataTable.Columns.Add("StartTime", typeof(TimeSpan)); // Adjusted to TimeSpan
             dataTable.Columns.Add("EndTime", typeof(TimeSpan)); // Adjusted to TimeSpan
             dataTable.Columns.Add("StartDate", typeof(DateTime));
             dataTable.Columns.Add("EndDate", typeof(DateTime));
+            dataTable.Columns.Add("Remarks", typeof(string));
 
             // Fill the DataTable with data from List<ScheduleRow>
             foreach (var scheduleRow in scheduleRows)
@@ -312,142 +292,125 @@ namespace WebApplication1
                 row["EndTime"] = scheduleRow.EndTime;
                 row["StartDate"] = scheduleRow.StartDate;
                 row["EndDate"] = scheduleRow.EndDate;
+                row["Remarks"] = DBNull.Value;
                 dataTable.Rows.Add(row);
             }
 
             return dataTable;
         }
 
-
         protected void DeployBTNclk(object sender, EventArgs e)
         {
-            string courseCode = RCourseCodeTB.Text; //course code
-            //string sec = RSectionTB.Text; //section
-            string prof = RProfTB.Text; //prof/instructor
-            string room = RRoomNumberTB.Text; //room number
-            string selectedCollege = RFacultyDL.SelectedItem.Text; //college value
-            string selectedTimerealValue = RTimeDL.SelectedItem.Text; //Selected Time
-            string selectedTime = RTimeDL.SelectedValue; //Selected Time ID
-            string building = SelectBuildingDL.SelectedItem.Text;
+            // Open database connection
+            SqlConnection connection = dbConnection.GetConnection();
 
-            ////calendar code:
-            var dateStr = SelectDateTB.Text; //YYYY-MM-DD
-            DateTime date; //attempts to parse the dateStr string into a DateTime object
-            DateTime.TryParse(dateStr, out date);
-            string dayOfWeekString = date.ToString("dddd");//print Monday-Sunday
-
-
-        }
-
-        private int GetOrInsertRoom(SqlConnection connection, string room)
-        {
-            // Example logic for retrieving or inserting a room
-            string query = "SELECT RoomID FROM Rooms WHERE RoomName = @RoomName";
-            using (SqlCommand command = new SqlCommand(query, connection))
+            try
             {
-                command.Parameters.AddWithValue("@RoomName", room);
-                object result = command.ExecuteScalar();
-                if (result != null)
+               
+                // Retrieve values from the form controls
+                string roomNumber = RRoomNumberTB.Text;
+                string section = RSectionTB.Text;
+                string courseCode = RCourseCodeTB.Text;
+                string professor = RProfTB.Text;
+                string remarks = RRemarksTB.Text;
+                int buildingId = int.Parse(SelectBuildingDL.SelectedValue);
+                string faculty = RFacultyDL.SelectedValue;//WILL BE USED FOR BOOKING LATER
+                DateTime startDate = DateTime.Parse(SelectDateTB.Text);
+                DateTime endDate = DateTime.Parse(EndDateTB.Text);
+                string startTime = RTimeStart.SelectedItem.Text;
+                string endTime = RTimeEnd.SelectedItem.Text;
+
+                get_ID add_dbHelper = new get_ID();
+                var add_Ids = add_dbHelper.CheckAndInsertValues(connection, roomNumber, section, courseCode, professor);
+
+                int roomID = add_Ids.roomID;
+                int sectionID = add_Ids.sectionID;
+                int courseID = add_Ids.courseID;
+                int instructorID = add_Ids.instructorID;
+
+                DateTime parsedStartTime = DateTime.ParseExact(startTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+                TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
+
+                DateTime parsedEndTime = DateTime.ParseExact(endTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+                TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
+
+                // Loop through each date between startDate and endDate
+                for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
                 {
-                    return Convert.ToInt32(result);
+                    // Get the day of the week and corresponding DayID
+                    string dayName = date.DayOfWeek.ToString();
+                    int dayID = GetDayID(dayName);
+
+                    // Construct the SQL insert query
+                    string insertQuery = @"
+                    INSERT INTO Schedule (RoomID, SectionID, CourseID, InstructorID, DayID, StartTime, EndTime, StartDate, EndDate, Remarks)
+                    VALUES (@RoomID, @SectionID, @CourseID, @InstructorID, @DayID, @StartTime, @EndTime, @StartDate, @EndDate, @Remarks)";
+
+                    using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
+                    {
+                        // Add parameters to the command
+                        cmd.Parameters.AddWithValue("@RoomID", roomID);
+                        cmd.Parameters.AddWithValue("@SectionID", sectionID);
+                        cmd.Parameters.AddWithValue("@CourseID", courseID);
+                        cmd.Parameters.AddWithValue("@InstructorID", instructorID);
+                        cmd.Parameters.AddWithValue("@DayID", dayID);
+                        cmd.Parameters.AddWithValue("@StartTime", startTimeOfDay);
+                        cmd.Parameters.AddWithValue("@EndTime", endTimeOfDay);
+                        cmd.Parameters.AddWithValue("@StartDate", date);
+                        cmd.Parameters.AddWithValue("@EndDate", date); // Assuming the same date for start and end in this context
+                        cmd.Parameters.AddWithValue("@Remarks", remarks);
+
+                        // Execute the insert command
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
-
-            string insertQuery = "INSERT INTO Rooms (RoomName) OUTPUT INSERTED.RoomID VALUES (@RoomName)";
-            using (SqlCommand command = new SqlCommand(insertQuery, connection))
+            catch (Exception ex)
             {
-                command.Parameters.AddWithValue("@RoomName", room);
-                return (int)command.ExecuteScalar();
+                // Handle exceptions
+                Response.Write("Error: " + ex.Message);
+            }
+            finally
+            {
+                //will update the contents of this:
+                room_dropdown_Data(null, EventArgs.Empty);
+                BindScheduleData(null, EventArgs.Empty);
+
+                // Close the connection
+                connection.Close();
             }
         }
 
-        private int GetOrInsertSection(SqlConnection connection, string section)
+        private int GetDayID(string dayName)
         {
-            // Example logic for retrieving or inserting a section
-            string query = "SELECT SectionID FROM Sections WHERE SectionName = @SectionName";
-            using (SqlCommand command = new SqlCommand(query, connection))
+           
+            switch (dayName)
             {
-                command.Parameters.AddWithValue("@SectionName", section);
-                object result = command.ExecuteScalar();
-                if (result != null)
-                {
-                    return Convert.ToInt32(result);
-                }
-            }
+                case "Sunday":
+                    return 1;
 
-            string insertQuery = "INSERT INTO Sections (SectionName) OUTPUT INSERTED.SectionID VALUES (@SectionName)";
-            using (SqlCommand command = new SqlCommand(insertQuery, connection))
-            {
-                command.Parameters.AddWithValue("@SectionName", section);
-                return (int)command.ExecuteScalar();
-            }
-        }
+                case "Monday":
+                    return 2;
 
-        private int GetOrInsertCourse(SqlConnection connection, string course)
-        {
-            // Example logic for retrieving or inserting a course
-            string query = "SELECT CourseID FROM Courses WHERE CourseCode = @CourseCode";
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@CourseCode", course);
-                object result = command.ExecuteScalar();
-                if (result != null)
-                {
-                    return Convert.ToInt32(result);
-                }
-            }
+                case "Tuesday":
+                    return 3;
 
-            string insertQuery = "INSERT INTO Courses (CourseCode) OUTPUT INSERTED.CourseID VALUES (@CourseCode)";
-            using (SqlCommand command = new SqlCommand(insertQuery, connection))
-            {
-                command.Parameters.AddWithValue("@CourseCode", course);
-                return (int)command.ExecuteScalar();
+                case "Wednesday":
+                    return 4;
+
+                case "Thursday":
+                    return 5;
+
+                case "Friday":
+                    return 6;
+
+                case "Saturday":
+                    return 7;
+
+                default:
+                    throw new ArgumentException("Invalid day name");
             }
         }
-
-        private int GetOrInsertInstructor(SqlConnection connection, string instructor)
-        {
-            // Example logic for retrieving or inserting an instructor
-            string query = "SELECT InstructorID FROM Instructors WHERE InstructorName = @InstructorName";
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@InstructorName", instructor);
-                object result = command.ExecuteScalar();
-                if (result != null)
-                {
-                    return Convert.ToInt32(result);
-                }
-            }
-
-            string insertQuery = "INSERT INTO Instructors (InstructorName) OUTPUT INSERTED.InstructorID VALUES (@InstructorName)";
-            using (SqlCommand command = new SqlCommand(insertQuery, connection))
-            {
-                command.Parameters.AddWithValue("@InstructorName", instructor);
-                return (int)command.ExecuteScalar();
-            }
-        }
-
-        private int GetDayID(string dayName, SqlConnection connection)
-        {
-            int dayID = 0;
-            string query = "SELECT day_id FROM days_of_week WHERE day = @DayName;";
-
-            using (SqlCommand command = new SqlCommand(query, connection))
-            {
-                command.Parameters.AddWithValue("@DayName", dayName);
-                object result = command.ExecuteScalar();
-                if (result != null)
-                {
-                    dayID = Convert.ToInt32(result);
-                }
-                // Handle case where dayName is not found in days_of_week table
-            }
-
-            return dayID;
-        }
-
-
-
 
         protected void dropdown_Data(object sender, EventArgs e)
         {
@@ -489,7 +452,6 @@ namespace WebApplication1
 
         protected void Bind_Uploaded_GridView(object sender, EventArgs e)
         {
-            
             //string selected_ID = DropDownList1.SelectedValue;
 
             //try
@@ -562,40 +524,49 @@ namespace WebApplication1
             //{
             //    Response.Write("Failed to Show Table");
             //}
-
-
         }
 
-        
         protected void BindScheduleData(object sender, EventArgs e)
         {
             string selected_ID_ROOM = DropDownList2.SelectedValue;
+            DateTime selectedDate = Calendar1.SelectedDate;
+
+            // Check if a date is selected, otherwise use today's date or a default date within the valid range
+            if (Calendar3.SelectedDate == DateTime.MinValue)
+            {
+                // If no date is selected, use today's date as a default
+                selectedDate = DateTime.Today;
+            }
+            else
+            {
+                selectedDate = Calendar3.SelectedDate;
+            }
 
             string query = @"
                 SELECT
                 CONVERT(varchar, s.StartTime, 100) + '-' + CONVERT(varchar, s.EndTime, 100) AS [Time],
-                MAX(CASE WHEN s.DayID = 1 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Monday],
-                MAX(CASE WHEN s.DayID = 2 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Tuesday],
-                MAX(CASE WHEN s.DayID = 3 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Wednesday],
-                MAX(CASE WHEN s.DayID = 4 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Thursday],
-                MAX(CASE WHEN s.DayID = 5 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Friday],
-                MAX(CASE WHEN s.DayID = 6 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Saturday],
-                MAX(CASE WHEN s.DayID = 7 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Sunday]
+                MAX(CASE WHEN s.DayID = 1 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Sunday],
+                MAX(CASE WHEN s.DayID = 2 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Monday],
+                MAX(CASE WHEN s.DayID = 3 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Tuesday],
+                MAX(CASE WHEN s.DayID = 4 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Wednesday],
+                MAX(CASE WHEN s.DayID = 5 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Thursday],
+                MAX(CASE WHEN s.DayID = 6 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Friday],
+                MAX(CASE WHEN s.DayID = 7 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Saturday]
                 FROM Schedule s
-                JOIN Sections sec ON s.SectionID = sec.SectionID
+                JOIN Sections sec ON s.SectionID = sec.SectionID 
                 JOIN Courses c ON s.CourseID = c.CourseID
                 JOIN Instructors i ON s.InstructorID = i.InstructorID
                 WHERE (@RoomID IS NULL OR s.RoomID = @RoomID)
+                AND @SelectedDate BETWEEN s.StartDate AND s.EndDate
                 GROUP BY s.StartTime, s.EndTime
-                ORDER BY s.StartTime; ";
+                ORDER BY s.StartTime;";
 
             using (SqlConnection connection = dbConnection.GetConnection())
             {
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
-                    //cmd.Parameters.AddWithValue("@RoomID", (object)roomId ?? DBNull.Value);
-
                     cmd.Parameters.AddWithValue("@RoomID", selected_ID_ROOM);
+                    cmd.Parameters.AddWithValue("@SelectedDate", selectedDate);
 
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
@@ -608,23 +579,9 @@ namespace WebApplication1
             }
         }
 
-        protected void GridView1_RowDataBound(object sender, GridViewRowEventArgs e)
+        protected void Calendar1_SelectionChanged(object sender, EventArgs e)
         {
-            if (e.Row.RowType == DataControlRowType.DataRow)
-            {
-                e.Row.Cells[1].Text = e.Row.Cells[1].Text.Replace(".", "</br>");
-                e.Row.Cells[2].Text = e.Row.Cells[2].Text.Replace(".", "</br>");
-                e.Row.Cells[3].Text = e.Row.Cells[3].Text.Replace(".", "</br>");
-                e.Row.Cells[4].Text = e.Row.Cells[4].Text.Replace(".", "</br>");
-                e.Row.Cells[5].Text = e.Row.Cells[5].Text.Replace(".", "</br>");
-                e.Row.Cells[6].Text = e.Row.Cells[6].Text.Replace(".", "</br>");
-                e.Row.Cells[7].Text = e.Row.Cells[7].Text.Replace(".", "</br>");
-            }
-        }
-
-
-        protected void Calendar2_SelectionChanged(object sender, EventArgs e)
-        {
+            BindScheduleData(sender, e);
         }
     }
 }

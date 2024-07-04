@@ -267,6 +267,7 @@
     <Compile Include="cs files\createAcc_Validation.cs" />
     <Compile Include="cs files\dbConnection.cs" />
     <Compile Include="cs files\emailSender.cs" />
+    <Compile Include="cs files\get_ID.cs" />
     <Compile Include="cs files\pinGenerator.cs" />
     <Compile Include="cs files\pin_Valid_check.cs" />
     <Compile Include="cs files\user_Identity.cs" />
