@@ -24,6 +24,37 @@ namespace WebApplication1.cs_files
             return (roomID, sectionID, courseID, instructorID);
         }
 
+        public int GetDayID(string dayName)
+        {
+
+            switch (dayName)
+            {
+                case "Sunday":
+                    return 1;
+
+                case "Monday":
+                    return 2;
+
+                case "Tuesday":
+                    return 3;
+
+                case "Wednesday":
+                    return 4;
+
+                case "Thursday":
+                    return 5;
+
+                case "Friday":
+                    return 6;
+
+                case "Saturday":
+                    return 7;
+
+                default:
+                    throw new ArgumentException("Invalid day name");
+            }
+        }
+
         private int GetOrInsertRoom(SqlConnection connection, string room)
         {
             // Example logic for retrieving or inserting a room
