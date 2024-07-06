@@ -1,13 +1,22 @@
-﻿.full-width {
-    width: 2000px;
-    max-width: none;
-}
-
-.bg-color {
+﻿.bg-color {
     background-color: #3B1867;
 }
 
-.width {
-    width: 450px;
-    max-width: none;
+/* Media Queries */
+@media (min-width: 576px) {
+    .card {
+        width: 100%;
+    }
+}
+
+@media (min-width: 768px) {
+    .card {
+        width: 75%;
+    }
+}
+
+@media (min-width: 992px) {
+    .card {
+        width: 50%;
+    }
 }

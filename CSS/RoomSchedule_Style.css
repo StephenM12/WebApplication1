@@ -1,16 +1,24 @@
-﻿
-.bg-color {
+﻿.bg-color {
     background-color: #3B1867;
 }
 
 .full-width {
-    width: 100%; 
+    width: 100%;
 }
 
 .container {
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh; /* Optional: to center vertically within the viewport */
+}
+
+.center-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin: 10px 0; /* Optional: space between elements */
 }
 
 .calendar-container {

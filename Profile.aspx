@@ -7,24 +7,24 @@
     <form id="form1" runat="server">
 
         <!-- Account details card-->
-        <div class="card mb-4 w-100">
+        <div class="card mb-4 w-50">
             <div class="card-header" style="font-weight: bold;">Account Information</div>
             <div class="card-body" style="font-weight: bold;">
 
                 <!-- Form Group (username)-->
                 <div class="mb-3">
                     <label class="small mb-1" for="inputUsername">Name</label>
-                    <asp:TextBox ID="PNameTB" runat="server" CssClass="full-width form-control"></asp:TextBox>
+                    <asp:TextBox ID="PNameTB" runat="server" CssClass="width form-control"></asp:TextBox>
                 </div>
                 <!-- Form Group (first name)-->
                 <div class="mb-3">
                     <label class="small mb-1" for="inputFirstName">Username</label>
-                    <asp:TextBox ID="PUsernameTB" runat="server" CssClass="full-width form-control"></asp:TextBox>
+                    <asp:TextBox ID="PUsernameTB" runat="server" CssClass="width form-control"></asp:TextBox>
                 </div>
                 <!-- Form Group (organization name)-->
                 <div class="mb-3">
                     <label class="small mb-1" for="inputOrgName">Email</label>
-                    <asp:TextBox ID="PEmailTB" runat="server" CssClass="full-width form-control"></asp:TextBox>
+                    <asp:TextBox ID="PEmailTB" runat="server" CssClass="width form-control"></asp:TextBox>
                 </div>
 
                 <!--Update Profile Modal Button-->
@@ -69,7 +69,7 @@
 
 
         <!--Change Password-->
-        <div class="card mb-4 w-100">
+        <div class="card mb-4 w-50">
             <div class="card-header" style="font-weight: bold;">Change Password</div>
             <div class="card-body">
                 <!-- Button trigger modal -->
