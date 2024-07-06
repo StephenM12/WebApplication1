@@ -29,6 +29,7 @@
                 </div>
             </div>
 
+            <%--original room table--%>
             <div id="roomCards" class="row">
                 <!-- Rizal Building Rooms -->
                 <div class="col-md-3 mb-3 room-card" data-building="Rizal" id="room1">
@@ -37,10 +38,10 @@
                             <h5 class="card-title">R101</h5>
                             <p class="card-text">Available</p>
                         </div>
-                    </div>
+                    </div> 
                 </div>
 
-                <div class="col-md-3 mb-3 room-card" data-building="Rizal" id="room2">
+               <%-- <div class="col-md-3 mb-3 room-card" data-building="Rizal" id="room2">
                     <div class="card text-white bg-danger">
                         <div class="card-body">
                             <h5 class="card-title">R102</h5>
@@ -133,7 +134,7 @@
                             <p class="card-text">Not Available</p>
                         </div>
                     </div>
-                </div>
+                </div>--%>
 
 
                 <!-- Repeat for remaining rooms in Rizal Building -->
@@ -213,6 +214,10 @@
 
                 <!-- Repeat for remaining rooms in ETYCB Building -->
             </div>
+        <!-- Add more rooms as needed -->
+   
+
+
         </div>
         <asp:PlaceHolder runat="server">
             <script src="Scripts/home.js"></script>

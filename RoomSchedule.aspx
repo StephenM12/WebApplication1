@@ -17,9 +17,14 @@
                 <asp:Button ID="Button1" runat="server" Text="Upload file" OnClick="Upload_File" />
             </div>
             <div>
-                <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Bind_Uploaded_GridView">
+                <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" >
                 </asp:DropDownList>
             </div>
+           <%-- <div>
+                <asp:DropDownList ID="DropDownList3" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Bind_Uploaded_GridView">
+                </asp:DropDownList>
+            </div>--%>
+
             <div>
                 <asp:UpdatePanel runat="server">
                     <ContentTemplate>
@@ -35,15 +40,22 @@
                 </asp:UpdatePanel>
             </div>
             <div>
-                <asp:DropDownList ID="DropDownList2" runat="server" AutoPostBack="true" OnSelectedIndexChanged="BindScheduleData"></asp:DropDownList>
+                <asp:UpdatePanel runat="server">
+                    <ContentTemplate>   
+                        <asp:DropDownList ID="DropDownList2" runat="server" AutoPostBack="true" OnSelectedIndexChanged="BindScheduleData"></asp:DropDownList>
+                    </ContentTemplate>
+
+                </asp:UpdatePanel>
+                
             </div>
+            <div>  <asp:Calendar ID="Calendar3" runat="server" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>  </div>
 
             <div class="row align-items-center">
                 <div class="schedule-container col-sm-9">
                     <asp:UpdatePanel runat="server" ID="UpdatePanelGridView">
                         <ContentTemplate>
                             <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
-                                BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True"
+                                BorderWidth="2px" CellPadding="3" CellSpacing="1"  AutoGenerateColumns="False" ShowHeaderWhenEmpty="True"
                                 EmptyDataText="No records found">
                                 <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
                                 <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" CssClass="schedule-gridview" />
@@ -66,10 +78,12 @@
                                     <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
                                 </Columns>
                             </asp:GridView>
+                           
                         </ContentTemplate>
                     </asp:UpdatePanel>
                 </div>
             </div>
+            
         </div>
 
         <!-- Start of Modal Button-->
@@ -125,11 +139,16 @@
                         </div>
 
                         <div class="form-outline mb-4">
+                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Remarks : (Optional)</label>
+                            <asp:TextBox ID="RRemarksTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Remarks"></asp:TextBox>
+                        </div>
+
+                        <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label>
                             <asp:DropDownList ID="SelectBuildingDL" runat="server">
-                                <asp:ListItem Text="RIZAL" Value="Value1"></asp:ListItem>
-                                <asp:ListItem Text="EINSTEIN" Value="Value2"></asp:ListItem>
-                                <asp:ListItem Text="ETYCB" Value="Value3"></asp:ListItem>
+                                <asp:ListItem Text="RIZAL" Value="1"></asp:ListItem>
+                                <asp:ListItem Text="EINSTEIN" Value="2"></asp:ListItem>
+                                <asp:ListItem Text="ETYCB" Value="3"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
 
@@ -159,23 +178,42 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row align-items-center">
+                            <div class="form-outline mb-4">
+                                <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Start Time:</label>
+                                <asp:DropDownList ID="RTimeStart" runat="server">
+                                    <asp:ListItem Text="7:00AM" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="8:15AM" Value="2"></asp:ListItem>
+                                    <asp:ListItem Text="9:30AM" Value="3"></asp:ListItem>
+                                    <asp:ListItem Text="10:45AM" Value="4"></asp:ListItem>
+                                    <asp:ListItem Text="12:00PM" Value="5"></asp:ListItem>
+                                    <asp:ListItem Text="1:15PM" Value="6"></asp:ListItem>
+                                    <asp:ListItem Text="2:30PM" Value="7"></asp:ListItem>
+                                    <asp:ListItem Text="3:45PM" Value="8"></asp:ListItem>
+                                    <asp:ListItem Text="5:00PM" Value="9"></asp:ListItem>
+                                    <asp:ListItem Text="6:15PM" Value="10"></asp:ListItem>
+                                    <asp:ListItem Text="7:30PM" Value="11"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
 
-                        <div class="form-outline mb-4">
-                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Time:</label>
-                            <asp:DropDownList ID="RTimeDL" runat="server">
-                                <asp:ListItem Text="7:15 AM - 8:15 AM" Value="1"></asp:ListItem>
-                                <asp:ListItem Text="8:15 AM - 9:30 AM" Value="2"></asp:ListItem>
-                                <asp:ListItem Text="9:30 AM - 10:45 AM" Value="3"></asp:ListItem>
-                                <asp:ListItem Text="10:45 AM - 12:00 PM" Value="4"></asp:ListItem>
-                                <asp:ListItem Text="12:00 PM - 1:15 PM" Value="5"></asp:ListItem>
-                                <asp:ListItem Text="1:15 PM - 2:30 PM" Value="6"></asp:ListItem>
-                                <asp:ListItem Text="2:30 PM - 3:45 PM" Value="7"></asp:ListItem>
-                                <asp:ListItem Text="3:45 PM - 5:00 PM" Value="8"></asp:ListItem>
-                                <asp:ListItem Text="5:00 PM - 6:15 PM" Value="9"></asp:ListItem>
-                                <asp:ListItem Text="6:15 PM - 7:30 PM" Value="10"></asp:ListItem>
-                                <asp:ListItem Text="7:30 PM - 8:45 PM" Value="11"></asp:ListItem>
-                            </asp:DropDownList>
+                            <div class="form-outline mb-4">
+                                <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">End Time:</label>
+                                <asp:DropDownList ID="RTimeEnd" runat="server">
+                                    <asp:ListItem Text="8:15AM" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="9:30AM" Value="2"></asp:ListItem>
+                                    <asp:ListItem Text="10:45AM" Value="3"></asp:ListItem>
+                                    <asp:ListItem Text="12:00PM" Value="4"></asp:ListItem>
+                                    <asp:ListItem Text="1:15PM" Value="5"></asp:ListItem>
+                                    <asp:ListItem Text="2:30PM" Value="6"></asp:ListItem>
+                                    <asp:ListItem Text="3:45PM" Value="7"></asp:ListItem>
+                                    <asp:ListItem Text="5:00PM" Value="8"></asp:ListItem>
+                                    <asp:ListItem Text="6:15PM" Value="9"></asp:ListItem>
+                                    <asp:ListItem Text="7:30PM" Value="10"></asp:ListItem>
+                                    <asp:ListItem Text="8:45PM" Value="11"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
                         </div>
+
                         <br />
                         <asp:Button ID="DeployBtn" runat="server" Text="Deploy" CssClass="btn btn-primary btn-block full-width bg-color fa-lg" OnClick="DeployBTNclk" />
                     </div>

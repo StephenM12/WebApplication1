@@ -5,7 +5,7 @@ using System.Web;
 //sql connection:
 using System.Data.SqlClient;
 using System.Data;
-using WebApplication1.cs_files;
+//using WebApplication1.cs_files;
 
 
 namespace WebApplication1.cs_files
