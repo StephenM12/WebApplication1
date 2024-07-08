@@ -42,31 +42,22 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.FileUpload FileUpload1;
 
         /// <summary>
-        /// DropDownList1 control.
+        /// calendar_TB1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList DropDownList1;
+        protected global::System.Web.UI.WebControls.TextBox calendar_TB1;
 
         /// <summary>
-        /// TextBox1 control.
+        /// calendar_TB2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox1;
-
-        /// <summary>
-        /// TextBox2 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox TextBox2;
+        protected global::System.Web.UI.WebControls.TextBox calendar_TB2;
 
         /// <summary>
         /// RUCancelBtn control.
@@ -96,15 +87,6 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.DropDownList DropDownList2;
 
         /// <summary>
-        /// GridView1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView GridView1;
-
-        /// <summary>
         /// Calendar3 control.
         /// </summary>
         /// <remarks>
@@ -112,6 +94,24 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Calendar Calendar3;
+
+        /// <summary>
+        /// UpdatePanelGridView control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.UpdatePanel UpdatePanelGridView;
+
+        /// <summary>
+        /// GridView1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.GridView GridView1;
 
         /// <summary>
         /// RAddSchedBtn control.
@@ -168,6 +168,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox RRoomNumberTB;
 
         /// <summary>
+        /// RRemarksTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox RRemarksTB;
+
+        /// <summary>
         /// SelectBuildingDL control.
         /// </summary>
         /// <remarks>
@@ -204,13 +213,22 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox EndDateTB;
 
         /// <summary>
-        /// RTimeDL control.
+        /// RTimeStart control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList RTimeDL;
+        protected global::System.Web.UI.WebControls.DropDownList RTimeStart;
+
+        /// <summary>
+        /// RTimeEnd control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList RTimeEnd;
 
         /// <summary>
         /// DeployBtn control.

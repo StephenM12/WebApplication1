@@ -10,13 +10,12 @@
     <form id="form1" runat="server">
         <asp:ScriptManager runat="server"></asp:ScriptManager>
         <div>
-            <br />
             <div class="row">
+
                 <!-- Button to open the modal -->
                 <div class="button-container">
                     <asp:Button ID="RUploadFileBtn" runat="server" Text="Choose File" CssClass="upload-button btn btn-primary bg-color" OnClientClick="openupload(); return false;" />
                 </div>
-
                 <script type="text/javascript">
                     function openupload() {
                         $('#uploadModal').modal('show');
@@ -36,132 +35,98 @@
                                 <div class="mb-3">
                                     <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
                                 </div>
-                                
-                                <div class="mb-3">
-                                    <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Bind_Uploaded_GridView" CssClass="form-select">
-                                    </asp:DropDownList>
-                                </div>
-                                <br />
-                                <!-- Start Date in Modal Button-->
                                 <div class="form-outline mb-4">
                                     <div class="row align-items-center">
+
+                                        <%--<div>
+                                            <asp:UpdatePanel runat="server">
+                                                <ContentTemplate>
+                                                    <asp:Calendar ID="Calendar1" runat="server"></asp:Calendar>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>
+                                        </div>
+                                        <div>
+                                            <asp:UpdatePanel runat="server">
+                                                <ContentTemplate>
+                                                    <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
+                                                </ContentTemplate>
+                                            </asp:UpdatePanel>--%>
+
+                                        <!-- Start Date in Modal Button-->
                                         <div class="col-sm-6">
                                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Date:</label>
-                                            <asp:TextBox ID="TextBox1" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox ID="calendar_TB1" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
                                         </div>
 
                                         <!-- End Date in Modal Button-->
                                         <div class="col-sm-6">
                                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select End Date:</label>
-                                            <asp:TextBox ID="TextBox2" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                                            <asp:TextBox ID="calendar_TB2" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="modal-footer">
-                                <asp:Button ID="RUCancelBtn" runat="server" Text="Cancel" CssClass="bg-color btn btn-primary bg-color" />
-                                 <asp:Button ID="Button1" runat="server" Text="Upload file" OnClick="Upload_File" CssClass="btn btn-primary bg-color" />
+                                <br />
+                                <div class="modal-footer">
+                                    <asp:Button ID="RUCancelBtn" runat="server" Text="Cancel" CssClass="bg-color btn btn-primary bg-color" />
+                                    <asp:Button ID="Button1" runat="server" Text="Upload file" OnClick="Upload_File" CssClass="btn btn-primary bg-color" />
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-
-
-
-                <%--</div>
-            <div>
-                <asp:Button ID="Button1" runat="server" Text="Upload file" OnClick="Upload_File" />
             </div>
-            <div>
-                <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true" OnSelectedIndexChanged="Bind_Uploaded_GridView">
+            <%--modal end here--%>
+        </div>
+
+        <%--            <div>
+                <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true">
                 </asp:DropDownList>
-            </div>
-            <div>--%>
+            </div>--%>
 
-                <%--<asp:UpdatePanel runat="server">
+        <div>
+            <asp:UpdatePanel runat="server">
+                <ContentTemplate>
+                    <asp:DropDownList ID="DropDownList2" runat="server" AutoPostBack="true" OnSelectedIndexChanged="BindScheduleData"></asp:DropDownList>
+                </ContentTemplate>
+            </asp:UpdatePanel>
+        </div>
+        <div>
+            <asp:Calendar ID="Calendar3" runat="server" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="schedule-container col-sm-9">
+                <asp:UpdatePanel runat="server" ID="UpdatePanelGridView">
                     <ContentTemplate>
-                        <asp:Calendar ID="Calendar1" runat="server"></asp:Calendar>
+                        <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
+                            BorderWidth="2px" CellPadding="3" CellSpacing="1" AutoGenerateColumns="false" ShowHeaderWhenEmpty="True"
+                            EmptyDataText="No records found">
+                            <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
+                            <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" CssClass="schedule-gridview" />
+                            <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />
+                            <RowStyle BackColor="#DEDFDE" ForeColor="Black" CssClass="schedule-gridview" />
+                            <SelectedRowStyle BackColor="#9471DE" Font-Bold="True" ForeColor="White" />
+                            <SortedAscendingCellStyle BackColor="#F1F1F1" />
+                            <SortedAscendingHeaderStyle BackColor="#594B9C" />
+                            <SortedDescendingCellStyle BackColor="#CAC9C9" />
+                            <SortedDescendingHeaderStyle BackColor="#33276A" />
+
+                            <Columns>
+                                <asp:BoundField DataField="Time" HeaderText="Time" />
+                                <asp:BoundField DataField="Monday" HeaderText="Monday" />
+                                <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
+                                <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
+                                <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
+                                <asp:BoundField DataField="Friday" HeaderText="Friday" />
+                                <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
+                                <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
+                            </Columns>
+                        </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>
-            <div>
-                <asp:UpdatePanel runat="server">
-                    <ContentTemplate>
-                        <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
-                    </ContentTemplate>
-                </asp:UpdatePanel>
-            </div>
-            <div>--%>
-       
-                </div>
-            <br />
-                <asp:DropDownList ID="DropDownList2" runat="server" AutoPostBack="true" OnSelectedIndexChanged="BindScheduleData"></asp:DropDownList>
-            </div>
-
-            <div class="row align-items-center">
-                <%--                to save the file that been uploaded--%>
-
-                <%--<div class=" calendar-container col-3">
-                    <asp:Calendar ID="Calendar2" runat="server" OnSelectionChanged="Calendar2_SelectionChanged"></asp:Calendar>
-                </div>--%>
-
-                <div class="schedule-container col-sm-9">
-                    <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
-                        BorderWidth="2px" CellPadding="3" CellSpacing="1" OnRowDataBound="GridView1_RowDataBound" AutoGenerateColumns="False" ShowHeaderWhenEmpty="True"
-                        EmptyDataText="No records found">
-
-                        <%--make this ToolTip false later--%>
-                        <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
-                        <HeaderStyle BackColor="#4A3C8C" Font-Bold="True" ForeColor="#E7E7FF" CssClass="schedule-gridview" />
-                        <PagerStyle BackColor="#C6C3C6" ForeColor="Black" HorizontalAlign="Right" />
-                        <RowStyle BackColor="#DEDFDE" ForeColor="Black" CssClass="schedule-gridview" />
-                        <SelectedRowStyle BackColor="#9471DE" Font-Bold="True" ForeColor="White" />
-                        <SortedAscendingCellStyle BackColor="#F1F1F1" />
-                        <SortedAscendingHeaderStyle BackColor="#594B9C" />
-                        <SortedDescendingCellStyle BackColor="#CAC9C9" />
-                        <SortedDescendingHeaderStyle BackColor="#33276A" />
-
-                        <%-- <Columns>
-                            <asp:BoundField DataField="Column 1" HeaderText="Time" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 2" HeaderText="Monday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 3" HeaderText="Tuesday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 4" HeaderText="Wednesday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 5" HeaderText="Thursday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 6" HeaderText="Friday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 7" HeaderText="Saturday" />
-                        </Columns>
-                        <Columns>
-                            <asp:BoundField DataField="Column 8" HeaderText="Sunday" />
-                        </Columns>--%>
-
-
-                        <Columns>
-                            <asp:BoundField DataField="Time" HeaderText="Time" />
-                            <asp:BoundField DataField="Monday" HeaderText="Monday" />
-                            <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
-                            <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
-                            <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
-                            <asp:BoundField DataField="Friday" HeaderText="Friday" />
-                            <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
-                            <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
-                        </Columns>
-                    </asp:GridView>
-                </div>
-            </div>
-        <br />
-        <asp:Calendar ID="Calendar3" runat="server"></asp:Calendar>
+        </div>
+        </div>
 
         <!-- Start of Modal Button-->
         <asp:Button ID="RAddSchedBtn" runat="server" Text="ADD TO SCHEDULE" CssClass="lower-right bg-color btn btn-primary bg-color" OnClientClick="openModal(); return false;" />
@@ -216,11 +181,16 @@
                         </div>
 
                         <div class="form-outline mb-4">
+                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Remarks : (Optional)</label>
+                            <asp:TextBox ID="RRemarksTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Remarks"></asp:TextBox>
+                        </div>
+
+                        <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label>
                             <asp:DropDownList ID="SelectBuildingDL" runat="server">
-                                <asp:ListItem Text="RIZAL" Value="Value1"></asp:ListItem>
-                                <asp:ListItem Text="EINSTEIN" Value="Value2"></asp:ListItem>
-                                <asp:ListItem Text="ETYCB" Value="Value3"></asp:ListItem>
+                                <asp:ListItem Text="RIZAL" Value="1"></asp:ListItem>
+                                <asp:ListItem Text="EINSTEIN" Value="2"></asp:ListItem>
+                                <asp:ListItem Text="ETYCB" Value="3"></asp:ListItem>
                             </asp:DropDownList>
                         </div>
 
@@ -250,23 +220,42 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="row align-items-center">
+                            <div class="form-outline mb-4">
+                                <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Start Time:</label>
+                                <asp:DropDownList ID="RTimeStart" runat="server">
+                                    <asp:ListItem Text="7:00AM" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="8:15AM" Value="2"></asp:ListItem>
+                                    <asp:ListItem Text="9:30AM" Value="3"></asp:ListItem>
+                                    <asp:ListItem Text="10:45AM" Value="4"></asp:ListItem>
+                                    <asp:ListItem Text="12:00PM" Value="5"></asp:ListItem>
+                                    <asp:ListItem Text="1:15PM" Value="6"></asp:ListItem>
+                                    <asp:ListItem Text="2:30PM" Value="7"></asp:ListItem>
+                                    <asp:ListItem Text="3:45PM" Value="8"></asp:ListItem>
+                                    <asp:ListItem Text="5:00PM" Value="9"></asp:ListItem>
+                                    <asp:ListItem Text="6:15PM" Value="10"></asp:ListItem>
+                                    <asp:ListItem Text="7:30PM" Value="11"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
 
-                        <div class="form-outline mb-4">
-                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Time:</label>
-                            <asp:DropDownList ID="RTimeDL" runat="server">
-                                <asp:ListItem Text="7:00 AM - 8:15 AM" Value="1"></asp:ListItem>
-                                <asp:ListItem Text="8:15 AM - 9:30 AM" Value="2"></asp:ListItem>
-                                <asp:ListItem Text="9:30 AM - 10:45 AM" Value="3"></asp:ListItem>
-                                <asp:ListItem Text="10:45 AM - 12:00 PM" Value="4"></asp:ListItem>
-                                <asp:ListItem Text="12:00 PM - 1:15 PM" Value="5"></asp:ListItem>
-                                <asp:ListItem Text="1:15 PM - 2:30 PM" Value="6"></asp:ListItem>
-                                <asp:ListItem Text="2:30 PM - 3:45 PM" Value="7"></asp:ListItem>
-                                <asp:ListItem Text="3:45 PM - 5:00 PM" Value="8"></asp:ListItem>
-                                <asp:ListItem Text="5:00 PM - 6:15 PM" Value="9"></asp:ListItem>
-                                <asp:ListItem Text="6:15 PM - 7:30 PM" Value="10"></asp:ListItem>
-                                <asp:ListItem Text="7:30 PM - 8:45 PM" Value="11"></asp:ListItem>
-                            </asp:DropDownList>
+                            <div class="form-outline mb-4">
+                                <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">End Time:</label>
+                                <asp:DropDownList ID="RTimeEnd" runat="server">
+                                    <asp:ListItem Text="8:15AM" Value="1"></asp:ListItem>
+                                    <asp:ListItem Text="9:30AM" Value="2"></asp:ListItem>
+                                    <asp:ListItem Text="10:45AM" Value="3"></asp:ListItem>
+                                    <asp:ListItem Text="12:00PM" Value="4"></asp:ListItem>
+                                    <asp:ListItem Text="1:15PM" Value="5"></asp:ListItem>
+                                    <asp:ListItem Text="2:30PM" Value="6"></asp:ListItem>
+                                    <asp:ListItem Text="3:45PM" Value="7"></asp:ListItem>
+                                    <asp:ListItem Text="5:00PM" Value="8"></asp:ListItem>
+                                    <asp:ListItem Text="6:15PM" Value="9"></asp:ListItem>
+                                    <asp:ListItem Text="7:30PM" Value="10"></asp:ListItem>
+                                    <asp:ListItem Text="8:45PM" Value="11"></asp:ListItem>
+                                </asp:DropDownList>
+                            </div>
                         </div>
+
                         <br />
                         <asp:Button ID="DeployBtn" runat="server" Text="Deploy" CssClass="btn btn-primary btn-block full-width bg-color fa-lg" OnClick="DeployBTNclk" />
                     </div>

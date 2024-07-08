@@ -40,10 +40,14 @@ namespace WebApplication1
             {
                 if (!IsPostBack)
                 {
-                    dropdown_Data(sender, e);
+                    //dropdown_Data(sender, e);
                     room_dropdown_Data(sender, e);
 
-                    BindScheduleData(sender, e);
+                    if (DropDownList2.Items.Count > 0)
+                    {
+                        DropDownList2.SelectedIndex = 0;
+                        BindScheduleData(sender, e);
+                    }
                 }
             }
         }
@@ -56,9 +60,19 @@ namespace WebApplication1
             string uploader = user_Identity.user_FName + user_Identity.user_LName; // Replace with actual uploader name
             DateTime uploadDate = DateTime.Now;
 
+            //Get the selected date from the TextBox
+            string selectedDate = calendar_TB1.Text;
+            string selectedEndDate = calendar_TB2.Text;
+
+            // Convert to DateTime directly
+            DateTime Sdate = DateTime.Parse(selectedDate);
+            DateTime Edate = DateTime.Parse(selectedEndDate);
+
+
+
             if (FileUpload1.HasFile)
             {
-                if (Calendar1.SelectedDate != DateTime.MinValue && Calendar2.SelectedDate != DateTime.MinValue)
+                if (Sdate != DateTime.MinValue && Edate != DateTime.MinValue)
                 {
                     try
                     {
@@ -165,8 +179,7 @@ namespace WebApplication1
                                     string day = worksheet.Cells[5, col].Text; // Assuming row 3 contains day names
 
                                     // Get DayID from days_of_week table based on day name
-                                    get_ID getDay = new get_ID();
-                                    int dayID = getDay.GetDayID(day);
+                                    int dayID = GetDayID(day);
 
                                     string schedule = worksheet.Cells[row, col].Text;
 
@@ -206,6 +219,16 @@ namespace WebApplication1
                                             get_ID dbHelper = new get_ID();
                                             var ids = dbHelper.CheckAndInsertValues(connection, currentRoom, section, courseCode, instructor);
 
+
+                                            //Get the selected date from the TextBox
+                                            string selectedDate = calendar_TB1.Text;
+                                            string selectedEndDate = calendar_TB2.Text;
+
+                                            // Convert to DateTime directly
+                                            DateTime Sdate = DateTime.Parse(selectedDate);
+                                            DateTime Edate = DateTime.Parse(selectedEndDate);
+
+
                                             ScheduleRow newRow = new ScheduleRow
                                             {
                                                 RoomID = ids.roomID == -1 ? (object)DBNull.Value : ids.roomID,
@@ -215,8 +238,10 @@ namespace WebApplication1
                                                 Day = dayID,
                                                 StartTime = timeOfDay,
                                                 EndTime = END_timeOfDay,
-                                                StartDate = Calendar1.SelectedDate,
-                                                EndDate = Calendar2.SelectedDate,
+                                                //StartDate = selectedSDate,
+                                                //EndDate = selectedEDate,
+                                                StartDate = Sdate,
+                                                EndDate = Edate,
                                                 Remarks = null // Set remarks to null
                                             };
 
@@ -338,9 +363,7 @@ namespace WebApplication1
                 {
                     // Get the day of the week and corresponding DayID
                     string dayName = date.DayOfWeek.ToString();
-
-                    get_ID getDay_ = new get_ID();
-                    int dayID = getDay_.GetDayID(dayName);
+                    int dayID = GetDayID(dayName);
 
                     // Construct the SQL insert query
                     string insertQuery = @"
@@ -382,24 +405,54 @@ namespace WebApplication1
             }
         }
 
-        protected void dropdown_Data(object sender, EventArgs e)
+        private int GetDayID(string dayName)
         {
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-            if (connection.State == System.Data.ConnectionState.Open)
+            switch (dayName)
             {
-                //Dropdown datas from sql
-                SqlCommand cmd = new SqlCommand("SELECT UploadID, FileName FROM upload_SchedsTBL", connection);
-                SqlDataReader reader = cmd.ExecuteReader();
+                case "Sunday":
+                    return 1;
 
-                // Bind the data to the dropdown list
-                DropDownList1.DataTextField = "FileName"; // Column name to display
-                DropDownList1.DataValueField = "UploadID"; // Column name to use as value
-                DropDownList1.DataSource = reader;
-                DropDownList1.DataBind();
-                reader.Close();
+                case "Monday":
+                    return 2;
+
+                case "Tuesday":
+                    return 3;
+
+                case "Wednesday":
+                    return 4;
+
+                case "Thursday":
+                    return 5;
+
+                case "Friday":
+                    return 6;
+
+                case "Saturday":
+                    return 7;
+
+                default:
+                    throw new ArgumentException("Invalid day name");
             }
         }
+
+        //protected void dropdown_Data(object sender, EventArgs e)
+        //{
+        //    // Open database connection
+        //    SqlConnection connection = dbConnection.GetConnection();
+        //    if (connection.State == System.Data.ConnectionState.Open)
+        //    {
+        //        //Dropdown datas from sql
+        //        SqlCommand cmd = new SqlCommand("SELECT UploadID, FileName FROM upload_SchedsTBL", connection);
+        //        SqlDataReader reader = cmd.ExecuteReader();
+
+        //        // Bind the data to the dropdown list
+        //        DropDownList1.DataTextField = "FileName"; // Column name to display
+        //        DropDownList1.DataValueField = "UploadID"; // Column name to use as value
+        //        DropDownList1.DataSource = reader;
+        //        DropDownList1.DataBind();
+        //        reader.Close();
+        //    }
+        //}
 
         protected void room_dropdown_Data(object sender, EventArgs e)
         {
@@ -499,7 +552,7 @@ namespace WebApplication1
         protected void BindScheduleData(object sender, EventArgs e)
         {
             string selected_ID_ROOM = DropDownList2.SelectedValue;
-            DateTime selectedDate = Calendar1.SelectedDate;
+            DateTime selectedDate;
 
             // Check if a date is selected, otherwise use today's date or a default date within the valid range
             if (Calendar3.SelectedDate == DateTime.MinValue)
