@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Configuration;
-using System.Data;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Web.UI;
-using System.Web.UI.WebControls;
 using WebApplication1.cs_files;
 
 namespace WebApplication1
@@ -18,77 +15,75 @@ namespace WebApplication1
             if (!IsPostBack)
             {
                 //LoadRooms();
+                BindRooms();
             }
-
         }
 
-        private DataTable GetRoomsData()
+        public class Room
         {
-            DataTable dt = new DataTable();
-            SqlConnection connection = dbConnection.GetConnection();
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                string query = "SELECT RoomID, RoomName FROM Rooms";
-                SqlDataAdapter da = new SqlDataAdapter(query, connection);
-                da.Fill(dt);
-            }
-            return dt;
-
+            public string Building { get; set; }
+            public string RoomID { get; set; }
+            public string RoomNumber { get; set; }
+            public string Status { get; set; }
+            public string CardClass { get; set; }
         }
 
-        //private void LoadRooms()
+        //private void BindRooms()
         //{
-        //    DataTable roomsTable = GetRoomsData();
-        //    roomsRepeater.DataSource = roomsTable;
-        //    roomsRepeater.DataBind();
-
-        //    foreach (RepeaterItem item in roomsRepeater.Items)
+        //    var rooms = new List<Room>
         //    {
-        //        int roomId = Convert.ToInt32(DataBinder.Eval(item.DataItem, "RoomID"));
-        //        string cardId = "card" + roomId;
-        //        string cardTextId = "cardText" + roomId;
+        //        new Room { Building = "Rizal", RoomID = "room1", RoomNumber = "R101", Status = "Available", CardClass = "bg-success" },
+        //        new Room { Building = "Rizal", RoomID = "room2", RoomNumber = "R102", Status = "Occupied", CardClass = "bg-danger" },
+        //        // Add more rooms as needed
+        //    };
 
-        //        var card = item.FindControl(cardId) as System.Web.UI.HtmlControls.HtmlGenericControl;
-        //        var cardText = item.FindControl(cardTextId) as System.Web.UI.WebControls.Literal;
-
-        //        bool isAvailable = CheckRoomAvailability(roomId);
-
-        //        if (card != null)
-        //        {
-        //            card.Attributes["class"] = isAvailable ? "card text-white bg-success" : "card text-white bg-danger";
-        //        }
-
-        //        if (cardText != null)
-        //        {
-        //            cardText.Text = isAvailable ? "Available" : "Not Available";
-        //        }
-        //    }
+        //    RepeaterRooms.DataSource = rooms;
+        //    RepeaterRooms.DataBind();
         //}
 
-        
-
-        public bool CheckRoomAvailability(int roomId)
+        private void BindRooms()
         {
-            bool isAvailable = true;
+            string query = "SELECT RoomID, RoomName FROM Rooms";
+
+            List<Room> rooms = new List<Room>();
+
+            // Open database connection
             SqlConnection connection = dbConnection.GetConnection();
             if (connection.State == System.Data.ConnectionState.Open)
             {
-                string query = "SELECT COUNT(*) FROM Schedule WHERE RoomID = @RoomID ";
-                SqlCommand cmd = new SqlCommand(query, connection);
-                cmd.Parameters.AddWithValue("@RoomID", roomId);
-                //cmd.Parameters.AddWithValue("@CurrentDate", DateTime.Now.Date);
-
-                //connection.Open();
-                int count = (int)cmd.ExecuteScalar();
-                if (count > 0)
+                using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
-                    isAvailable = false;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            //string status = reader["Status"].ToString();
+                            //string cardClass = status == "Available" ? "bg-success" : "bg-danger";
+                            string cardClass = "bg-success";
+                            string status = "Available";
+                            string Building = "Rizal";
+
+                            rooms.Add(new Room
+                            {
+                                Building = Building,
+                                RoomID = reader["RoomID"].ToString(),
+                                RoomNumber = reader["RoomName"].ToString(),
+                                Status = status,
+                                CardClass = cardClass
+
+                            });
+                        }
+                    }
                 }
+
+                RepeaterRooms.DataSource = rooms;
+                RepeaterRooms.DataBind();
+
             }
-            return isAvailable;
+
+            
         }
 
-
-
+       
     }
 }
