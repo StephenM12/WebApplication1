@@ -238,8 +238,6 @@ namespace WebApplication1
                                                 Day = dayID,
                                                 StartTime = timeOfDay,
                                                 EndTime = END_timeOfDay,
-                                                //StartDate = selectedSDate,
-                                                //EndDate = selectedEDate,
                                                 StartDate = Sdate,
                                                 EndDate = Edate,
                                                 Remarks = null // Set remarks to null
@@ -549,6 +547,66 @@ namespace WebApplication1
         //    //}
         //}
 
+        //protected void BindScheduleData(object sender, EventArgs e)
+        //{
+        //    string selected_ID_ROOM = DropDownList2.SelectedValue;
+        //    DateTime selectedDate;
+
+
+        //    // Check if a date is selected, otherwise use today's date or a default date within the valid range
+        //    if (Calendar3.SelectedDate == DateTime.MinValue)
+        //    {
+        //        // If no date is selected, use today's date as a default
+        //        selectedDate = DateTime.Today;
+
+
+        //    }
+        //    else
+        //    {
+        //        selectedDate = Calendar3.SelectedDate;
+
+        //    }
+
+        //    string query = @"
+        //        SELECT
+        //        CONVERT(varchar, s.StartTime, 100) + '-' + CONVERT(varchar, s.EndTime, 100) AS [Time],
+        //        MAX(CASE WHEN s.DayID = 1 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Sunday],
+        //        MAX(CASE WHEN s.DayID = 2 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Monday],
+        //        MAX(CASE WHEN s.DayID = 3 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Tuesday],
+        //        MAX(CASE WHEN s.DayID = 4 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Wednesday],
+        //        MAX(CASE WHEN s.DayID = 5 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Thursday],
+        //        MAX(CASE WHEN s.DayID = 6 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Friday],
+        //        MAX(CASE WHEN s.DayID = 7 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Saturday]
+        //        FROM Schedule s
+        //        JOIN Sections sec ON s.SectionID = sec.SectionID
+        //        JOIN Courses c ON s.CourseID = c.CourseID
+        //        JOIN Instructors i ON s.InstructorID = i.InstructorID
+        //        WHERE (@RoomID IS NULL OR s.RoomID = @RoomID)
+        //        AND @SelectedDate BETWEEN s.StartDate AND s.EndDate
+        //        GROUP BY s.StartTime, s.EndTime
+        //        ORDER BY s.StartTime;";
+
+
+
+        //    using (SqlConnection connection = dbConnection.GetConnection())
+        //    {
+        //        using (SqlCommand cmd = new SqlCommand(query, connection))
+        //        {
+
+        //            cmd.Parameters.AddWithValue("@RoomID", selected_ID_ROOM);
+        //            cmd.Parameters.AddWithValue("@SelectedDate", selectedDate);
+
+        //            using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
+        //            {
+        //                DataTable dt = new DataTable();
+        //                sda.Fill(dt);
+        //                GridView1.DataSource = dt;
+        //                GridView1.DataBind();
+        //            }
+        //        }
+        //    }
+        //}
+
         protected void BindScheduleData(object sender, EventArgs e)
         {
             string selected_ID_ROOM = DropDownList2.SelectedValue;
@@ -565,24 +623,31 @@ namespace WebApplication1
                 selectedDate = Calendar3.SelectedDate;
             }
 
+            // Calculate the day of the week for the selected date
+            int dayOfWeek = (int)selectedDate.DayOfWeek + 1; // Adding 1 to match DayID (Sunday = 1, Monday = 2, ...)
+
+            // Store the day of the week in a hidden field (optional, if needed in client-side code)
+            hiddenDayOfWeek.Value = dayOfWeek.ToString();
+
             string query = @"
-                SELECT
-                CONVERT(varchar, s.StartTime, 100) + '-' + CONVERT(varchar, s.EndTime, 100) AS [Time],
-                MAX(CASE WHEN s.DayID = 1 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Sunday],
-                MAX(CASE WHEN s.DayID = 2 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Monday],
-                MAX(CASE WHEN s.DayID = 3 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Tuesday],
-                MAX(CASE WHEN s.DayID = 4 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Wednesday],
-                MAX(CASE WHEN s.DayID = 5 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Thursday],
-                MAX(CASE WHEN s.DayID = 6 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Friday],
-                MAX(CASE WHEN s.DayID = 7 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Saturday]
-                FROM Schedule s
-                JOIN Sections sec ON s.SectionID = sec.SectionID
-                JOIN Courses c ON s.CourseID = c.CourseID
-                JOIN Instructors i ON s.InstructorID = i.InstructorID
-                WHERE (@RoomID IS NULL OR s.RoomID = @RoomID)
-                AND @SelectedDate BETWEEN s.StartDate AND s.EndDate
-                GROUP BY s.StartTime, s.EndTime
-                ORDER BY s.StartTime;";
+            SELECT
+            CONVERT(varchar, s.StartTime, 100) + '-' + CONVERT(varchar, s.EndTime, 100) AS [Time],
+            MAX(CASE WHEN s.DayID = 1 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Sunday],
+            MAX(CASE WHEN s.DayID = 2 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Monday],
+            MAX(CASE WHEN s.DayID = 3 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Tuesday],
+            MAX(CASE WHEN s.DayID = 4 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Wednesday],
+            MAX(CASE WHEN s.DayID = 5 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Thursday],
+            MAX(CASE WHEN s.DayID = 6 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Friday],
+            MAX(CASE WHEN s.DayID = 7 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Saturday]
+            FROM Schedule s
+            JOIN Sections sec ON s.SectionID = sec.SectionID
+            JOIN Courses c ON s.CourseID = c.CourseID
+            JOIN Instructors i ON s.InstructorID = i.InstructorID
+            WHERE (@RoomID IS NULL OR s.RoomID = @RoomID)
+            AND @SelectedDate BETWEEN s.StartDate AND s.EndDate
+            AND s.DayID = @DayOfWeek
+            GROUP BY s.StartTime, s.EndTime
+            ORDER BY s.StartTime;";
 
             using (SqlConnection connection = dbConnection.GetConnection())
             {
@@ -590,6 +655,7 @@ namespace WebApplication1
                 {
                     cmd.Parameters.AddWithValue("@RoomID", selected_ID_ROOM);
                     cmd.Parameters.AddWithValue("@SelectedDate", selectedDate);
+                    cmd.Parameters.AddWithValue("@DayOfWeek", dayOfWeek);
 
                     using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
                     {
@@ -601,6 +667,7 @@ namespace WebApplication1
                 }
             }
         }
+
 
         protected void Calendar1_SelectionChanged(object sender, EventArgs e)
         {

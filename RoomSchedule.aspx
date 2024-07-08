@@ -9,6 +9,10 @@
 
     <form id="form1" runat="server">
         <asp:ScriptManager runat="server"></asp:ScriptManager>
+
+        <!-- HiddenField for DayOfWeek -->
+        <asp:HiddenField ID="hiddenDayOfWeek" runat="server" />
+
         <div>
             <div class="row">
 
@@ -121,12 +125,14 @@
                                 <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
                                 <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
                             </Columns>
+
+                          
                         </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>
         </div>
-        </div>
+        
 
         <!-- Start of Modal Button-->
         <asp:Button ID="RAddSchedBtn" runat="server" Text="ADD TO SCHEDULE" CssClass="lower-right bg-color btn btn-primary bg-color" OnClientClick="openModal(); return false;" />
