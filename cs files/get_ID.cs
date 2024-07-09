@@ -55,6 +55,28 @@ namespace WebApplication1.cs_files
             }
         }
 
+        public int GetOrInsertBuilding(SqlConnection connection, string building)
+        {
+            // Example logic for retrieving or inserting a room
+            string query = "SELECT BuildingID FROM Buildings WHERE BuildingName = @BuildingName";
+            using (SqlCommand command = new SqlCommand(query, connection))
+            {
+                command.Parameters.AddWithValue("@BuildingName", building);
+                object result = command.ExecuteScalar();
+                if (result != null)
+                {
+                    return Convert.ToInt32(result);
+                }
+            }
+
+            string insertQuery = "INSERT INTO Buildings (BuildingName) OUTPUT INSERTED.BuildingID VALUES (@BuildingName)";
+            using (SqlCommand command = new SqlCommand(insertQuery, connection))
+            {
+                command.Parameters.AddWithValue("@BuildingName", building);
+                return (int)command.ExecuteScalar();
+            }
+        }
+
         private int GetOrInsertRoom(SqlConnection connection, string room)
         {
             // Example logic for retrieving or inserting a room

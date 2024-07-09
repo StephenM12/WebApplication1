@@ -39,22 +39,16 @@
                                 <div class="mb-3">
                                     <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
                                 </div>
+                                 <div class="form-outline mb-4">
+                                    <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label>
+                                    <asp:DropDownList ID="upload_DropDownList1" runat="server">
+                                        <asp:ListItem Text="RIZAL" Value="RIZAL"></asp:ListItem>
+                                        <asp:ListItem Text="EINSTEIN" Value="EINSTEIN"></asp:ListItem>
+                                        <asp:ListItem Text="ETYCB" Value="ETYCB"></asp:ListItem>
+                                    </asp:DropDownList>
+                                 </div>
                                 <div class="form-outline mb-4">
                                     <div class="row align-items-center">
-
-                                        <%--<div>
-                                            <asp:UpdatePanel runat="server">
-                                                <ContentTemplate>
-                                                    <asp:Calendar ID="Calendar1" runat="server"></asp:Calendar>
-                                                </ContentTemplate>
-                                            </asp:UpdatePanel>
-                                        </div>
-                                        <div>
-                                            <asp:UpdatePanel runat="server">
-                                                <ContentTemplate>
-                                                    <asp:Calendar ID="Calendar2" runat="server"></asp:Calendar>
-                                                </ContentTemplate>
-                                            </asp:UpdatePanel>--%>
 
                                         <!-- Start Date in Modal Button-->
                                         <div class="col-sm-6">

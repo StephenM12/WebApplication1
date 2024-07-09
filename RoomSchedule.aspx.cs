@@ -30,6 +30,7 @@ namespace WebApplication1
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
             public string Remarks { get; set; }
+            public object BuildingID { get; set; }
         }
 
         protected void Page_Load(object sender, EventArgs e)
@@ -225,6 +226,9 @@ namespace WebApplication1
                                             DateTime Sdate = DateTime.Parse(selectedDate);
                                             DateTime Edate = DateTime.Parse(selectedEndDate);
 
+                                            //get_ID building id
+                                            var buildingID = dbHelper.GetOrInsertBuilding(connection, upload_DropDownList1.SelectedValue);   
+
                                             ScheduleRow newRow = new ScheduleRow
                                             {
                                                 RoomID = ids.roomID == -1 ? (object)DBNull.Value : ids.roomID,
@@ -236,7 +240,8 @@ namespace WebApplication1
                                                 EndTime = END_timeOfDay,
                                                 StartDate = Sdate,
                                                 EndDate = Edate,
-                                                Remarks = null // Set remarks to null
+                                                Remarks = null,
+                                                BuildingID = buildingID
                                             };
 
                                             // Add the new row to the list
@@ -266,6 +271,7 @@ namespace WebApplication1
                             bulkCopy.ColumnMappings.Add("StartDate", "StartDate");
                             bulkCopy.ColumnMappings.Add("EndDate", "EndDate");
                             bulkCopy.ColumnMappings.Add("Remarks", "Remarks");
+                            bulkCopy.ColumnMappings.Add("BuildingID", "BuildingID");
 
                             // Perform the bulk copy
                             bulkCopy.WriteToServer(scheduleDataTable);
@@ -290,13 +296,13 @@ namespace WebApplication1
             dataTable.Columns.Add("SectionID", typeof(object));
             dataTable.Columns.Add("CourseID", typeof(object));
             dataTable.Columns.Add("InstructorID", typeof(object));
-
             dataTable.Columns.Add("Day", typeof(string));
-            dataTable.Columns.Add("StartTime", typeof(TimeSpan)); // Adjusted to TimeSpan
-            dataTable.Columns.Add("EndTime", typeof(TimeSpan)); // Adjusted to TimeSpan
+            dataTable.Columns.Add("StartTime", typeof(TimeSpan)); 
+            dataTable.Columns.Add("EndTime", typeof(TimeSpan)); 
             dataTable.Columns.Add("StartDate", typeof(DateTime));
             dataTable.Columns.Add("EndDate", typeof(DateTime));
             dataTable.Columns.Add("Remarks", typeof(string));
+            dataTable.Columns.Add("BuildingID", typeof(object));
 
             // Fill the DataTable with data from List<ScheduleRow>
             foreach (var scheduleRow in scheduleRows)
@@ -312,6 +318,7 @@ namespace WebApplication1
                 row["StartDate"] = scheduleRow.StartDate;
                 row["EndDate"] = scheduleRow.EndDate;
                 row["Remarks"] = DBNull.Value;
+                row["BuildingID"] = scheduleRow.BuildingID;
                 dataTable.Rows.Add(row);
             }
 
