@@ -16,6 +16,8 @@
         <div>
             <div class="row">
 
+                
+
                 <!-- Button to open the modal -->
                 <div class="button-container">
                     <asp:Button ID="RUploadFileBtn" runat="server" Text="Choose File" CssClass="upload-button btn btn-primary bg-color" OnClientClick="openupload(); return false;" />
@@ -86,6 +88,8 @@
                 <asp:DropDownList ID="DropDownList1" runat="server" AutoPostBack="true">
                 </asp:DropDownList>
             </div>--%>
+        
+               
 
         <div>
             <asp:UpdatePanel runat="server">
@@ -94,12 +98,9 @@
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
-        <div>
-            <asp:Calendar ID="Calendar3" runat="server" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
-        </div>
 
-        <div class="row align-items-center">
-            <div class="schedule-container col-sm-9">
+         <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
+            <div class="schedule-container col-sm-6">
                 <asp:UpdatePanel runat="server" ID="UpdatePanelGridView">
                     <ContentTemplate>
                         <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
@@ -125,15 +126,23 @@
                                 <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
                                 <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
                             </Columns>
-
-                          
                         </asp:GridView>
                     </ContentTemplate>
                 </asp:UpdatePanel>
             </div>
-        </div>
-        
+                                <div>
+    <asp:Calendar ID="Calendar3" runat="server" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
+</div>
 
+        </div>
+
+       
+   
+                    
+
+
+
+       
         <!-- Start of Modal Button-->
         <asp:Button ID="RAddSchedBtn" runat="server" Text="ADD TO SCHEDULE" CssClass="lower-right bg-color btn btn-primary bg-color" OnClientClick="openModal(); return false;" />
         <script type="text/javascript">
@@ -270,7 +279,7 @@
         </div>
 
         <div class="modal fade" id="RoomEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen">
+            <div class="modal-dialog modal-fullscreen-xxl-down">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="EditSchedule">Edit Schedule</h5>
@@ -278,9 +287,25 @@
                     </div>
                     <div class="modal-body">
                         <!--Content of Edit Schedule / Gridview Put Here-->
+                        <div class="form-outline mb-4">
+                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Room Number:</label>
+                            <asp:TextBox ID="ENumber" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Room Number"></asp:TextBox>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Section:</label>
+                            <asp:TextBox ID="ESection" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Section"></asp:TextBox>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Professor/Instructor:</label>
+                            <asp:TextBox ID="EProf" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Professor/Instructor"></asp:TextBox>
+                        </div>
+
+                        <asp:Calendar ID="Calendar1" runat="server"></asp:Calendar>
+
+
                     </div>
                     <div class="modal-footer">
-                        <asp:Button ID="RCloseBtn" runat="server" Text="Close" CssClass="bg-color btn btn-primary bg-color" />
+                        <asp:Button ID="RCloseBtn" runat="server" Text="Cancel" CssClass="bg-color btn btn-primary bg-color" />
                         <asp:Button ID="RSaveChangesBtn" runat="server" Text="Save Changes" CssClass="bg-color btn btn-primary bg-color" />
                     </div>
                 </div>

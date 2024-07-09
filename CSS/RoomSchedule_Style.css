@@ -29,14 +29,20 @@
 }
 
 .schedule-container {
-    /*flex: 1;*/
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-
 .schedule-gridview {
     width: auto;
-    height: 90%;
+    max-width: 1200px; /* Optional: set a max-width to control the width */
+    margin: 0 auto; /* Center the GridView */
     border-collapse: collapse;
     table-layout: fixed; /* Ensure uniform column width */
+}
+
+.d-flex.justify-content-center.align-items-center {
+    height: 100vh; /* Center vertically within the viewport */
 }
 
     .schedule-gridview th,
