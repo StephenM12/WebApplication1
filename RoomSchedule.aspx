@@ -9,10 +9,8 @@
 
     <form id="form1" runat="server">
         <asp:ScriptManager runat="server"></asp:ScriptManager>
-
-        <!-- HiddenField for DayOfWeek -->
+         <!-- HiddenField for DayOfWeek -->
         <asp:HiddenField ID="hiddenDayOfWeek" runat="server" />
-
         <div>
             <div class="row">
 

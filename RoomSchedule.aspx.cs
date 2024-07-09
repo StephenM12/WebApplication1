@@ -68,8 +68,6 @@ namespace WebApplication1
             DateTime Sdate = DateTime.Parse(selectedDate);
             DateTime Edate = DateTime.Parse(selectedEndDate);
 
-
-
             if (FileUpload1.HasFile)
             {
                 if (Sdate != DateTime.MinValue && Edate != DateTime.MinValue)
@@ -219,7 +217,6 @@ namespace WebApplication1
                                             get_ID dbHelper = new get_ID();
                                             var ids = dbHelper.CheckAndInsertValues(connection, currentRoom, section, courseCode, instructor);
 
-
                                             //Get the selected date from the TextBox
                                             string selectedDate = calendar_TB1.Text;
                                             string selectedEndDate = calendar_TB2.Text;
@@ -227,7 +224,6 @@ namespace WebApplication1
                                             // Convert to DateTime directly
                                             DateTime Sdate = DateTime.Parse(selectedDate);
                                             DateTime Edate = DateTime.Parse(selectedEndDate);
-
 
                                             ScheduleRow newRow = new ScheduleRow
                                             {
@@ -433,25 +429,6 @@ namespace WebApplication1
             }
         }
 
-        //protected void dropdown_Data(object sender, EventArgs e)
-        //{
-        //    // Open database connection
-        //    SqlConnection connection = dbConnection.GetConnection();
-        //    if (connection.State == System.Data.ConnectionState.Open)
-        //    {
-        //        //Dropdown datas from sql
-        //        SqlCommand cmd = new SqlCommand("SELECT UploadID, FileName FROM upload_SchedsTBL", connection);
-        //        SqlDataReader reader = cmd.ExecuteReader();
-
-        //        // Bind the data to the dropdown list
-        //        DropDownList1.DataTextField = "FileName"; // Column name to display
-        //        DropDownList1.DataValueField = "UploadID"; // Column name to use as value
-        //        DropDownList1.DataSource = reader;
-        //        DropDownList1.DataBind();
-        //        reader.Close();
-        //    }
-        //}
-
         protected void room_dropdown_Data(object sender, EventArgs e)
         {
             // Open database connection
@@ -470,142 +447,6 @@ namespace WebApplication1
                 reader.Close();
             }
         }
-
-        //protected void Bind_Uploaded_GridView(object sender, EventArgs e)
-        //{
-        //    //string selected_ID = DropDownList1.SelectedValue;
-
-        //    //try
-        //    //{
-        //    //    // Open database connection
-        //    //    SqlConnection connection = dbConnection.GetConnection();
-
-        //    //    if (connection.State == System.Data.ConnectionState.Open)
-        //    //    {
-        //    //        SqlCommand selectCommand = new SqlCommand("SELECT Data FROM scheduleTBL WHERE ID = @File_ID", connection);
-        //    //        selectCommand.Parameters.AddWithValue("@File_ID", selected_ID);
-
-        //    //        byte[] excelData = (byte[])selectCommand.ExecuteScalar();
-        //    //        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-
-        //    //        using (MemoryStream stream = new MemoryStream(excelData))
-        //    //        {
-        //    //            using (ExcelPackage package = new ExcelPackage(stream))
-        //    //            {
-        //    //                int worksheetIndex = 1; // Example index
-
-        //    //                if (worksheetIndex <= package.Workbook.Worksheets.Count)
-        //    //                {
-        //    //                    ExcelWorksheet worksheet = package.Workbook.Worksheets[0];
-
-        //    //                    int startRow = 6; // Starting row index
-        //    //                    int endRow = 15;
-        //    //                    int startColumn = 1; // Starting column index (A)
-        //    //                    int endColumn = 8; // Ending column index (H)
-
-        //    //                    // Create a DataTable to store the extracted data
-        //    //                    DataTable dataTable = new DataTable();
-
-        //    //                    // Add columns to the DataTable based on the number of columns in the range
-        //    //                    for (int col = startColumn; col <= endColumn; col++)
-        //    //                    {
-        //    //                        dataTable.Columns.Add("Column " + col.ToString()); // You can customize column names here
-        //    //                    }
-
-        //    //                    // Iterate over each row in the range
-        //    //                    for (int row = startRow; row <= endRow; row++)
-        //    //                    {
-        //    //                        // Create a new DataRow to store the values of the current row
-        //    //                        DataRow dataRow = dataTable.NewRow();
-
-        //    //                        // Iterate over each column in the range
-        //    //                        for (int col = startColumn; col <= endColumn; col++)
-        //    //                        {
-        //    //                            // Get the value of the current cell
-        //    //                            object cellValue = worksheet.Cells[row, col].Value;
-
-        //    //                            // Add the cell value to the DataRow
-        //    //                            dataRow[col - startColumn] = cellValue != null ? cellValue.ToString() : ""; // Convert cell value to string
-        //    //                        }
-
-        //    //                        // Add the DataRow to the DataTable
-        //    //                        dataTable.Rows.Add(dataRow);
-        //    //                    }
-
-        //    //                    GridView1.DataSource = dataTable;
-        //    //                    GridView1.DataBind();
-        //    //                }
-        //    //            }
-
-        //    //            connection.Close();
-        //    //        }
-        //    //    }
-        //    //}
-        //    //catch
-        //    //{
-        //    //    Response.Write("Failed to Show Table");
-        //    //}
-        //}
-
-        //protected void BindScheduleData(object sender, EventArgs e)
-        //{
-        //    string selected_ID_ROOM = DropDownList2.SelectedValue;
-        //    DateTime selectedDate;
-
-
-        //    // Check if a date is selected, otherwise use today's date or a default date within the valid range
-        //    if (Calendar3.SelectedDate == DateTime.MinValue)
-        //    {
-        //        // If no date is selected, use today's date as a default
-        //        selectedDate = DateTime.Today;
-
-
-        //    }
-        //    else
-        //    {
-        //        selectedDate = Calendar3.SelectedDate;
-
-        //    }
-
-        //    string query = @"
-        //        SELECT
-        //        CONVERT(varchar, s.StartTime, 100) + '-' + CONVERT(varchar, s.EndTime, 100) AS [Time],
-        //        MAX(CASE WHEN s.DayID = 1 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Sunday],
-        //        MAX(CASE WHEN s.DayID = 2 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Monday],
-        //        MAX(CASE WHEN s.DayID = 3 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Tuesday],
-        //        MAX(CASE WHEN s.DayID = 4 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Wednesday],
-        //        MAX(CASE WHEN s.DayID = 5 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Thursday],
-        //        MAX(CASE WHEN s.DayID = 6 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Friday],
-        //        MAX(CASE WHEN s.DayID = 7 THEN CONCAT(c.CourseCode, '-', sec.SectionName, ' ', i.InstructorName) ELSE NULL END) AS [Saturday]
-        //        FROM Schedule s
-        //        JOIN Sections sec ON s.SectionID = sec.SectionID
-        //        JOIN Courses c ON s.CourseID = c.CourseID
-        //        JOIN Instructors i ON s.InstructorID = i.InstructorID
-        //        WHERE (@RoomID IS NULL OR s.RoomID = @RoomID)
-        //        AND @SelectedDate BETWEEN s.StartDate AND s.EndDate
-        //        GROUP BY s.StartTime, s.EndTime
-        //        ORDER BY s.StartTime;";
-
-
-
-        //    using (SqlConnection connection = dbConnection.GetConnection())
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand(query, connection))
-        //        {
-
-        //            cmd.Parameters.AddWithValue("@RoomID", selected_ID_ROOM);
-        //            cmd.Parameters.AddWithValue("@SelectedDate", selectedDate);
-
-        //            using (SqlDataAdapter sda = new SqlDataAdapter(cmd))
-        //            {
-        //                DataTable dt = new DataTable();
-        //                sda.Fill(dt);
-        //                GridView1.DataSource = dt;
-        //                GridView1.DataBind();
-        //            }
-        //        }
-        //    }
-        //}
 
         protected void BindScheduleData(object sender, EventArgs e)
         {
@@ -667,7 +508,6 @@ namespace WebApplication1
                 }
             }
         }
-
 
         protected void Calendar1_SelectionChanged(object sender, EventArgs e)
         {
