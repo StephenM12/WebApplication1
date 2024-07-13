@@ -16,7 +16,7 @@
                 ProviderName="<%$ ConnectionStrings:roomScheduleV6_PrototypeConnectionString2.ProviderName %>" 
                 SelectCommand="SELECT [email], [CourseCode], [Section], [Instructor], [Faculty], [PurposeoftheRoom], [Building], [RoomNumber], [StartDate], [EndDate], [startTime], [endTime] FROM [RoomRequest]">
             </asp:SqlDataSource>--%>
-            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" 
+            <asp:GridView ID="GridView1" runat="server" AutoGenerateColumns="False" CssClass="table table-bordered table-striped" 
                 Height="323px" Width="973px"  OnSelectedIndexChanged="GridView1_SelectedIndexChanged">
                 <Columns>
                     <asp:BoundField DataField="email" HeaderText="email" SortExpression="email" />
