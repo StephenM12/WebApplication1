@@ -57,5 +57,12 @@ namespace WebApplication1
         {
             Response.Redirect("CreateAccount.aspx");
         }
+
+        protected void RRBtn_Click(object sender, EventArgs e)
+        {
+            // Redirect to another page
+            Response.Redirect("~/RRForm.aspx");
+        }
+
     }
 }

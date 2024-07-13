@@ -429,14 +429,6 @@
                             </Triggers>
                         </asp:UpdatePanel>
 
-                        <%--<asp:UpdatePanel ID="UpdatePanel1" runat="server">
-                            <ContentTemplate>
-                                <asp:Button ID="RSaveChangesBtn" runat="server" Text="Save Changes" OnClick="Edit_BTNclk" />
-                            </ContentTemplate>
-                            <Triggers>
-                                <asp:PostBackTrigger ControlID="RSaveChangesBtn" />
-                            </Triggers>
-                        </asp:UpdatePanel>--%>
                     </div>
                 </div>
             </div>

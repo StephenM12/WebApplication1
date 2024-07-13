@@ -109,6 +109,8 @@
                                             <div class="d-flex align-items-center justify-content-center pb-4">
                                                 <!--ID for Create Account Button-->
                                                 <asp:Button ID="CreateAccBtn" runat="server" Text="Create Account" OnClick="CreateAccBtn_Click" class="btn btn-primary btn-block fa-lg full-width bg-purple" />
+                                                <asp:Button ID="RRBtn" runat="server" Text="Request Room" class="btn btn-primary btn-block fa-lg full-width bg-purple" OnClick="RRBtn_Click" />
+
                                             </div>
                                         </form>
                                     </div>
