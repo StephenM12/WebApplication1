@@ -4,9 +4,12 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QkE+k9pRTCMF9aXdfMqH9d5cdBOUc+ANiNHlcMz8sHs7pO7mq7CK2reA9IVNJoZy" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="./CSS/Home_Style.css" />
+     <section class="vh-100" style="background-image: url('Images/Classroom2.png'); background-size: cover; background-position: center;" />
 
     <form id="form1" runat="server">
 
+        <br />
+        <br />
         <div class="container mx-auto">
             <h1>
                 <asp:Label ID="Label1" runat="server" Text="Label"></asp:Label>
@@ -16,11 +19,11 @@
         <div class="container mt-4">
             <div class="row mb-3">
                 <div class="col-md-4">
-                    <label for="roomSearch" class="form-label">Search Rooms:</label>
+                    <label for="roomSearch" class="form-label"><strong>Search Rooms:</strong></label>
                     <input type="text" class="form-control" id="roomSearch" placeholder="Search for a room" onkeyup="filterRooms()">
                 </div>
                 <div class="col-md-8">
-                    <label for="buildingSelect" class="form-label">Select Building:</label>
+                    <label for="buildingSelect" class="form-label"><strong>Select Building:</strong></label>
                     <select class="form-select" id="buildingSelect" onchange="filterRooms()">
                         <option value="Rizal">Rizal Building</option>
                         <option value="Einstein">Einstein Building</option>

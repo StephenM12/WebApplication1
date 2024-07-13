@@ -41,7 +41,7 @@
                                 <div class="card-body p-md-5 mx-md-4">
                                     <div class="card-body-container p-4">
                                         <div class="text-center">
-                                            <img src="images/logo.png" style="width: 185px;" alt="logo">
+                                            <img src="images/Logo.png" style="width: 185px;" alt="logo">
                                             <h4 class="mt-1 mb-5 pb-1" style="color: #6358DC; font-weight: bold;">E-Paper Content Management System
                                             </h4>
                                         </div>

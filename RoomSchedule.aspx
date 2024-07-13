@@ -3,6 +3,8 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <link rel="stylesheet" href="./CSS/RoomSchedule_Style.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
     <script src="Scripts/script.js"></script>
@@ -75,7 +77,7 @@
             </div>
             <%--modal end here--%>
         </div>
-
+         <br />
         <div>
             <asp:UpdatePanel runat="server">
                 <ContentTemplate>
@@ -83,6 +85,7 @@
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
+            <asp:Calendar ID="Calendar3" runat="server" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
 
         <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
             <div class="schedule-container col-sm-6">
@@ -116,7 +119,6 @@
                 </asp:UpdatePanel>
             </div>
             <div>
-                <asp:Calendar ID="Calendar3" runat="server" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
             </div>
         </div>
 
