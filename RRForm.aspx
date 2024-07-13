@@ -151,6 +151,8 @@
           
                 <div class="d-flex justify-content-center">
                     <asp:Button ID="btn_Export" runat="server" Text="Submit" Onclick="BtnExport_Click"/>
+                    <asp:Button ID="btn_Back" runat="server" Text="Back" Onclick="Btn_Back" />
+
                 </div>
             </div>
         </div>
