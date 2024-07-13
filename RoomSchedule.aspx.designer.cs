@@ -195,13 +195,13 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox RRemarksTB;
 
         /// <summary>
-        /// SelectBuildingDL control.
+        /// ADD_DropDownList1 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList SelectBuildingDL;
+        protected global::System.Web.UI.WebControls.DropDownList ADD_DropDownList1;
 
         /// <summary>
         /// RFacultyDL control.
@@ -258,13 +258,40 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button DeployBtn;
 
         /// <summary>
-        /// ENumber control.
+        /// Edit_roomDrodown control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox ENumber;
+        protected global::System.Web.UI.WebControls.DropDownList Edit_roomDrodown;
+
+        /// <summary>
+        /// Edit_DropDownList1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList Edit_DropDownList1;
+
+        /// <summary>
+        /// Edit_DropDownList2 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList Edit_DropDownList2;
+
+        /// <summary>
+        /// Edit_Calendar_TextBox1 control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox Edit_Calendar_TextBox1;
 
         /// <summary>
         /// ESection control.
@@ -285,15 +312,6 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox EProf;
 
         /// <summary>
-        /// Calendar1 control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Calendar Calendar1;
-
-        /// <summary>
         /// RCloseBtn control.
         /// </summary>
         /// <remarks>
@@ -301,6 +319,24 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button RCloseBtn;
+
+        /// <summary>
+        /// HiddenScheduleID control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.HiddenField HiddenScheduleID;
+
+        /// <summary>
+        /// MatchSchedbtn control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button MatchSchedbtn;
 
         /// <summary>
         /// RSaveChangesBtn control.

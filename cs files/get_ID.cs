@@ -77,7 +77,7 @@ namespace WebApplication1.cs_files
             }
         }
 
-        private int GetOrInsertRoom(SqlConnection connection, string room)
+        public int GetOrInsertRoom(SqlConnection connection, string room)
         {
             // Example logic for retrieving or inserting a room
             string query = "SELECT RoomID FROM Rooms WHERE RoomName = @RoomName";
@@ -99,7 +99,7 @@ namespace WebApplication1.cs_files
             }
         }
 
-        private int GetOrInsertSection(SqlConnection connection, string section)
+        public int GetOrInsertSection(SqlConnection connection, string section)
         {
             // Example logic for retrieving or inserting a section
             string query = "SELECT SectionID FROM Sections WHERE SectionName = @SectionName";
@@ -143,7 +143,7 @@ namespace WebApplication1.cs_files
             }
         }
 
-        private int GetOrInsertInstructor(SqlConnection connection, string instructor)
+        public int GetOrInsertInstructor(SqlConnection connection, string instructor)
         {
             // Example logic for retrieving or inserting an instructor
             string query = "SELECT InstructorID FROM Instructors WHERE InstructorName = @InstructorName";

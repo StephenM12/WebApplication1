@@ -31,8 +31,10 @@ namespace WebApplication1
             public DateTime EndDate { get; set; }
             public string Remarks { get; set; }
             public object BuildingID { get; set; }
+
         }
 
+        
         protected void Page_Load(object sender, EventArgs e)
         {
             // Open database connection
@@ -43,6 +45,7 @@ namespace WebApplication1
                 {
                     //dropdown_Data(sender, e);
                     room_dropdown_Data(sender, e);
+                    edit_Roomdropdown(sender, e);
 
                     if (DropDownList2.Items.Count > 0)
                     {
@@ -330,6 +333,8 @@ namespace WebApplication1
             // Open database connection
             SqlConnection connection = dbConnection.GetConnection();
 
+            
+
             try
             {
                 // Retrieve values from the form controls
@@ -338,7 +343,7 @@ namespace WebApplication1
                 string courseCode = RCourseCodeTB.Text;
                 string professor = RProfTB.Text;
                 string remarks = RRemarksTB.Text;
-                int buildingId = int.Parse(SelectBuildingDL.SelectedValue);
+                //string buildingId = ADD_DropDownList1.SelectedValue;
                 string faculty = RFacultyDL.SelectedValue;//WILL BE USED FOR BOOKING LATER
                 DateTime startDate = DateTime.Parse(SelectDateTB.Text);
                 DateTime endDate = DateTime.Parse(EndDateTB.Text);
@@ -348,16 +353,23 @@ namespace WebApplication1
                 get_ID add_dbHelper = new get_ID();
                 var add_Ids = add_dbHelper.CheckAndInsertValues(connection, roomNumber, section, courseCode, professor);
 
+
+                int buildingID = add_dbHelper.GetOrInsertBuilding(connection, ADD_DropDownList1.SelectedValue);
+
+
                 int roomID = add_Ids.roomID;
                 int sectionID = add_Ids.sectionID;
                 int courseID = add_Ids.courseID;
                 int instructorID = add_Ids.instructorID;
+               
 
                 DateTime parsedStartTime = DateTime.ParseExact(startTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
                 TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
 
                 DateTime parsedEndTime = DateTime.ParseExact(endTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
                 TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
+
+                
 
                 // Loop through each date between startDate and endDate
                 for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
@@ -368,8 +380,8 @@ namespace WebApplication1
 
                     // Construct the SQL insert query
                     string insertQuery = @"
-                    INSERT INTO Schedule (RoomID, SectionID, CourseID, InstructorID, DayID, StartTime, EndTime, StartDate, EndDate, Remarks)
-                    VALUES (@RoomID, @SectionID, @CourseID, @InstructorID, @DayID, @StartTime, @EndTime, @StartDate, @EndDate, @Remarks)";
+                    INSERT INTO Schedule (RoomID, SectionID, CourseID, InstructorID, DayID, StartTime, EndTime, StartDate, EndDate, Remarks, BuildingID)
+                    VALUES (@RoomID, @SectionID, @CourseID, @InstructorID, @DayID, @StartTime, @EndTime, @StartDate, @EndDate, @Remarks, @BuildingID)";
 
                     using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
                     {
@@ -384,6 +396,7 @@ namespace WebApplication1
                         cmd.Parameters.AddWithValue("@StartDate", date);
                         cmd.Parameters.AddWithValue("@EndDate", date); // Assuming the same date for start and end in this context
                         cmd.Parameters.AddWithValue("@Remarks", remarks);
+                        cmd.Parameters.AddWithValue("@BuildingID", buildingID);
 
                         // Execute the insert command
                         cmd.ExecuteNonQuery();
@@ -445,13 +458,35 @@ namespace WebApplication1
                 //Dropdown datas from sql
                 SqlCommand cmd = new SqlCommand("SELECT RoomID, RoomName FROM Rooms", connection);
                 SqlDataReader reader = cmd.ExecuteReader();
+               
 
                 // Bind the data to the dropdown list
                 DropDownList2.DataTextField = "RoomName"; // Column name to display
                 DropDownList2.DataValueField = "RoomID"; // Column name to use as value
                 DropDownList2.DataSource = reader;
                 DropDownList2.DataBind();
-                reader.Close();
+
+                
+            }
+        }
+        protected void edit_Roomdropdown(object sender, EventArgs e)
+        {
+            // Open database connection
+            SqlConnection connection = dbConnection.GetConnection();
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                //Dropdown datas from sql
+                SqlCommand cmd = new SqlCommand("SELECT RoomID, RoomName FROM Rooms", connection);
+                SqlDataReader reader = cmd.ExecuteReader();
+
+
+                // Bind the data to the dropdown list
+                Edit_roomDrodown.DataTextField = "RoomName"; // Column name to display
+                Edit_roomDrodown.DataValueField = "RoomID"; // Column name to use as value
+                Edit_roomDrodown.DataSource = reader;
+                Edit_roomDrodown.DataBind();
+
+
             }
         }
 
@@ -520,5 +555,350 @@ namespace WebApplication1
         {
             BindScheduleData(sender, e);
         }
+
+        //for edit modal:
+        protected void Match_Schedule(object sender, EventArgs e)
+        {
+            // Get the selected room ID
+            string roomName = Edit_roomDrodown.SelectedValue;
+            
+
+            //string selectedDate = Edit_Calendar_TextBox1.Text;
+            DateTime selectedDate = DateTime.Parse(Edit_Calendar_TextBox1.Text);
+            string selectedStartTime = Edit_DropDownList1.SelectedItem.Text;
+            string selectedEndTime = Edit_DropDownList2.SelectedItem.Text;
+
+
+            DateTime parsedStartTime = DateTime.ParseExact(selectedStartTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+            TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
+
+            DateTime parsedEndTime = DateTime.ParseExact(selectedEndTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+            TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
+
+            // Open database connection
+            SqlConnection connection = dbConnection.GetConnection();
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+
+
+                // Retrieve the existing schedule from the database 
+                string query = @"SELECT 
+                            s.ScheduleID, s.StartTime, s.EndTime, s.StartDate, 
+                            sec.SectionName, ins.InstructorName 
+                         FROM Schedule s
+                         INNER JOIN Sections sec ON s.SectionID = sec.SectionID
+                         INNER JOIN Instructors ins ON s.InstructorID = ins.InstructorID
+                         WHERE s.RoomID = @RoomID 
+                           AND @SelectedDate BETWEEN s.StartDate AND s.EndDate 
+                           AND s.StartTime = @StartTime 
+                           AND s.EndTime = @EndTime";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    //SqlCommand cmd = new SqlCommand(query, conn);
+                    command.Parameters.AddWithValue("@RoomID", roomName);
+                    command.Parameters.AddWithValue("@SelectedDate", selectedDate);
+                    command.Parameters.AddWithValue("@StartTime", startTimeOfDay);
+                    command.Parameters.AddWithValue("@EndTime", endTimeOfDay);
+
+                    //conn.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        // Populate fields with existing data
+                        Edit_DropDownList1.SelectedValue = reader["StartTime"].ToString();
+                        Edit_DropDownList2.SelectedValue = reader["EndTime"].ToString();
+                        Edit_Calendar_TextBox1.Text = Convert.ToDateTime(reader["StartDate"]).ToString("yyyy-MM-dd");
+                        ESection.Text = reader["SectionName"].ToString(); 
+                        EProf.Text = reader["InstructorName"].ToString();
+
+                        // Store ScheduleID for later use
+
+                        int scheduleID = Convert.ToInt32(reader["ScheduleID"]);
+                        HiddenScheduleID.Value = scheduleID.ToString();
+
+
+
+                        // Show SAVE button, hide RSaveChangesBtn
+                        MatchSchedbtn.Visible = false;
+                        RSaveChangesBtn.Visible = true;
+                    }
+                    else
+                    {
+                        Response.Write("No record found");
+
+                        // Hide SAVE button, show RSaveChangesBtn
+                        MatchSchedbtn.Visible = true;
+                        RSaveChangesBtn.Visible = false;
+
+
+
+                    }
+
+                    
+
+                }
+
+
+            }
+            
+        }
+
+        protected void Edit_BTNclk(object sender, EventArgs e)
+        {
+            try
+            {
+                // Debug: Log entry to method
+                Response.Write("Edit_BTNclk method triggered.<br/>");
+
+                // Get the ScheduleID from the hidden field
+                string scheduleID = HiddenScheduleID.Value;
+                Response.Write("ScheduleID: " + scheduleID + "<br/>");
+
+                // Get the selected room ID
+                string roomName = Edit_roomDrodown.SelectedValue;
+                Response.Write("RoomName: " + roomName + "<br/>");
+
+                // Get the selected date
+                DateTime selectedDate = DateTime.Parse(Edit_Calendar_TextBox1.Text);
+                Response.Write("SelectedDate: " + selectedDate.ToString("yyyy-MM-dd") + "<br/>");
+
+                // Get Start time and End time
+                string selectedStartTime = Edit_DropDownList1.SelectedItem.Text;
+                string selectedEndTime = Edit_DropDownList2.SelectedItem.Text;
+                Response.Write("StartTime: " + selectedStartTime + "<br/>");
+                Response.Write("EndTime: " + selectedEndTime + "<br/>");
+
+                DateTime parsedStartTime = DateTime.ParseExact(selectedStartTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+                TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
+                DateTime parsedEndTime = DateTime.ParseExact(selectedEndTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+                TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
+
+                // Debug: Log parsed times
+                Response.Write("Parsed StartTime: " + startTimeOfDay + "<br/>");
+                Response.Write("Parsed EndTime: " + endTimeOfDay + "<br/>");
+
+                // Open database connection
+                using (SqlConnection connection = dbConnection.GetConnection())
+                {
+                    if (connection.State == System.Data.ConnectionState.Open)
+                    {
+                        get_ID add_dbHelper = new get_ID();
+                        int sectionID = add_dbHelper.GetOrInsertSection(connection, ESection.Text);
+                        int instructorID = add_dbHelper.GetOrInsertInstructor(connection, EProf.Text);
+
+                        // Debug: Log IDs
+                        Response.Write("SectionID: " + sectionID + "<br/>");
+                        Response.Write("InstructorID: " + instructorID + "<br/>");
+
+                        // Update the schedule in the database
+                        string updateQuery = "UPDATE Schedule SET StartTime = @StartTime, EndTime = @EndTime, StartDate = @SelectedDate, SectionID = @SectionID, InstructorID = @InstructorID WHERE ScheduleID = @ScheduleID";
+
+                        using (SqlCommand command = new SqlCommand(updateQuery, connection))
+                        {
+                            command.Parameters.AddWithValue("@ScheduleID", scheduleID);
+                            command.Parameters.AddWithValue("@RoomID", roomName);
+                            command.Parameters.AddWithValue("@StartTime", startTimeOfDay);
+                            command.Parameters.AddWithValue("@EndTime", endTimeOfDay);
+                            command.Parameters.AddWithValue("@SelectedDate", selectedDate);
+                            command.Parameters.AddWithValue("@SectionID", sectionID);
+                            command.Parameters.AddWithValue("@InstructorID", instructorID);
+
+                            int rowsAffected = command.ExecuteNonQuery();
+
+                            // Debug: Log execution result
+                            Response.Write("Rows Affected: " + rowsAffected + "<br/>");
+
+                            if (rowsAffected > 0)
+                            {
+                                // Update successful
+                                RCloseBtn_Click(sender, e);
+                                Response.Write("Update successful");
+                            }
+                            else
+                            {
+                                // No rows were affected
+                                Response.Write("No rows were affected. The record might have been deleted by another user.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        Response.Write("Connection is not open.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Response.Write("Error: " + ex.Message);
+                // Optionally log the exception for troubleshooting
+            }
+        }
+
+        //protected void Edit_BTNclk(object sender, EventArgs e)
+        //{
+        //    try
+        //    {
+        //        // Get the ScheduleID from the hidden field
+        //        string scheduleID = HiddenScheduleID.Value;
+
+        //        // Get the selected room ID
+        //        string roomName = Edit_roomDrodown.SelectedValue;
+
+        //        // Get the selected date
+        //        DateTime selectedDate = DateTime.Parse(Edit_Calendar_TextBox1.Text);
+
+        //        // Get Start time and End time
+        //        string selectedStartTime = Edit_DropDownList1.SelectedItem.Text;
+        //        string selectedEndTime = Edit_DropDownList2.SelectedItem.Text;
+
+        //        DateTime parsedStartTime = DateTime.ParseExact(selectedStartTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+        //        TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
+
+        //        DateTime parsedEndTime = DateTime.ParseExact(selectedEndTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+        //        TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
+
+        //        // Open database connection
+        //        using (SqlConnection connection = dbConnection.GetConnection())
+        //        {
+        //            if (connection.State == System.Data.ConnectionState.Open)
+        //            {
+        //                get_ID add_dbHelper = new get_ID();
+        //                int sectionID = add_dbHelper.GetOrInsertSection(connection, ESection.Text);
+        //                int instructorID = add_dbHelper.GetOrInsertInstructor(connection, EProf.Text);
+
+        //                // Update the schedule in the database
+        //                string updateQuery = "UPDATE Schedule SET StartTime = @StartTime, EndTime = @EndTime, StartDate = @SelectedDate, SectionID = @SectionID, InstructorID = @InstructorID WHERE ScheduleID = @ScheduleID";
+
+        //                using (SqlCommand command = new SqlCommand(updateQuery, connection))
+        //                {
+        //                    command.Parameters.AddWithValue("@ScheduleID", scheduleID);
+        //                    command.Parameters.AddWithValue("@RoomID", roomName);
+        //                    command.Parameters.AddWithValue("@StartTime", startTimeOfDay);
+        //                    command.Parameters.AddWithValue("@EndTime", endTimeOfDay);
+        //                    command.Parameters.AddWithValue("@SelectedDate", selectedDate);
+        //                    command.Parameters.AddWithValue("@SectionID", sectionID);
+        //                    command.Parameters.AddWithValue("@InstructorID", instructorID);
+
+        //                    command.ExecuteNonQuery();
+
+        //                    //if (rowsAffected > 0)
+        //                    //{
+        //                    //    // Update successful, add your conditional logic here
+        //                    //    RCloseBtn_Click(sender, e);
+        //                    //    Response.Write("Update successful");
+        //                    //}
+        //                    //else
+        //                    //{
+        //                    //    // Update failed or no rows were affected
+        //                    //    Response.Write("Update failed or no rows were affected");
+        //                    //}
+        //                }
+        //            }
+        //            else
+        //            {
+        //                Response.Write("Connection is not open.");
+        //            }
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Response.Write("Error: " + ex.Message);
+        //        // Optionally log the exception for troubleshooting
+        //    }
+        //}
+
+        //protected void Edit_BTNclk(object sender, EventArgs e)
+        //{
+        //    // Get the new values from the fields
+
+        //    // Get the ScheduleID from the hidden field
+        //    //int scheduleID = int.Parse(HiddenScheduleID.Value);
+        //    string scheduleID = HiddenScheduleID.Value;
+
+        //    // Get the selected room ID
+        //    string roomName = Edit_roomDrodown.SelectedValue;
+
+
+        //    //string selectedDate = Edit_Calendar_TextBox1.Text;
+        //    DateTime selectedDate = DateTime.Parse(Edit_Calendar_TextBox1.Text);
+
+
+        //    //get Start time and End time
+        //    string selectedStartTime = Edit_DropDownList1.SelectedItem.Text;
+        //    string selectedEndTime = Edit_DropDownList2.SelectedItem.Text;
+
+
+        //    DateTime parsedStartTime = DateTime.ParseExact(selectedStartTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+        //    TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
+
+        //    DateTime parsedEndTime = DateTime.ParseExact(selectedEndTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+        //    TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
+
+
+
+        //    // Open database connection
+        //    SqlConnection connection = dbConnection.GetConnection();
+        //    if (connection.State == System.Data.ConnectionState.Open)
+        //    {
+        //        get_ID add_dbHelper = new get_ID();
+        //        int sectionID = add_dbHelper.GetOrInsertSection(connection, ESection.Text);
+        //        int instructorID = add_dbHelper.GetOrInsertInstructor(connection, EProf.Text);
+
+
+        //        // Update the schedule in the database
+        //        //string updateQuery = "UPDATE Schedule SET StartTime = @StartTime, EndTime = @EndTime, StartDate = @SelectedDate, SectionID = @SectionID, InstructorID = @InstructorID WHERE RoomID = @RoomID";
+        //        string updateQuery = "UPDATE Schedule SET StartTime = @StartTime, EndTime = @EndTime, StartDate = @SelectedDate, SectionID = @SectionID, InstructorID = @InstructorID WHERE ScheduleID = @ScheduleID";
+
+        //        using (SqlCommand command = new SqlCommand(updateQuery, connection))
+        //        {
+        //            command.Parameters.AddWithValue("@ScheduleID", scheduleID);
+        //            command.Parameters.AddWithValue("@RoomID", roomName);
+        //            command.Parameters.AddWithValue("@StartTime", startTimeOfDay);
+        //            command.Parameters.AddWithValue("@EndTime", endTimeOfDay);
+        //            command.Parameters.AddWithValue("@SelectedDate", selectedDate);
+        //            command.Parameters.AddWithValue("@SectionID", sectionID);
+        //            command.Parameters.AddWithValue("@InstructorID", instructorID);
+
+
+        //            int rowsAffected = command.ExecuteNonQuery();
+
+        //            if (rowsAffected > 0)
+        //            {
+        //                // Update successful, add your conditional logic here
+        //                RCloseBtn_Click(sender,e);
+        //                Response.Write("Update successful");
+
+        //            }
+        //            else
+        //            {
+        //                // Update failed or no rows were affected
+        //                Response.Write("Update failed or no rows were affected");
+        //            }
+        //        }
+
+
+        //    }
+
+        //}
+
+        protected void RCloseBtn_Click(object sender, EventArgs e)
+        {
+            // Reset all form fields to their default states
+            Edit_roomDrodown.SelectedIndex = -1;
+            Edit_DropDownList1.SelectedIndex = -1;
+            Edit_DropDownList2.SelectedIndex = -1;
+            Edit_Calendar_TextBox1.Text = string.Empty;
+            ESection.Text = string.Empty;
+            EProf.Text = string.Empty;
+
+            // Reset visibility of buttons
+            MatchSchedbtn.Visible = true;
+            RSaveChangesBtn.Visible = false;
+
+            // Keep the modal open
+            //ScriptManager.RegisterStartupScript(this, GetType(), "showModalScript", "keepModalOpen();", true);
+        }
+
+
     }
 }
