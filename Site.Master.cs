@@ -1,9 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
+using WebApplication1.cs_files;
 
 namespace WebApplication1
 {
@@ -11,7 +8,28 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
 
+            if (!IsPostBack)
+            {
+                int userlevel = user_Identity.user_level;
+                switch (userlevel) 
+                {
+                    case 1:
+                        Response.Write("Welcome admin");
+                        break;
+                    case 2:
+                        Response.Write("Welcome user 1");
+                        liBooking.Visible = false;
+                        break;
+
+                }
+                
+
+
+
+
+            }
         }
 
         protected void SignOut(object sender, EventArgs e)
