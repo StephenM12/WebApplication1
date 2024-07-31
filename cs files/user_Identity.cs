@@ -10,6 +10,7 @@ namespace WebApplication1.cs_files
         public static string user_FName { get; set; }
         public static string user_LName { get; set; }
         public static string user_Email { get; set; }
+        public static int user_level { get; set; }
 
         //get user ID with email
         public static int verify_User_email(string userEmail)
@@ -36,6 +37,7 @@ namespace WebApplication1.cs_files
                             user_Identity.user_FName = reader.GetString(3);
                             user_Identity.user_LName = reader.GetString(4);
                             user_Identity.user_Email = reader.GetString(5);
+                            user_Identity.user_level = reader.GetInt32(6);
                         }
                         connection.Close();
                     }
@@ -70,6 +72,8 @@ namespace WebApplication1.cs_files
                             user_Identity.user_FName = reader.GetString(3);
                             user_Identity.user_LName = reader.GetString(4);
                             user_Identity.user_Email = reader.GetString(5);
+                            user_Identity.user_level = reader.GetInt32(6);
+                            //ok
                         }
                         connection.Close();
                     }
