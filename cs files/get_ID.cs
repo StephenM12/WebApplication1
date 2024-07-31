@@ -29,25 +29,25 @@ namespace WebApplication1.cs_files
 
             switch (dayName)
             {
-                case "Sunday":
+                case "SUNDAY":
                     return 1;
 
-                case "Monday":
+                case "MONDAY":
                     return 2;
 
-                case "Tuesday":
+                case "TUESDAY":
                     return 3;
 
-                case "Wednesday":
+                case "WEDNESDAY":
                     return 4;
 
-                case "Thursday":
+                case "THURSDAY":
                     return 5;
 
-                case "Friday":
+                case "FRIDAY":
                     return 6;
 
-                case "Saturday":
+                case "SATURDAY":
                     return 7;
 
                 default:
@@ -72,7 +72,7 @@ namespace WebApplication1.cs_files
             string insertQuery = "INSERT INTO Buildings (BuildingName) OUTPUT INSERTED.BuildingID VALUES (@BuildingName)";
             using (SqlCommand command = new SqlCommand(insertQuery, connection))
             {
-                command.Parameters.AddWithValue("@BuildingName", building);
+                command.Parameters.AddWithValue("@BuildingName", building.ToUpper());
                 return (int)command.ExecuteScalar();
             }
         }
@@ -94,7 +94,7 @@ namespace WebApplication1.cs_files
             string insertQuery = "INSERT INTO Rooms (RoomName) OUTPUT INSERTED.RoomID VALUES (@RoomName)";
             using (SqlCommand command = new SqlCommand(insertQuery, connection))
             {
-                command.Parameters.AddWithValue("@RoomName", room);
+                command.Parameters.AddWithValue("@RoomName", room.ToUpper());
                 return (int)command.ExecuteScalar();
             }
         }
@@ -116,7 +116,7 @@ namespace WebApplication1.cs_files
             string insertQuery = "INSERT INTO Sections (SectionName) OUTPUT INSERTED.SectionID VALUES (@SectionName)";
             using (SqlCommand command = new SqlCommand(insertQuery, connection))
             {
-                command.Parameters.AddWithValue("@SectionName", section);
+                command.Parameters.AddWithValue("@SectionName", section.ToUpper());
                 return (int)command.ExecuteScalar();
             }
         }
@@ -138,7 +138,7 @@ namespace WebApplication1.cs_files
             string insertQuery = "INSERT INTO Courses (CourseCode) OUTPUT INSERTED.CourseID VALUES (@CourseCode)";
             using (SqlCommand command = new SqlCommand(insertQuery, connection))
             {
-                command.Parameters.AddWithValue("@CourseCode", course);
+                command.Parameters.AddWithValue("@CourseCode", course.ToUpper());
                 return (int)command.ExecuteScalar();
             }
         }
@@ -160,7 +160,7 @@ namespace WebApplication1.cs_files
             string insertQuery = "INSERT INTO Instructors (InstructorName) OUTPUT INSERTED.InstructorID VALUES (@InstructorName)";
             using (SqlCommand command = new SqlCommand(insertQuery, connection))
             {
-                command.Parameters.AddWithValue("@InstructorName", instructor);
+                command.Parameters.AddWithValue("@InstructorName", instructor.ToUpper());
                 return (int)command.ExecuteScalar();
             }
         }
