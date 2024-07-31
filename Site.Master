@@ -69,7 +69,7 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
+                <li id="liBooking" runat="server" class="sidebar-item">
                     <a href="Booking.aspx" class="sidebar-link" style="text-decoration: none;">
                         <i class="lni">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="white" class="bi bi-bookmark-plus" viewBox="0 0 16 16">
@@ -82,7 +82,7 @@
                     </a>
                 </li>
 
-                <li class="sidebar-item">
+                <li id="liReqsig" runat="server"  class="sidebar-item">
                     <a href="RequestSignatureForm.aspx" class="sidebar-link" style="text-decoration: none;">
                         <i class="lni">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-pdf-fill" viewBox="0 0 16 16">

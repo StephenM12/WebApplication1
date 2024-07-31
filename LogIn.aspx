@@ -117,7 +117,7 @@
                                 </div>
                             </div>
                             <!--Side Image-->
-                            <div class="col-lg-6 d-md-none d-xl-block align-items-center justify-content-center">
+                           <div class="col-lg-6 d-md-none d-xl-block align-items-center justify-content-center">
                                 <img src="images/Capture.png" class="img-fluid" />
                             </div>
                         </div>
