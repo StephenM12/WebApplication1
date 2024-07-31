@@ -31,31 +31,23 @@ namespace WebApplication1
             public DateTime EndDate { get; set; }
             public string Remarks { get; set; }
             public object BuildingID { get; set; }
-
         }
 
-        
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-            if (connection.State == System.Data.ConnectionState.Open)
+            if (!IsPostBack)
             {
-                if (!IsPostBack)
-                {
-                    //dropdown_Data(sender, e);
-                    room_dropdown_Data(sender, e);
-                    edit_Roomdropdown(sender, e);
+                Dropdown_Datas(sender, e);
 
-                    if (DropDownList2.Items.Count > 0)
-                    {
-                        DropDownList2.SelectedIndex = 0;
-                        BindScheduleData(sender, e);
-                    }
+                if (DropDownList2.Items.Count > 0)
+                {
+                    DropDownList2.SelectedIndex = 0;
+                    BindScheduleData(sender, e);
                 }
             }
         }
 
+        //file handling
         protected void Upload_File(object sender, EventArgs e)
         {
             string fileName = Path.GetFileName(FileUpload1.PostedFile.FileName);
@@ -155,6 +147,7 @@ namespace WebApplication1
 
                         string currentRoom = string.Empty;
                         List<ScheduleRow> scheduleRows = new List<ScheduleRow>();
+                        
 
                         // Loop through each row in the Excel worksheet
                         for (int row = 1; row <= rowCount; row++)
@@ -178,10 +171,12 @@ namespace WebApplication1
                                 for (int col = 2; col <= colCount; col++)
                                 {
                                     //hmmm try 4
-                                    string day = worksheet.Cells[5, col].Text; // Assuming row 3 contains day names
+                                    string day = worksheet.Cells[5, col].Text.ToUpper(); // Assuming row 3 contains day names
 
                                     // Get DayID from days_of_week table based on day name
-                                    int dayID = GetDayID(day);
+                                    get_ID getDay = new get_ID();
+                                    int dayID = getDay.GetDayID(day);
+                                    //int dayID = GetDayID(day);
 
                                     string schedule = worksheet.Cells[row, col].Text;
 
@@ -230,7 +225,7 @@ namespace WebApplication1
                                             DateTime Edate = DateTime.Parse(selectedEndDate);
 
                                             //get_ID building id
-                                            var buildingID = dbHelper.GetOrInsertBuilding(connection, upload_DropDownList1.SelectedValue);   
+                                            var buildingID = dbHelper.GetOrInsertBuilding(connection, upload_DropDownList1.SelectedValue);
 
                                             ScheduleRow newRow = new ScheduleRow
                                             {
@@ -284,7 +279,7 @@ namespace WebApplication1
                     }
 
                     //will update the contents of this:
-                    room_dropdown_Data(null, EventArgs.Empty);
+                    Dropdown_Datas(null, EventArgs.Empty);
                     BindScheduleData(null, EventArgs.Empty);
                 }
             }
@@ -300,8 +295,8 @@ namespace WebApplication1
             dataTable.Columns.Add("CourseID", typeof(object));
             dataTable.Columns.Add("InstructorID", typeof(object));
             dataTable.Columns.Add("Day", typeof(string));
-            dataTable.Columns.Add("StartTime", typeof(TimeSpan)); 
-            dataTable.Columns.Add("EndTime", typeof(TimeSpan)); 
+            dataTable.Columns.Add("StartTime", typeof(TimeSpan));
+            dataTable.Columns.Add("EndTime", typeof(TimeSpan));
             dataTable.Columns.Add("StartDate", typeof(DateTime));
             dataTable.Columns.Add("EndDate", typeof(DateTime));
             dataTable.Columns.Add("Remarks", typeof(string));
@@ -328,17 +323,18 @@ namespace WebApplication1
             return dataTable;
         }
 
+
+        //adding Sched
         protected void DeployBTNclk(object sender, EventArgs e)
         {
             // Open database connection
             SqlConnection connection = dbConnection.GetConnection();
 
-            
-
             try
             {
                 // Retrieve values from the form controls
-                string roomNumber = RRoomNumberTB.Text;
+                //string roomNumber = RRoomNumberTB.Text;
+                string roomNumber = add_Dropdown_room.SelectedValue;
                 string section = RSectionTB.Text;
                 string courseCode = RCourseCodeTB.Text;
                 string professor = RProfTB.Text;
@@ -353,15 +349,12 @@ namespace WebApplication1
                 get_ID add_dbHelper = new get_ID();
                 var add_Ids = add_dbHelper.CheckAndInsertValues(connection, roomNumber, section, courseCode, professor);
 
-
                 int buildingID = add_dbHelper.GetOrInsertBuilding(connection, ADD_DropDownList1.SelectedValue);
-
 
                 int roomID = add_Ids.roomID;
                 int sectionID = add_Ids.sectionID;
                 int courseID = add_Ids.courseID;
                 int instructorID = add_Ids.instructorID;
-               
 
                 DateTime parsedStartTime = DateTime.ParseExact(startTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
                 TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
@@ -369,14 +362,13 @@ namespace WebApplication1
                 DateTime parsedEndTime = DateTime.ParseExact(endTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
                 TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
 
-                
-
                 // Loop through each date between startDate and endDate
                 for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
                 {
                     // Get the day of the week and corresponding DayID
-                    string dayName = date.DayOfWeek.ToString();
-                    int dayID = GetDayID(dayName);
+                    string dayName = date.DayOfWeek.ToString().ToUpper();
+                    int dayID = add_dbHelper.GetDayID(dayName);
+                    //int dayID = GetDayID(dayName);
 
                     // Construct the SQL insert query
                     string insertQuery = @"
@@ -411,7 +403,7 @@ namespace WebApplication1
             finally
             {
                 //will update the contents of this:
-                room_dropdown_Data(null, EventArgs.Empty);
+                Dropdown_Datas(null, EventArgs.Empty);
                 BindScheduleData(null, EventArgs.Empty);
 
                 // Close the connection
@@ -419,77 +411,24 @@ namespace WebApplication1
             }
         }
 
-        private int GetDayID(string dayName)
+
+        //fill all dropdown list
+        protected void Dropdown_Datas(object sender, EventArgs e)
         {
-            switch (dayName)
-            {
-                case "Sunday":
-                    return 1;
+            DropdownFiller filler = new DropdownFiller();
 
-                case "Monday":
-                    return 2;
+            // Populate Room dropdowns
+            filler.PopulateRooms(DropDownList2);
+            filler.PopulateRooms(Edit_roomDrodown);
+            filler.PopulateRooms(add_Dropdown_room);
 
-                case "Tuesday":
-                    return 3;
-
-                case "Wednesday":
-                    return 4;
-
-                case "Thursday":
-                    return 5;
-
-                case "Friday":
-                    return 6;
-
-                case "Saturday":
-                    return 7;
-
-                default:
-                    throw new ArgumentException("Invalid day name");
-            }
+            // Populate Building dropdowns
+            filler.PopulateBuildings(upload_DropDownList1);
+            filler.PopulateBuildings(ADD_DropDownList1);
         }
 
-        protected void room_dropdown_Data(object sender, EventArgs e)
-        {
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                //Dropdown datas from sql
-                SqlCommand cmd = new SqlCommand("SELECT RoomID, RoomName FROM Rooms", connection);
-                SqlDataReader reader = cmd.ExecuteReader();
-               
 
-                // Bind the data to the dropdown list
-                DropDownList2.DataTextField = "RoomName"; // Column name to display
-                DropDownList2.DataValueField = "RoomID"; // Column name to use as value
-                DropDownList2.DataSource = reader;
-                DropDownList2.DataBind();
-
-                
-            }
-        }
-        protected void edit_Roomdropdown(object sender, EventArgs e)
-        {
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                //Dropdown datas from sql
-                SqlCommand cmd = new SqlCommand("SELECT RoomID, RoomName FROM Rooms", connection);
-                SqlDataReader reader = cmd.ExecuteReader();
-
-
-                // Bind the data to the dropdown list
-                Edit_roomDrodown.DataTextField = "RoomName"; // Column name to display
-                Edit_roomDrodown.DataValueField = "RoomID"; // Column name to use as value
-                Edit_roomDrodown.DataSource = reader;
-                Edit_roomDrodown.DataBind();
-
-
-            }
-        }
-
+        //changed the data that is showed based on the calendar
         protected void BindScheduleData(object sender, EventArgs e)
         {
             string selected_ID_ROOM = DropDownList2.SelectedValue;
@@ -556,18 +495,17 @@ namespace WebApplication1
             BindScheduleData(sender, e);
         }
 
-        //for edit modal:
+
+        //for Edit modal:
         protected void Match_Schedule(object sender, EventArgs e)
         {
             // Get the selected room ID
             string roomName = Edit_roomDrodown.SelectedValue;
-            
 
             //string selectedDate = Edit_Calendar_TextBox1.Text;
             DateTime selectedDate = DateTime.Parse(Edit_Calendar_TextBox1.Text);
             string selectedStartTime = Edit_DropDownList1.SelectedItem.Text;
             string selectedEndTime = Edit_DropDownList2.SelectedItem.Text;
-
 
             DateTime parsedStartTime = DateTime.ParseExact(selectedStartTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
             TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
@@ -579,18 +517,16 @@ namespace WebApplication1
             SqlConnection connection = dbConnection.GetConnection();
             if (connection.State == System.Data.ConnectionState.Open)
             {
-
-
-                // Retrieve the existing schedule from the database 
-                string query = @"SELECT 
-                            s.ScheduleID, s.StartTime, s.EndTime, s.StartDate, 
-                            sec.SectionName, ins.InstructorName 
+                // Retrieve the existing schedule from the database
+                string query = @"SELECT
+                            s.ScheduleID, s.StartTime, s.EndTime, s.StartDate,
+                            sec.SectionName, ins.InstructorName
                          FROM Schedule s
                          INNER JOIN Sections sec ON s.SectionID = sec.SectionID
                          INNER JOIN Instructors ins ON s.InstructorID = ins.InstructorID
-                         WHERE s.RoomID = @RoomID 
-                           AND @SelectedDate BETWEEN s.StartDate AND s.EndDate 
-                           AND s.StartTime = @StartTime 
+                         WHERE s.RoomID = @RoomID
+                           AND @SelectedDate BETWEEN s.StartDate AND s.EndDate
+                           AND s.StartTime = @StartTime
                            AND s.EndTime = @EndTime";
                 using (SqlCommand command = new SqlCommand(query, connection))
                 {
@@ -608,15 +544,13 @@ namespace WebApplication1
                         Edit_DropDownList1.SelectedValue = reader["StartTime"].ToString();
                         Edit_DropDownList2.SelectedValue = reader["EndTime"].ToString();
                         Edit_Calendar_TextBox1.Text = Convert.ToDateTime(reader["StartDate"]).ToString("yyyy-MM-dd");
-                        ESection.Text = reader["SectionName"].ToString(); 
+                        ESection.Text = reader["SectionName"].ToString();
                         EProf.Text = reader["InstructorName"].ToString();
 
                         // Store ScheduleID for later use
 
                         int scheduleID = Convert.ToInt32(reader["ScheduleID"]);
                         HiddenScheduleID.Value = scheduleID.ToString();
-
-
 
                         // Show SAVE button, hide RSaveChangesBtn
                         MatchSchedbtn.Visible = false;
@@ -629,18 +563,9 @@ namespace WebApplication1
                         // Hide SAVE button, show RSaveChangesBtn
                         MatchSchedbtn.Visible = true;
                         RSaveChangesBtn.Visible = false;
-
-
-
                     }
-
-                    
-
                 }
-
-
             }
-            
         }
 
         protected void Edit_BTNclk(object sender, EventArgs e)
@@ -751,7 +676,5 @@ namespace WebApplication1
             // Keep the modal open
             //ScriptManager.RegisterStartupScript(this, GetType(), "showModalScript", "keepModalOpen();", true);
         }
-
-
     }
 }

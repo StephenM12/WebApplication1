@@ -150,6 +150,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button REditBtn;
 
         /// <summary>
+        /// add_Dropdown_room control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList add_Dropdown_room;
+
+        /// <summary>
         /// RCourseCodeTB control.
         /// </summary>
         /// <remarks>
@@ -175,15 +184,6 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox RProfTB;
-
-        /// <summary>
-        /// RRoomNumberTB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox RRoomNumberTB;
 
         /// <summary>
         /// RRemarksTB control.

@@ -13,8 +13,7 @@
         <asp:ScriptManager runat="server"></asp:ScriptManager>
         <!-- HiddenField for DayOfWeek -->
         <asp:HiddenField ID="hiddenDayOfWeek" runat="server" />
-        
-        
+
         <div>
             <div class="row">
 
@@ -42,12 +41,8 @@
                                     <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
                                 </div>
                                 <div class="form-outline mb-4">
-                                    <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label>
-                                    <asp:DropDownList ID="upload_DropDownList1" runat="server">
-                                        <asp:ListItem Text="RIZAL" Value="RIZAL"></asp:ListItem>
-                                        <asp:ListItem Text="EINSTEIN" Value="EINSTEIN"></asp:ListItem>
-                                        <asp:ListItem Text="ETYCB" Value="ETYCB"></asp:ListItem>
-                                    </asp:DropDownList>
+                                    <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label> 
+                                    <asp:DropDownList ID="upload_DropDownList1" runat="server"> </asp:DropDownList>
                                 </div>
                                 <div class="form-outline mb-4">
                                     <div class="row align-items-center">
@@ -77,7 +72,7 @@
             </div>
             <%--modal end here--%>
         </div>
-         <br />
+        <br />
         <div>
             <asp:UpdatePanel runat="server">
                 <ContentTemplate>
@@ -85,7 +80,7 @@
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
-            <asp:Calendar ID="Calendar3" runat="server" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
+        <asp:Calendar ID="Calendar3" runat="server" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
 
         <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
             <div class="schedule-container col-sm-6">
@@ -155,6 +150,17 @@
                     <div class="modal-body">
 
                         <div class="form-outline mb-4">
+                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Room Number:</label>
+                            <%--                            <asp:TextBox ID="RRoomNumberTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Room Number"></asp:TextBox>--%>
+                            <asp:UpdatePanel runat="server">
+                                <ContentTemplate>
+                                    <asp:DropDownList ID="add_Dropdown_room" runat="server" AutoPostBack="true">
+                                    </asp:DropDownList>
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                        </div>
+
+                        <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Course Code:</label>
                             <asp:TextBox ID="RCourseCodeTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Course Code"></asp:TextBox>
                         </div>
@@ -170,22 +176,13 @@
                         </div>
 
                         <div class="form-outline mb-4">
-                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Room Number:</label>
-                            <asp:TextBox ID="RRoomNumberTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Room Number"></asp:TextBox>
-                        </div>
-
-                        <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Remarks : (Optional)</label>
                             <asp:TextBox ID="RRemarksTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Remarks"></asp:TextBox>
                         </div>
 
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label>
-                            <asp:DropDownList ID="ADD_DropDownList1" runat="server">
-                                <asp:ListItem Text="RIZAL" Value="RIZAL"></asp:ListItem>
-                                <asp:ListItem Text="EINSTEIN" Value="EINSTEIN"></asp:ListItem>
-                                <asp:ListItem Text="ETYCB" Value="ETYCB"></asp:ListItem>
-                            </asp:DropDownList>
+                            <asp:DropDownList ID="ADD_DropDownList1" runat="server"></asp:DropDownList>
                         </div>
 
                         <div class="form-outline mb-4">
@@ -411,7 +408,6 @@
                         </div>
                     </div>
                     <div class="modal-footer">
-                        
 
                         <asp:Button ID="RCloseBtn" runat="server" Text="Cancel" CssClass="bg-color btn btn-primary bg-color" OnClick="RCloseBtn_Click" />
                         <asp:UpdatePanel runat="server">
@@ -427,10 +423,8 @@
                             </ContentTemplate>
                             <Triggers>
                                 <asp:PostBackTrigger ControlID="RSaveChangesBtn" />
-
                             </Triggers>
                         </asp:UpdatePanel>
-
                     </div>
                 </div>
             </div>
