@@ -16,10 +16,14 @@ namespace WebApplication1
                 switch (userlevel) 
                 {
                     case 1:
-                        Response.Write("Welcome admin");
+                        Response.Write("Welcome admin");//remove later
                         break;
                     case 2:
-                        Response.Write("Welcome user 1");
+                        Response.Write("Welcome user 1");//remove later
+                        liReqsig.Visible = false;
+                        break;
+                    case 3:
+                        Response.Write("Welcome user 2");//remove later
                         liBooking.Visible = false;
                         break;
 
