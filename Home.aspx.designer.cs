@@ -51,13 +51,13 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button addBuild;
 
         /// <summary>
-        /// lblError control.
+        /// updatePanelBuilding control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblError;
+        protected global::System.Web.UI.UpdatePanel updatePanelBuilding;
 
         /// <summary>
         /// txtBuildingName control.
@@ -69,13 +69,22 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.TextBox txtBuildingName;
 
         /// <summary>
-        /// btnConfirmAdd control.
+        /// lblSuccessMessage control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnConfirmAdd;
+        protected global::System.Web.UI.WebControls.Label lblSuccessMessage;
+
+        /// <summary>
+        /// btnAddBuilding control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnAddBuilding;
 
         /// <summary>
         /// addRm control.

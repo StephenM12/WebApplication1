@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Configuration;
 using System.Data.SqlClient;
 using System.Web.UI;
 using System.Web.UI.WebControls;
@@ -17,7 +16,6 @@ namespace WebApplication1
 
             if (!IsPostBack)
             {
-
                 //BindRooms();
                 //BuildingDown_MAIN(sender, e);
                 //BuildingDown_Data(sender, e);
@@ -26,11 +24,10 @@ namespace WebApplication1
                 int buildingId = GetSelectedBuildingId(); // Implement this method to get selected building ID
                 //RoomRepository repo = new RoomRepository();
                 //List<Room> rooms = repo.GetRooms(buildingId);
-                List<Room> rooms =  GetRooms(3);
+                List<Room> rooms = GetRooms(3);
 
                 RoomRepeater.DataSource = rooms;
                 RoomRepeater.DataBind();
-
             }
         }
 
@@ -54,6 +51,7 @@ namespace WebApplication1
             // Implement logic to get the selected building ID (e.g., from query string or session)
             return 1; // Placeholder value
         }
+
         public List<Room> GetRooms(int buildingId)
         {
             var rooms = new List<Room>();
@@ -65,8 +63,6 @@ namespace WebApplication1
             {
                 var command = new SqlCommand("SELECT RoomID, RoomName FROM Rooms WHERE BuildingID = @BuildingID", connection);
                 command.Parameters.AddWithValue("@BuildingID", buildingId);
-
-                
 
                 using (var reader = command.ExecuteReader())
                 {
@@ -84,41 +80,58 @@ namespace WebApplication1
             return rooms;
         }
 
-        protected void btnConfirmAdd_Click(object sender, EventArgs e)
+        //adding building
+        protected void btnAddBuilding_Click(object sender, EventArgs e)
         {
             string buildingName = txtBuildingName.Text.Trim().ToUpper();
 
             if (string.IsNullOrEmpty(buildingName))
             {
-                lblError.Text = "Building name cannot be empty!";
+                lblSuccessMessage.Text = "Building name cannot be empty!";
+                lblSuccessMessage.CssClass = "alert alert-danger";
+                lblSuccessMessage.Visible = true;
                 return;
             }
 
             // Open database connection
             SqlConnection connection = dbConnection.GetConnection();
 
-            string query = "INSERT INTO Buildings (BuildingName) VALUES (@BuildingName)";
-
             if (connection.State == System.Data.ConnectionState.Open)
             {
-                using (SqlCommand cmd = new SqlCommand(query, connection))
+                get_ID getbuildID = new get_ID();
+                try
                 {
-                    cmd.Parameters.AddWithValue("@BuildingName", buildingName);
+                    int buildingID = getbuildID.GetOrInsertBuilding(connection, buildingName);
 
-                    try
+                    if (buildingID > 0)
                     {
-                        cmd.ExecuteNonQuery();
-                        lblError.Text = ""; // Clear any previous error
-                        ScriptManager.RegisterStartupScript(this, this.GetType(), "Pop", "$('#addBuildingModal').modal('hide');", true);
+                        txtBuildingName.Text = " ";
+                        lblSuccessMessage.Text = buildingName + " Building inserted successfully.";
+                        lblSuccessMessage.CssClass = "alert alert-success";
+                        lblSuccessMessage.Visible = true;
+
+                        // Use ScriptManager to close the modal after 2 seconds
+                        ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", @"
+                            setTimeout(function() {
+                                $('#addBuildingModal').modal('hide');
+                            }, 3000);
+                        ", true);
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        lblError.Text = "Error: " + ex.Message;
+                        lblSuccessMessage.Text = "Failed to insert building.";
+                        lblSuccessMessage.CssClass = "alert alert-danger";
+                        lblSuccessMessage.Visible = true;
                     }
+                }
+                catch (Exception ex)
+                {
+                    lblSuccessMessage.Text = "Error: " + ex.Message;
+                    lblSuccessMessage.CssClass = "alert alert-danger";
+                    lblSuccessMessage.Visible = true;
                 }
             }
         }
-
 
 
         //for building dropdown in adding room
@@ -133,7 +146,6 @@ namespace WebApplication1
             {
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
-                    
                     ddlBuildings.DataSource = cmd.ExecuteReader();
                     ddlBuildings.DataTextField = "BuildingName";
                     ddlBuildings.DataValueField = "BuildingID";
@@ -175,7 +187,6 @@ namespace WebApplication1
 
                     try
                     {
-                      
                         cmd.ExecuteNonQuery();
 
                         lblRoomError.Text = ""; // Clear any previous error
@@ -188,7 +199,6 @@ namespace WebApplication1
                 }
             }
         }
-
 
         //protected void BuildingDown_Data(object sender, EventArgs e)
         //{
@@ -207,10 +217,6 @@ namespace WebApplication1
         //        BuildingID.DataBind();
         //    }
         //}
-
-
-
-
 
         //protected void BuildingDown_MAIN(object sender, EventArgs e)
         //{
@@ -233,14 +239,14 @@ namespace WebApplication1
         //private void BindRooms()
         //{
         //    string query = @"
-        //                SELECT 
-        //                    r.RoomID, 
-        //                    r.RoomName, 
-        //                    r.BuildingID, 
-        //                    b.BuildingName 
-        //                FROM 
+        //                SELECT
+        //                    r.RoomID,
+        //                    r.RoomName,
+        //                    r.BuildingID,
+        //                    b.BuildingName
+        //                FROM
         //                    Rooms r
-        //                JOIN 
+        //                JOIN
         //                    Buildings b ON r.BuildingID = b.BuildingID";
 
         //    List<Room> rooms = new List<Room>();
@@ -251,12 +257,10 @@ namespace WebApplication1
         //    {
         //        using (SqlCommand cmd = new SqlCommand(query, connection))
         //        {
-
         //            using (SqlDataReader reader = cmd.ExecuteReader())
         //            {
         //                while (reader.Read())
         //                {
-
         //                    string cardClass_ = "bg-success";
         //                    string status = "Available";
         //                    //string Building = "RIZAL";
@@ -278,18 +282,15 @@ namespace WebApplication1
         //    }
         //}
 
-
         //protected void addRoomBTN_Click(object sender, EventArgs e)
         //{
         //    string roomtxt = txtNewroom.Text.ToUpper();
         //    string BuildingID_ = ADD_BuildDL.SelectedValue;
 
-
         //    // Open database connection
         //    SqlConnection connection = dbConnection.GetConnection();
         //    if (connection.State == System.Data.ConnectionState.Open)
         //    {
-
         //        get_ID getBuilding = new get_ID();
         //        int buildID = getBuilding.GetOrInsertBuilding(connection, BuildingID_);
 
@@ -332,9 +333,5 @@ namespace WebApplication1
         //        }
         //    }
         //}
-
-
-
-
     }
 }
