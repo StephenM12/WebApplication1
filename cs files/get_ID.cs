@@ -14,9 +14,10 @@ namespace WebApplication1.cs_files
     {
 
 
-        public (int roomID, int sectionID, int courseID, int instructorID) CheckAndInsertValues(SqlConnection connection, string room, string section, string course, string instructor)
+        public (int roomID, int sectionID, int courseID, int instructorID) CheckAndInsertValues(SqlConnection connection, string room, string section, string course, string instructor, bool additem, int buildingid)
         {
-            int roomID = GetOrInsertRoom(connection, room);
+           
+            int roomID = GetOrInsertRoom(connection, room, additem, buildingid);
             int sectionID = GetOrInsertSection(connection, section);
             int courseID = GetOrInsertCourse(connection, course);
             int instructorID = GetOrInsertInstructor(connection, instructor);
@@ -77,7 +78,7 @@ namespace WebApplication1.cs_files
             }
         }
 
-        public int GetOrInsertRoom(SqlConnection connection, string room)
+        public int GetOrInsertRoom(SqlConnection connection, string room, bool addITEM, int buildingID)
         {
             // Example logic for retrieving or inserting a room
             string query = "SELECT RoomID FROM Rooms WHERE RoomName = @RoomName";
@@ -91,12 +92,21 @@ namespace WebApplication1.cs_files
                 }
             }
 
-            string insertQuery = "INSERT INTO Rooms (RoomName) OUTPUT INSERTED.RoomID VALUES (@RoomName)";
-            using (SqlCommand command = new SqlCommand(insertQuery, connection))
+            if (addITEM) 
             {
-                command.Parameters.AddWithValue("@RoomName", room.ToUpper());
-                return (int)command.ExecuteScalar();
+                string insertQuery = "INSERT INTO Rooms (RoomName, BuildingID) OUTPUT INSERTED.RoomID VALUES (@RoomName, @BuildingID)";
+                using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@RoomName", room.ToUpper());
+                    command.Parameters.AddWithValue("@BuildingID", buildingID);
+                    return (int)command.ExecuteScalar();
+                }
+
+
             }
+
+            return -1;
+            
         }
 
         public int GetOrInsertSection(SqlConnection connection, string section)
@@ -121,7 +131,7 @@ namespace WebApplication1.cs_files
             }
         }
 
-        private int GetOrInsertCourse(SqlConnection connection, string course)
+        public int GetOrInsertCourse(SqlConnection connection, string course)
         {
             // Example logic for retrieving or inserting a course
             string query = "SELECT CourseID FROM Courses WHERE CourseCode = @CourseCode";

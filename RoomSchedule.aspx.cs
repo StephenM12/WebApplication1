@@ -23,7 +23,7 @@ namespace WebApplication1
             public object RoomID { get; set; }
             public object SectionID { get; set; }
             public object CourseID { get; set; }
-            public object InstructorID { get; set; }
+            public object InstructorID { get; set; } 
             public int Day { get; set; }
             public TimeSpan StartTime { get; set; }
             public TimeSpan EndTime { get; set; }
@@ -37,7 +37,17 @@ namespace WebApplication1
         {
             if (!IsPostBack)
             {
+                int userlevel = user_Identity.user_level;
+                if (userlevel == 2 || userlevel == 3)
+                {
+                    RAddSchedBtn.Visible = false;
+                    REditBtn.Visible = false;
+                    RUploadFileBtn.Visible = false;
+                }
+                
                 Dropdown_Datas(sender, e);
+                upload_DropDownList1.SelectedIndex = 0;
+
 
                 if (DropDownList2.Items.Count > 0)
                 {
@@ -64,71 +74,83 @@ namespace WebApplication1
             DateTime Sdate = DateTime.Parse(selectedDate);
             DateTime Edate = DateTime.Parse(selectedEndDate);
 
-            if (FileUpload1.HasFile)
+            try
             {
-                if (Sdate != DateTime.MinValue && Edate != DateTime.MinValue)
+
+                if (FileUpload1.HasFile)
                 {
-                    try
+                    if (Sdate != DateTime.MinValue && Edate != DateTime.MinValue)
                     {
-                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
-                        using (Stream excelStream = FileUpload1.PostedFile.InputStream)
+                        try
                         {
-                            using (BinaryReader br = new BinaryReader(excelStream))
+                            ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                            using (Stream excelStream = FileUpload1.PostedFile.InputStream)
                             {
-                                byte[] bytes = br.ReadBytes((Int32)excelStream.Length);
-
-                                // Open database connection
-                                SqlConnection connection = dbConnection.GetConnection();
-                                if (connection.State == System.Data.ConnectionState.Open)
+                                using (BinaryReader br = new BinaryReader(excelStream))
                                 {
-                                    // Perform your database operations here:
-                                    string query = @"INSERT INTO upload_SchedsTBL (FileName, ContentType, Data, Uploader, UploadDate) VALUES (@FileName, @ContentType, @FileData, @Uploader, @UploadDate)";
+                                    byte[] bytes = br.ReadBytes((Int32)excelStream.Length);
 
-                                    using (SqlCommand command = new SqlCommand(query, connection))
+                                    // Open database connection
+                                    SqlConnection connection = dbConnection.GetConnection();
+                                    if (connection.State == System.Data.ConnectionState.Open)
                                     {
-                                        try
-                                        {
-                                            command.Parameters.AddWithValue("@FileName", fileName);
-                                            command.Parameters.AddWithValue("@ContentType", contentType);
-                                            command.Parameters.AddWithValue("@FileData", bytes);
-                                            command.Parameters.AddWithValue("@Uploader", uploader);
-                                            command.Parameters.AddWithValue("@UploadDate", uploadDate);
+                                        // Perform your database operations here:
+                                        string query = @"INSERT INTO upload_SchedsTBL (FileName, ContentType, Data, Uploader, UploadDate) VALUES (@FileName, @ContentType, @FileData, @Uploader, @UploadDate)";
 
-                                            command.ExecuteNonQuery();
-
-                                            ReadExcelData(excelStream);
-                                        }
-                                        catch (Exception ex)
+                                        using (SqlCommand command = new SqlCommand(query, connection))
                                         {
-                                            // Handle the error here
-                                            Console.WriteLine("An error occurred while inserting into upload_SchedsTBL: " + ex.Message);
-                                            // Optionally, you may choose to rollback any changes or perform other cleanup actions.
+                                            try
+                                            {
+                                                command.Parameters.AddWithValue("@FileName", fileName);
+                                                command.Parameters.AddWithValue("@ContentType", contentType);
+                                                command.Parameters.AddWithValue("@FileData", bytes);
+                                                command.Parameters.AddWithValue("@Uploader", uploader);
+                                                command.Parameters.AddWithValue("@UploadDate", uploadDate);
+
+                                                command.ExecuteNonQuery();
+
+                                                ReadExcelData(excelStream);
+                                            }
+                                            catch (Exception ex)
+                                            {
+                                                // Handle the error here
+                                                Console.WriteLine("An error occurred while inserting into upload_SchedsTBL: " + ex.Message);
+                                                // Optionally, you may choose to rollback any changes or perform other cleanup actions.
+                                            }
                                         }
+                                        //ReadExcelData(excelStream);
                                     }
-                                    //ReadExcelData(excelStream);
                                 }
                             }
                         }
+                        catch (Exception ex)
+                        {
+                            // Log the exception or handle it accordingly
+                            Console.WriteLine("An error occurred during the file upload process: " + ex.Message);
+                            Response.Write("An error occurred during the file upload process. Please try again." + ex.Message);
+                        }
                     }
-                    catch (Exception ex)
+                    else
                     {
-                        // Log the exception or handle it accordingly
-                        Console.WriteLine("An error occurred during the file upload process: " + ex.Message);
-                        Response.Write("An error occurred during the file upload process. Please try again." + ex.Message);
+                        // Calendar1 does not have a selected date
+                        Response.Write("Pls Select the Start and End date from the Calendars");
                     }
                 }
                 else
                 {
-                    // Calendar1 does not have a selected date
-                    Response.Write("Pls Select the Start and End date from the Calendars");
+                    // Handle the case when no file is uploaded
+                    Response.Write("Please upload a file.");
                 }
+
+
             }
-            else
+            catch (Exception ex)
             {
-                // Handle the case when no file is uploaded
-                Response.Write("Please upload a file.");
+                // Handle exceptions
+                Response.Write("Error: " + ex.Message);
             }
 
+           
             // Calendar1 has a selected date
         }
 
@@ -213,8 +235,10 @@ namespace WebApplication1
                                             DateTime END_parsedTime = DateTime.ParseExact(timeParts[1].Trim(), "h:mmtt", CultureInfo.InvariantCulture);
                                             TimeSpan END_timeOfDay = END_parsedTime.TimeOfDay;
 
+                                            int buildID = int.Parse(upload_DropDownList1.SelectedValue);
+
                                             get_ID dbHelper = new get_ID();
-                                            var ids = dbHelper.CheckAndInsertValues(connection, currentRoom, section, courseCode, instructor);
+                                            var ids = dbHelper.CheckAndInsertValues(connection, currentRoom, section, courseCode, instructor, true, buildID);
 
                                             //Get the selected date from the TextBox
                                             string selectedDate = calendar_TB1.Text;
@@ -347,10 +371,12 @@ namespace WebApplication1
                 string endTime = RTimeEnd.SelectedItem.Text;
 
                 get_ID add_dbHelper = new get_ID();
-                var add_Ids = add_dbHelper.CheckAndInsertValues(connection, roomNumber, section, courseCode, professor);
+
+                int buildID = int.Parse(ADD_DropDownList1.SelectedValue);
+
+                var add_Ids = add_dbHelper.CheckAndInsertValues(connection, roomNumber, section, courseCode, professor, true, buildID);
 
                 int buildingID = add_dbHelper.GetOrInsertBuilding(connection, ADD_DropDownList1.SelectedValue);
-
                 int roomID = add_Ids.roomID;
                 int sectionID = add_Ids.sectionID;
                 int courseID = add_Ids.courseID;

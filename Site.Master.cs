@@ -12,19 +12,47 @@ namespace WebApplication1
 
             if (!IsPostBack)
             {
+                //page ids:
+                //home = liHome
+                //image display = liImageDisp
+                //room sched = liRoomSched
+                //booking = liBooking
+                //request signature = liReqApp
+                //history = liHistory
+                //profile = liProfile
+                //room request = liRoomReq
+
                 int userlevel = user_Identity.user_level;
                 switch (userlevel) 
                 {
                     case 1:
-                        Response.Write("Welcome admin");//remove later
+                        Response.Write("Welcome IFO");//remove later
+                        liRoomReq.Visible = false;
+                        liReqApp.Visible = false;
+                        liRoomReq.Visible = false;
+
                         break;
                     case 2:
-                        Response.Write("Welcome user 1");//remove later
-                        liReqsig.Visible = false;
+                        Response.Write("Welcome user_Approval ");//Request Approval 
+                        liImageDisp.Visible = false;
+                        liRoomReq.Visible = false;
+                        liBooking.Visible = false;
+                        liHistory.Visible = false;
+                        liAddUser.Visible = false;
+
+
                         break;
                     case 3:
-                        Response.Write("Welcome user 2");//remove later
+                        Response.Write("Welcome user_Requester "); //Request Form
+                        liImageDisp.Visible = false;
                         liBooking.Visible = false;
+                        liReqApp.Visible = false;
+                        liHistory.Visible = false;
+                        liAddUser.Visible = false;
+
+
+
+
                         break;
 
                 }

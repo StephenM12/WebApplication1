@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/login_master.Master" AutoEventWireup="true" CodeBehind="LogIn.aspx.cs"
+﻿    <%@ Page Title="" Language="C#" MasterPageFile="~/login_master.Master" AutoEventWireup="true" CodeBehind="LogIn.aspx.cs"
     Inherits="WebApplication1.login" %>
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
@@ -108,8 +108,8 @@
                                             </div>
                                             <div class="d-flex align-items-center justify-content-center pb-4">
                                                 <!--ID for Create Account Button-->
-                                                <asp:Button ID="CreateAccBtn" runat="server" Text="Create Account" OnClick="CreateAccBtn_Click" class="btn btn-primary btn-block fa-lg full-width bg-purple" />
-                                                <asp:Button ID="RRBtn" runat="server" Text="Request Room" class="btn btn-primary btn-block fa-lg full-width bg-purple" OnClick="RRBtn_Click" />
+                                                <%--<asp:Button ID="CreateAccBtn" runat="server" Text="Create Account" OnClick="CreateAccBtn_Click" class="btn btn-primary btn-block fa-lg full-width bg-purple" />--%>
+                                                <%--<asp:Button ID="RRBtn" runat="server" Text="Request Room" class="btn btn-primary btn-block fa-lg full-width bg-purple" OnClick="RRBtn_Click" />--%>
 
                                             </div>
                                         </form>

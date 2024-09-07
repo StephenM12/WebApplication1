@@ -6,7 +6,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
-    <section class="vh-100" style="background-image: url('Images/Global.png'); background-size: cover; background-position: center;">
+    <section class="vh-100" >
             <div class="container h-100">
                 <div class="row d-flex justify-content-center align-items-center h-100">
                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
@@ -14,11 +14,11 @@
                             <div class="card-body p-5" style="background-color: #D9D9D9;">
                                 <div class="row">
                                     <div class="col-sm-6">
-                                        <p class="fs-3 text-center text-uppercase" style="color: #6358DC; font-weight: bold;">Create Account</p>
+                                        <p class="fs-3 text-center text-uppercase" style="color: #6358DC; font-weight: bold;">Add Account</p>
                                     </div>
 
                                     <div class="col-sm-6 text-end">
-                                        <a href="LogIn.aspx" class="btn-close" style="font-size: 43px; color: black; font-weight: bold;">
+                                        <a href="Home.aspx" class="btn-close" style="font-size: 43px; color: black; font-weight: bold;">
                                             <i class="fa fa-trash-o" aria-hidden="true"></i>
                                         </a>
                                     </div>
@@ -27,6 +27,24 @@
                                 <form>
                                     <div class="custom-line"></div>
                                     <!--ID's for Create Account TextBoxes-->
+
+                                     <div class="form-outline mb-4">
+                                        <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">User Level:</label>
+                                        <asp:DropDownList ID="userlvl" runat="server">
+                                            <asp:ListItem Text="3" Value="3"></asp:ListItem>
+                                            <asp:ListItem Text="2" Value="2"></asp:ListItem>
+                                            <asp:ListItem Text="1" Value="1"></asp:ListItem>
+                                           
+                                        </asp:DropDownList>
+                                         <div class="mt-2 ms-3">
+                                            <p style="font-size: 14px; color: #6c757d;">
+                                                <strong>3</strong>: Requester<br>
+                                                <strong>2</strong>: Approver<br>
+                                                <strong>1</strong>: Super User
+                                            </p>
+                                        </div>
+                                    </div>
+
                                     <div class="form-outline mb-4">
                                         <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Username</label>
                                         <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ErrorMessage="Complete This Field" ControlToValidate="UsernameID" ForeColor="#CC0000" ValidationGroup="valgrp3"></asp:RequiredFieldValidator>

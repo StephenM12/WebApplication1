@@ -105,13 +105,22 @@ namespace RoomRequestForm
         protected global::System.Web.UI.WebControls.TextBox EndDateTB;
 
         /// <summary>
-        /// RTimeDL control.
+        /// STimeDL control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.DropDownList RTimeDL;
+        protected global::System.Web.UI.WebControls.DropDownList STimeDL;
+
+        /// <summary>
+        /// ETimeDL control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DropDownList ETimeDL;
 
         /// <summary>
         /// btn_Export control.

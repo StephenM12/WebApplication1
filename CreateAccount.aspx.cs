@@ -20,6 +20,9 @@ namespace WebApplication1
             string userEmail = EmailID.Text;
             string userPass = PasswordID.Text;
 
+            string userLEVEL = userlvl.SelectedValue;
+            int userLevelInt = int.Parse(userLEVEL);
+
 
             bool emailCheck = createAcc_Validation.isEmail_Valid(userEmail);
             bool userNCheck = createAcc_Validation.isEmail_Valid(userName);
@@ -32,7 +35,7 @@ namespace WebApplication1
 
                 if (connection.State == System.Data.ConnectionState.Open)
                 {// Perform your database operations here:
-                    String query = "INSERT INTO userInfo (UserName, UserPassword, FirstName, LastName, Email) VALUES (@userName, @userPass, @userFName, @userLName, @userEmail); ";
+                    String query = "INSERT INTO userInfo (UserName, UserPassword, FirstName, LastName, Email, UserLevel) VALUES (@userName, @userPass, @userFName, @userLName, @userEmail, @UserLevel); ";
                     using (SqlCommand command = new SqlCommand(query, connection))
                     {
                         try
@@ -42,6 +45,7 @@ namespace WebApplication1
                             command.Parameters.AddWithValue("@userLName", userLName);
                             command.Parameters.AddWithValue("@userEmail", userEmail);
                             command.Parameters.AddWithValue("@userPass", userPass);
+                            command.Parameters.AddWithValue("@UserLevel", userLevelInt);
 
                             command.ExecuteNonQuery();
                             connection.Close();
