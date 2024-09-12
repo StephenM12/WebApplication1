@@ -10,7 +10,7 @@ namespace RoomRequestForm
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // Page load logic if any
+            
         }
 
         protected void Btn_Back(object sender, EventArgs e)
@@ -30,6 +30,7 @@ namespace RoomRequestForm
                 string faculty = this.RFacultyDL.SelectedValue;
                 string building = this.SelectBuildingDL.SelectedValue;
                 string roomNumber = this.RRoomNumberTB.Text.ToUpper();
+                string RRpurpose = this.RRpurpose.Text;
                 DateTime startDate = DateTime.Parse(this.SelectDateTB.Text);
                 DateTime endDate = DateTime.Parse(this.EndDateTB.Text);
 
@@ -47,8 +48,8 @@ namespace RoomRequestForm
                 TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
 
                 string insertQuery = @"INSERT INTO RoomRequest
-                (email, Course, Section, Instructor, Faculty, Building, Room, StartDate, EndDate, startTime, endTime, status)
-                VALUES (@Email, @Course, @Section, @Instructor, @Faculty, @Building, @Room, @StartDate, @EndDate, @StartTime, @EndTime, @Status)";
+                (email, Course, Section, Instructor, Faculty, PurposeoftheRoom, Building, Room, StartDate, EndDate, startTime, endTime, status)
+                VALUES (@Email, @Course, @Section, @Instructor, @Faculty, @PurposeoftheRoom, @Building, @Room, @StartDate, @EndDate, @StartTime, @EndTime, @Status)";
 
                 // Open database connection
                 SqlConnection connection = dbConnection.GetConnection();
@@ -63,6 +64,7 @@ namespace RoomRequestForm
                         command.Parameters.AddWithValue("@Section", section);
                         command.Parameters.AddWithValue("@Instructor", instructor);
                         command.Parameters.AddWithValue("@Faculty", faculty);
+                        command.Parameters.AddWithValue("@PurposeoftheRoom", RRpurpose);
                         command.Parameters.AddWithValue("@Building", building);
                         command.Parameters.AddWithValue("@Room", roomNumber);
                         command.Parameters.AddWithValue("@StartDate", startDate);
@@ -78,13 +80,16 @@ namespace RoomRequestForm
                         if (rowsAffected > 0)
                         {
                             // Insert successful
-                            Response.Write("Insert successful!");
+                            //Response.Write("Insert successful!");
                             // Redirect or show success message
+                            ModalPopup.ShowMessage(this.Page, "Request Sent successfully!", "RoomRequest");
+
                         }
                         else
                         {
                             // Insert failed
-                            Response.Write("Insert failed!");
+                            //Response.Write("Insert failed!");
+                            ModalPopup.ShowMessage(this.Page, "Request Sent Failed!", "RoomRequest");
                             // Handle failure
                         }
                     }
@@ -96,7 +101,24 @@ namespace RoomRequestForm
                 // Handle exceptions
                 Response.Write("Error: " + ex.Message);
             }
+            finally
+            {
+                // Clear TextBox controls
+                this.email.Text = string.Empty;
+                this.RCourseCodeTB.Text = string.Empty;
+                this.RSectionTB.Text = string.Empty;
+                this.RProfTB.Text = string.Empty;
+                this.RRoomNumberTB.Text = string.Empty;
+                this.RRpurpose.Text = string.Empty;
+                this.SelectDateTB.Text = string.Empty;
+                this.EndDateTB.Text = string.Empty;
 
+                // Reset DropDownLists
+                this.RFacultyDL.SelectedIndex = -1;  
+                this.SelectBuildingDL.SelectedIndex = -1;
+                this.STimeDL.SelectedIndex = -1;
+                this.ETimeDL.SelectedIndex = -1;
+            }
         }
     }
 }
