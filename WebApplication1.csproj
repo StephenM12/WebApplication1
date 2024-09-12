@@ -294,6 +294,7 @@
     <Compile Include="cs files\dropdown_Filler.cs" />
     <Compile Include="cs files\emailSender.cs" />
     <Compile Include="cs files\get_ID.cs" />
+    <Compile Include="cs files\ModalPopup.cs" />
     <Compile Include="cs files\pinGenerator.cs" />
     <Compile Include="cs files\pin_Valid_check.cs" />
     <Compile Include="cs files\user_Identity.cs" />
