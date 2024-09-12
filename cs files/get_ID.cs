@@ -17,7 +17,7 @@ namespace WebApplication1.cs_files
         public (int roomID, int sectionID, int courseID, int instructorID) CheckAndInsertValues(SqlConnection connection, string room, string section, string course, string instructor, bool additem, int buildingid)
         {
            
-            int roomID = GetOrInsertRoom(connection, room, additem, buildingid);
+            int roomID = GetOrInsertRoom(connection, room, buildingid, true);
             int sectionID = GetOrInsertSection(connection, section);
             int courseID = GetOrInsertCourse(connection, course);
             int instructorID = GetOrInsertInstructor(connection, instructor);
@@ -78,9 +78,8 @@ namespace WebApplication1.cs_files
             }
         }
 
-        public int GetOrInsertRoom(SqlConnection connection, string room, bool addITEM, int buildingID)
+        public int GetOrInsertRoom(SqlConnection connection, string room, int buildingID, bool addITEM = false)
         {
-            // Example logic for retrieving or inserting a room
             string query = "SELECT RoomID FROM Rooms WHERE RoomName = @RoomName";
             using (SqlCommand command = new SqlCommand(query, connection))
             {
@@ -88,26 +87,32 @@ namespace WebApplication1.cs_files
                 object result = command.ExecuteScalar();
                 if (result != null)
                 {
-                    return Convert.ToInt32(result);
+                    int roomID = Convert.ToInt32(result);
+                    // Log or output the retrieved RoomID for debugging
+                    Console.WriteLine($"RoomID found: {roomID}");
+                    return roomID;
                 }
             }
 
-            if (addITEM) 
+            if (addITEM)
             {
                 string insertQuery = "INSERT INTO Rooms (RoomName, BuildingID) OUTPUT INSERTED.RoomID VALUES (@RoomName, @BuildingID)";
                 using (SqlCommand command = new SqlCommand(insertQuery, connection))
                 {
                     command.Parameters.AddWithValue("@RoomName", room.ToUpper());
                     command.Parameters.AddWithValue("@BuildingID", buildingID);
-                    return (int)command.ExecuteScalar();
+                    int newRoomID = (int)command.ExecuteScalar();
+                    // Log or output the new RoomID for debugging
+                    Console.WriteLine($"New RoomID inserted: {newRoomID}");
+                    return newRoomID;
                 }
-
-
             }
 
+            // Log that the room was not found and not added
+            Console.WriteLine("Room not found and not added.");
             return -1;
-            
         }
+
 
         public int GetOrInsertSection(SqlConnection connection, string section)
         {
