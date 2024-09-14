@@ -198,8 +198,8 @@ namespace WebApplication1
                         get_ID getID = new get_ID();
 
                         string insertQuery = @"
-                        INSERT INTO Schedule (RoomID, SectionID, CourseID, InstructorID, StartTime, EndTime, StartDate, EndDate, Remarks, BuildingID)
-                        VALUES (@RoomID, @SectionID, @CourseID, @InstructorID, @StartTime, @EndTime, @StartDate, @EndDate, @Remarks, @BuildingID)";
+                        INSERT INTO Schedule (RoomID, SectionID, CourseID, InstructorID, DayID, StartTime, EndTime, StartDate, EndDate, Remarks, BuildingID)
+                        VALUES (@RoomID, @SectionID, @CourseID, @InstructorID, @DayID, @StartTime, @EndTime, @StartDate, @EndDate, @Remarks, @BuildingID)";
 
                         try
                         {
