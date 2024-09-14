@@ -117,11 +117,13 @@ namespace RoomRequestForm
             SqlConnection connection = dbConnection.GetConnection();
             if (connection.State == System.Data.ConnectionState.Open)
             {
-                string sql = "UPDATE RoomRequest SET status = @status WHERE RequestID = @requestId";
+                string sql = "UPDATE RoomRequest SET status = @status, DateApproved = @DateApproved WHERE RequestID = @requestId";
                 using (SqlCommand cmd = new SqlCommand(sql, connection))
                 {
                     cmd.Parameters.AddWithValue("@status", status);
                     cmd.Parameters.AddWithValue("@requestId", requestId);
+                    cmd.Parameters.AddWithValue("@DateApproved", DateTime.Now);
+
 
                     cmd.ExecuteNonQuery();
                 }
