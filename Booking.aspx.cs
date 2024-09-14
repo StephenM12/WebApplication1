@@ -13,6 +13,11 @@ namespace WebApplication1
         {
             if (!IsPostBack)
             {
+
+                ModalPopup.RegisterModalHtml(this.Page);
+
+
+
                 //building dropdown in adding room modal
                 BindBuildings();
 
@@ -96,6 +101,10 @@ namespace WebApplication1
                             lblRoom.Visible = true;
 
                             ScriptManager.RegisterStartupScript(this, GetType(), "CloseModal", "setTimeout(function() { $('#addRoomModal').modal('hide'); }, 2000);", true);
+
+                            
+                            string msgtxtbox = "You can now deploy request with room: " + roomName;
+                            ModalPopup.ShowMessage_(this.Page, msgtxtbox, "Note!");
                         }
                         else
                         {
