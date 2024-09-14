@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Web.UI;
+using System.Web.UI.HtmlControls;
 using System.Web.UI.WebControls;
 using WebApplication1.cs_files;
 
@@ -16,43 +17,58 @@ namespace WebApplication1
 
             if (!IsPostBack)
             {
-                //BindRooms();
-                //BuildingDown_MAIN(sender, e);
-                //BuildingDown_Data(sender, e);
-                BindBuildings();
+                int userlevel = user_Identity.user_level;
+                if (userlevel != 1 )
+                {
+                    addBuild.Visible = false;
+                    addRm.Visible = false;
 
-                int buildingId = GetSelectedBuildingId(); // Implement this method to get selected building ID
-                //RoomRepository repo = new RoomRepository();
-                //List<Room> rooms = repo.GetRooms(buildingId);
-                List<Room> rooms = GetRooms(3);
+                }
 
-                RoomRepeater.DataSource = rooms;
-                RoomRepeater.DataBind();
+                dropdown_datas(sender, e);
+
+                showRoom(sender, e);
+
             }
         }
-
-        //public class Room
-        //{
-        //    public string Building { get; set; }
-        //    public string RoomID { get; set; }
-        //    public string RoomNumber { get; set; }
-        //    public string Status { get; set; }
-        //    public string CardClass { get; set; }
-        //}
 
         public class Room
         {
             public int RoomID { get; set; }
             public string RoomName { get; set; }
         }
-
-        private int GetSelectedBuildingId()
+        protected void dropdown_datas(object sender, EventArgs e)
         {
-            // Implement logic to get the selected building ID (e.g., from query string or session)
-            return 1; // Placeholder value
+            DropdownFiller filler = new DropdownFiller();
+            filler.PopulateBuildings(DropDownList1);
+
         }
 
-        public List<Room> GetRooms(int buildingId)
+        protected void BindSelectedBuild(object sender, EventArgs e)
+        {
+            //fetch building data to dropdown
+            //int buildingId = int.Parse(DropDownList1.SelectedValue);
+            showRoom(sender, e);
+            
+
+
+        }
+        protected void showRoom(object sender, EventArgs e)
+        {
+            int buildingId = int.Parse(DropDownList1.SelectedValue);
+
+
+            //show room
+            List<Room> rooms = GetRooms(buildingId);
+            RoomRepeater.DataSource = rooms;
+            RoomRepeater.DataBind();
+
+
+        }
+
+
+
+            public List<Room> GetRooms(int buildingId)
         {
             var rooms = new List<Room>();
 
@@ -110,12 +126,16 @@ namespace WebApplication1
                         lblSuccessMessage.CssClass = "alert alert-success";
                         lblSuccessMessage.Visible = true;
 
+                        dropdown_datas(sender, e);
+
                         // Use ScriptManager to close the modal after 2 seconds
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", @"
                             setTimeout(function() {
                                 $('#addBuildingModal').modal('hide');
                             }, 3000);
                         ", true);
+
+                        lblSuccessMessage.Text = " ";
                     }
                     else
                     {
@@ -133,29 +153,7 @@ namespace WebApplication1
             }
         }
 
-
-        //for building dropdown in adding room
-        private void BindBuildings()
-        {
-            string query = "SELECT BuildingID, BuildingName FROM Buildings";
-
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-
-            if (connection.State == System.Data.ConnectionState.Open)
-            {
-                using (SqlCommand cmd = new SqlCommand(query, connection))
-                {
-                    ddlBuildings.DataSource = cmd.ExecuteReader();
-                    ddlBuildings.DataTextField = "BuildingName";
-                    ddlBuildings.DataValueField = "BuildingID";
-                    ddlBuildings.DataBind();
-                }
-            }
-
-            ddlBuildings.Items.Insert(0, new ListItem("Select Building", "0"));
-        }
-
+        //adding room
         protected void btnConfirmAddRoom_Click(object sender, EventArgs e)
         {
             string roomName = txtRoomName.Text.Trim().ToUpper();
@@ -200,138 +198,6 @@ namespace WebApplication1
             }
         }
 
-        //protected void BuildingDown_Data(object sender, EventArgs e)
-        //{
-        //    // Open database connection
-        //    SqlConnection connection = dbConnection.GetConnection();
-        //    if (connection.State == System.Data.ConnectionState.Open)
-        //    {
-        //        //Dropdown datas from sql
-        //        SqlCommand cmd = new SqlCommand("SELECT BuildingID, BuildingName FROM Buildings", connection);
-        //        SqlDataReader reader = cmd.ExecuteReader();
-
-        //        // Bind the data to the dropdown list
-        //        BuildingID.DataTextField = "BuildingName"; // Column name to display
-        //        BuildingID.DataValueField = "BuildingID"; // Column name to use as value
-        //        BuildingID.DataSource = reader;
-        //        BuildingID.DataBind();
-        //    }
-        //}
-
-        //protected void BuildingDown_MAIN(object sender, EventArgs e)
-        //{
-        //    // Open database connection
-        //    SqlConnection connection = dbConnection.GetConnection();
-        //    if (connection.State == System.Data.ConnectionState.Open)
-        //    {
-        //        //Dropdown datas from sql
-        //        SqlCommand cmd = new SqlCommand("SELECT BuildingID, BuildingName FROM Buildings", connection);
-        //        SqlDataReader reader = cmd.ExecuteReader();
-
-        //        // Bind the data to the dropdown list
-        //        buildingSelect.DataTextField = "BuildingName"; // Column name to display
-        //        buildingSelect.DataValueField = "BuildingID"; // Column name to use as value
-        //        buildingSelect.DataSource = reader;
-        //        buildingSelect.DataBind();
-        //    }
-        //}
-
-        //private void BindRooms()
-        //{
-        //    string query = @"
-        //                SELECT
-        //                    r.RoomID,
-        //                    r.RoomName,
-        //                    r.BuildingID,
-        //                    b.BuildingName
-        //                FROM
-        //                    Rooms r
-        //                JOIN
-        //                    Buildings b ON r.BuildingID = b.BuildingID";
-
-        //    List<Room> rooms = new List<Room>();
-
-        //    // Open database connection
-        //    SqlConnection connection = dbConnection.GetConnection();
-        //    if (connection.State == System.Data.ConnectionState.Open)
-        //    {
-        //        using (SqlCommand cmd = new SqlCommand(query, connection))
-        //        {
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    string cardClass_ = "bg-success";
-        //                    string status = "Available";
-        //                    //string Building = "RIZAL";
-
-        //                    rooms.Add(new Room
-        //                    {
-        //                        Building = reader["BuildingName"].ToString(),
-        //                        RoomID = reader["RoomID"].ToString(),
-        //                        RoomNumber = reader["RoomName"].ToString(),
-        //                        Status = status,
-        //                        CardClass = cardClass_
-        //                    });
-        //                }
-        //            }
-        //        }
-
-        //        RepeaterRooms.DataSource = rooms;
-        //        RepeaterRooms.DataBind();
-        //    }
-        //}
-
-        //protected void addRoomBTN_Click(object sender, EventArgs e)
-        //{
-        //    string roomtxt = txtNewroom.Text.ToUpper();
-        //    string BuildingID_ = ADD_BuildDL.SelectedValue;
-
-        //    // Open database connection
-        //    SqlConnection connection = dbConnection.GetConnection();
-        //    if (connection.State == System.Data.ConnectionState.Open)
-        //    {
-        //        get_ID getBuilding = new get_ID();
-        //        int buildID = getBuilding.GetOrInsertBuilding(connection, BuildingID_);
-
-        //        string insertQuery = "INSERT INTO Rooms (RoomName, BuildingID) VALUES (@RoomName, @BuildingID)";
-        //        using (SqlCommand command = new SqlCommand(insertQuery, connection))
-        //        {
-        //            command.Parameters.AddWithValue("@RoomName", roomtxt);
-        //            command.Parameters.AddWithValue("@BuildingID", buildID);
-        //            int rowsAffected = command.ExecuteNonQuery();
-
-        //            if (rowsAffected > 0)
-        //            {
-        //                // Insert successful, show success message
-        //                BindRooms();
-        //                txtNewroom.Text = string.Empty;
-        //                Response.Write("Room insert successful");
-        //            }
-        //            else
-        //            {
-        //                Response.Write("Adding Room Failed");
-        //            }
-        //        }
-        //    }
-        //}
-
-        //protected void addBuildBTN_Click(object sender, EventArgs e)
-        //{
-        //    string buildingTXT = Building_txtbox.Text;
-
-        //    // Open database connection
-        //    SqlConnection connection = dbConnection.GetConnection();
-        //    if (connection.State == System.Data.ConnectionState.Open)
-        //    {
-        //        get_ID add_dbHelper = new get_ID();
-        //        int buildingID_ = add_dbHelper.GetOrInsertBuilding(connection, buildingTXT);
-        //        if (buildingID_ != -1)
-        //        {
-        //            BuildingDown_Data(sender, e);
-        //            Response.Write("Building insert successful");
-        //        }
-        //    }
-        //}
+        
     }
 }

@@ -17,56 +17,66 @@
             </h1>
         </div>
         <%--        this area is for card na--%>
-        <div class="container">
-            <div class="row">
-                <asp:Repeater ID="RoomRepeater" runat="server">
-                    <ItemTemplate>
-                        <div class="col-md-3 mb-3 d-flex justify-content-center">
-                            <div class="card text-white bg-success" style="width: 15rem;">
-                                <div class="card-body">
-                                    <h5 class="card-title" ><%# Eval("RoomName") %></h5>
-                                    <p class="card-text" ">Available</p>
+        <asp:UpdatePanel runat="server" ID="UpdatePanel1">
+            <ContentTemplate>
+                 <div class="col-md-3 mb-3">
+                    <label for="building">Select Building</label>
+                    <asp:DropDownList ID="DropDownList1" runat="server" CssClass="form-control" OnSelectedIndexChanged="BindSelectedBuild" AutoPostBack="True"></asp:DropDownList>
+                    
+                </div>
+                <div class="col-md-9" >
+                    <div class="container" >
+                    <div class="row">
+                       
+                        <asp:Repeater ID="RoomRepeater" runat="server">
+                            <ItemTemplate>
+                                <div class="col-md-3 mb-3 d-flex justify-content-center">
+                                    <div class="card text-white bg-success" style="width: 15rem;">
+                                        <div class="card-body">
+                                            <h5 class="card-title" ><%# Eval("RoomName") %></h5>
+                                            <p class="card-text" ">Available</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </div>
-        </div>
+                            </ItemTemplate>
+                        </asp:Repeater>
+                    </div>
+                </div>
+                </div>
+                
+            </ContentTemplate>
+        </asp:UpdatePanel>
         <div id="add_R_B">
             <%--            <asp:Button ID="addBuild" runat="server" Text="Add BUILDING" CssClass="lower-left bg-color btn btn-primary bg-color" />--%>
             <!-- Button to ADD building trigger the modal -->
             <asp:Button ID="addBuild" runat="server" Text="Add BUILDING" CssClass="lower-left bg-color btn btn-primary" OnClientClick="$('#addBuildingModal').modal('show'); return false;" />
-         <div class="modal fade" id="addBuildingModal" tabindex="-1" role="dialog" aria-labelledby="addBuildingModalLabel" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="addBuildingModalLabel">Add Building</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-
-                    </div>
-                    <div class="modal-body">
-                        <asp:UpdatePanel ID="updatePanelBuilding" runat="server">
-                            <ContentTemplate>
-                                <asp:TextBox ID="txtBuildingName" runat="server" CssClass="form-control" Placeholder="Enter building name"></asp:TextBox>
-                                <br />
-                                <br />
-                                <asp:Label ID="lblSuccessMessage" runat="server" CssClass="alert alert-success" Visible="false"></asp:Label>
-                            </ContentTemplate>
-                            <Triggers>
-                                <asp:AsyncPostBackTrigger ControlID="btnAddBuilding" EventName="Click" />
-                            </Triggers>
-                        </asp:UpdatePanel>
-                    </div>
-                    <div class="modal-footer">
-                        <asp:Button ID="btnAddBuilding" runat="server" Text="Add Building" CssClass="btn btn-primary" OnClick="btnAddBuilding_Click" />
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="modal fade" id="addBuildingModal" tabindex="-1" role="dialog" aria-labelledby="addBuildingModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="addBuildingModalLabel">Add Building</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <asp:UpdatePanel ID="updatePanelBuilding" runat="server">
+                                <ContentTemplate>
+                                    <asp:TextBox ID="txtBuildingName" runat="server" CssClass="form-control" Placeholder="Enter building name"></asp:TextBox>
+                                    <br />
+                                    <br />
+                                    <asp:Label ID="lblSuccessMessage" runat="server" CssClass="alert alert-success" Visible="false"></asp:Label>
+                                </ContentTemplate>
+                                <Triggers>
+                                    <asp:AsyncPostBackTrigger ControlID="btnAddBuilding" EventName="Click" />
+                                </Triggers>
+                            </asp:UpdatePanel>
+                        </div>
+                        <div class="modal-footer">
+                            <asp:Button ID="btnAddBuilding" runat="server" Text="Add Building" CssClass="btn btn-primary" OnClick="btnAddBuilding_Click" />
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-
-
             <%--            <asp:Button ID="addRm" runat="server" Text="ADD ROOM" CssClass="lower-right bg-color btn btn-primary bg-color" />--%>
             <!-- Button to trigger the modal -->
             <asp:Button ID="addRm" runat="server" Text="ADD ROOM" CssClass="lower-right bg-color btn btn-primary" OnClientClick="$('#addRoomModal').modal('show'); return false;" />
