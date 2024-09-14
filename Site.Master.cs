@@ -37,7 +37,7 @@ namespace WebApplication1
                         liImageDisp.Visible = false;
                         liRoomReq.Visible = false;
                         liBooking.Visible = false;
-                        liHistory.Visible = false;
+                        //liHistory.Visible = false;
                         liAddUser.Visible = false;
 
 
@@ -47,7 +47,7 @@ namespace WebApplication1
                         liImageDisp.Visible = false;
                         liBooking.Visible = false;
                         liReqApp.Visible = false;
-                        liHistory.Visible = false;
+                        //liHistory.Visible = false;
                         liAddUser.Visible = false;
 
 
