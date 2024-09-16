@@ -79,9 +79,10 @@
 
                 <hr class="custom-line" />
 
-               <%-- <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="email">Email:</label>
-                    <asp:TextBox ID="email" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Requester's Email"></asp:TextBox>
+
+                <div class="form-outline mb-3">
+                    <label style="font-weight: bold;" class="form-label ms-2" for="RSectionTB">Section:</label>
+                    <asp:TextBox ID="RSectionTB" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Section"></asp:TextBox>
                 </div>
 
                 <div class="form-outline mb-3">
@@ -90,119 +91,19 @@
                 </div>
 
                 <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RSectionTB">Section:</label>
-                    <asp:TextBox ID="RSectionTB" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Section"></asp:TextBox>
-                </div>
-
-                <div class="form-outline mb-3">
                     <label style="font-weight: bold;" class="form-label ms-2" for="RProfTB">Professor/Instructor:</label>
                     <asp:TextBox ID="RProfTB" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Professor/Instructor"></asp:TextBox>
-                </div>
-
-                <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RRoomNumberTB">Room Number:</label>
-                    <asp:TextBox ID="RRoomNumberTB" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Room Number"></asp:TextBox>
-                </div>
-
-                 <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RRPurposeTB">Purpose:</label>
-                    <asp:TextBox ID="RRpurpose" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Purpose:"></asp:TextBox>
-                </div>
-
-                <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="SelectBuildingDL">Select Building:</label>
-                    <asp:DropDownList ID="SelectBuildingDL" runat="server" class="form-control">
-                        <asp:ListItem Text="RIZAL" Value="RIZAL"></asp:ListItem>
-                        <asp:ListItem Text="EINSTEIN" Value="EINSTEIN"></asp:ListItem>
-                        <asp:ListItem Text="ETYCB" Value="ETYCB"></asp:ListItem>
-                    </asp:DropDownList>
-                </div>
-
-                <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RFacultyDL">Faculty:</label>
-                    <asp:DropDownList ID="RFacultyDL" runat="server" class="form-control">
-                        <asp:ListItem Text="CCIS" Value="CCIS"></asp:ListItem>
-                        <asp:ListItem Text="MITL" Value="MITL"></asp:ListItem>
-                        <asp:ListItem Text="CMET" Value="CMET"></asp:ListItem>
-                        <asp:ListItem Text="ETYCB" Value="ETYCB"></asp:ListItem>
-                        <asp:ListItem Text="CAS" Value="CAS"></asp:ListItem>
-                    </asp:DropDownList>
-                </div>
-
-                <div class="form-outline mb-3">
-                    <div class="row align-items-center">
-                        <div class="col-sm-6">
-                            <label style="font-weight: bold;" class="form-label ms-2" for="SelectDateTB">Select Date:</label>
-                            <asp:TextBox ID="SelectDateTB" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
-                        </div>
-
-                        <div class="col-sm-6">
-                            <label style="font-weight: bold;" class="form-label ms-2" for="EndDateTB">Select End Date:</label>
-                            <asp:TextBox ID="EndDateTB" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RTimeDL">Select StartTime:</label>
-                    <asp:DropDownList ID="STimeDL" runat="server" class="form-control">
-
-                        <asp:ListItem Text="7:00 AM" Value="1"></asp:ListItem>
-                        <asp:ListItem Text="8:15 AM" Value="2"></asp:ListItem>
-                        <asp:ListItem Text="9:30 AM" Value="3"></asp:ListItem>
-                        <asp:ListItem Text="10:45 AM" Value="4"></asp:ListItem>
-                        <asp:ListItem Text="12:00 PM" Value="5"></asp:ListItem>
-                        <asp:ListItem Text="1:15 PM" Value="6"></asp:ListItem>
-                        <asp:ListItem Text="2:30 PM" Value="7"></asp:ListItem>
-                        <asp:ListItem Text="3:45 PM" Value="8"></asp:ListItem>
-                        <asp:ListItem Text="5:00 PM" Value="9"></asp:ListItem>
-                        <asp:ListItem Text="6:15 PM" Value="10"></asp:ListItem>
-                        <asp:ListItem Text="7:30 PM" Value="11"></asp:ListItem>
-                    </asp:DropDownList>
-                </div>
-
-                <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RTimeDL">Select EndTime:</label>
-                    <asp:DropDownList ID="ETimeDL" runat="server" class="form-control">
-
-                        <asp:ListItem Text="8:15 AM" Value="1"></asp:ListItem>
-                        <asp:ListItem Text="9:30 AM" Value="2"></asp:ListItem>
-                        <asp:ListItem Text="10:45 AM" Value="3"></asp:ListItem>
-                        <asp:ListItem Text="12:00 PM" Value="4"></asp:ListItem>
-                        <asp:ListItem Text="1:15 PM" Value="5"></asp:ListItem>
-                        <asp:ListItem Text="2:30 PM" Value="6"></asp:ListItem>
-                        <asp:ListItem Text="3:45 PM" Value="7"></asp:ListItem>
-                        <asp:ListItem Text="5:00 PM" Value="8"></asp:ListItem>
-                        <asp:ListItem Text="6:15 PM" Value="9"></asp:ListItem>
-                        <asp:ListItem Text="7:30 PM" Value="10"></asp:ListItem>
-                        <asp:ListItem Text="8:45 PM" Value="11"></asp:ListItem>
-                    </asp:DropDownList>
-                </div>--%>
-
-                <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RCourseCodeTB">Course Code:</label>
-                    <asp:TextBox ID="RCourseCodeTB" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Course Code"></asp:TextBox>
-                </div>
-
-                <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RSectionTB">Section:</label>
-                    <asp:TextBox ID="RSectionTB" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Section"></asp:TextBox>
-                </div>
-
-                <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RProfTB">Professor/Instructor:</label>
-                    <asp:TextBox ID="RProfTB" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Professor/Instructor"></asp:TextBox>
-                </div>
-
-                <div class="form-outline mb-3">
-                    <label style="font-weight: bold;" class="form-label ms-2" for="RRoomNumberTB">Room Number:</label>
-                    <asp:TextBox ID="RRoomNumberTB" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Room Number"></asp:TextBox>
                 </div>
 
                 <div class="form-outline mb-3">
                     <label style="font-weight: bold;" class="form-label ms-2" for="SelectBuildingDL">Select Building:</label>
                     <asp:DropDownList ID="SelectBuildingDL" runat="server" class="form-control">
                     </asp:DropDownList>
+                </div>
+
+                <div class="form-outline mb-3">
+                    <label style="font-weight: bold;" class="form-label ms-2" for="RRoomNumberTB">Room Number:</label>
+                    <asp:TextBox ID="RRoomNumberTB" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Room Number"></asp:TextBox>
                 </div>
 
                 <div class="form-outline mb-3">

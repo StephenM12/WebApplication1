@@ -24,15 +24,6 @@ namespace RoomRequestForm
         protected global::System.Web.UI.HtmlControls.HtmlForm form1;
 
         /// <summary>
-        /// RCourseCodeTB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox RCourseCodeTB;
-
-        /// <summary>
         /// RSectionTB control.
         /// </summary>
         /// <remarks>
@@ -40,6 +31,15 @@ namespace RoomRequestForm
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.TextBox RSectionTB;
+
+        /// <summary>
+        /// RCourseCodeTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox RCourseCodeTB;
 
         /// <summary>
         /// RProfTB control.
@@ -51,15 +51,6 @@ namespace RoomRequestForm
         protected global::System.Web.UI.WebControls.TextBox RProfTB;
 
         /// <summary>
-        /// RRoomNumberTB control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox RRoomNumberTB;
-
-        /// <summary>
         /// SelectBuildingDL control.
         /// </summary>
         /// <remarks>
@@ -67,6 +58,15 @@ namespace RoomRequestForm
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList SelectBuildingDL;
+
+        /// <summary>
+        /// RRoomNumberTB control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox RRoomNumberTB;
 
         /// <summary>
         /// RFacultyDL control.
