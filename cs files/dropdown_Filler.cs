@@ -30,6 +30,17 @@ public class DropdownFiller
         dropdown.DataBind();
     }
 
+    // Method to populate Uploaded scheds dropdown
+    public void PopulateSchedule(DropDownList dropdown)
+    {
+        List<uploadScheds> uploadedscheds = getUploadscheds();
+
+        dropdown.DataSource = uploadedscheds;
+        dropdown.DataTextField = "FileName";
+        dropdown.DataValueField = "UploadID";
+        dropdown.DataBind();
+    }
+
     // Method to get rooms from the database
     private List<Room> GetRooms()
     {
@@ -84,6 +95,33 @@ public class DropdownFiller
 
         return buildings;
     }
+
+    // Method to get Uploaded Scheds from the database
+    private List<uploadScheds> getUploadscheds()
+    {
+        List<uploadScheds> uploadedscheds = new List<uploadScheds>();
+
+        // Open database connection
+        SqlConnection connection = dbConnection.GetConnection();
+        if (connection.State == System.Data.ConnectionState.Open)
+        {
+            string query = "SELECT UploadID, FileName FROM upload_SchedsTBL";
+            SqlCommand command = new SqlCommand(query, connection);
+
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                uploadedscheds.Add(new uploadScheds
+                {
+                    UploadID = Convert.ToInt32(reader["UploadID"]),
+                    FileName = reader["FileName"].ToString()
+                });
+            }
+            reader.Close();
+        }
+
+        return uploadedscheds;
+    }
 }
 
 // Example classes for Room and Building
@@ -97,4 +135,9 @@ public class Building
 {
     public int BuildingID { get; set; }
     public string BuildingName { get; set; }
+}
+public class uploadScheds
+{
+    public int UploadID { get; set; }
+    public string FileName { get; set; }
 }
