@@ -13,6 +13,20 @@
     height: 100vh; /* Optional: to center vertically within the viewport */
 }
 
+
+
+/*for girdview clickable*/
+.no-underline {
+    color: black; /* Make the text black */
+    text-decoration: none; /* Remove the underline */
+}
+
+.no-underline:hover {
+    text-decoration: none; /* Ensure no underline on hover */
+}
+
+
+
 .center-content {
     display: flex;
     justify-content: center;

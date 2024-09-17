@@ -11,7 +11,6 @@
 
     <form id="form1" runat="server">
         <asp:ScriptManager runat="server"></asp:ScriptManager>
-        <!-- HiddenField for DayOfWeek -->
         <asp:HiddenField ID="hiddenDayOfWeek" runat="server" />
 
         <div>
@@ -41,8 +40,8 @@
                                     <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
                                 </div>
                                 <div class="form-outline mb-4">
-                                    <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label> 
-                                    <asp:DropDownList ID="upload_DropDownList1" runat="server"> </asp:DropDownList>
+                                    <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label>
+                                    <asp:DropDownList ID="upload_DropDownList1" runat="server"></asp:DropDownList>
                                 </div>
                                 <div class="form-outline mb-4">
                                     <div class="row align-items-center">
@@ -71,12 +70,40 @@
                 </div>
             </div>
             <%--modal end here--%>
+
+            <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    // Get the upload button and input elements
+                    var uploadButton = document.getElementById('<%= Button1.ClientID %>');
+                    var startDate = document.getElementById('<%= calendar_TB1.ClientID %>');
+                    var endDate = document.getElementById('<%= calendar_TB2.ClientID %>');
+
+                    // Disable the upload button initially
+                    uploadButton.disabled = true;
+
+                    // Function to check if the dates are valid
+                    function validateDates() {
+                        if (startDate.value && endDate.value) {
+                            uploadButton.disabled = false;
+                        } else {
+                            uploadButton.disabled = true;
+                        }
+                    }
+
+                    // Attach event listeners to the start and end date fields
+                    startDate.addEventListener('input', validateDates);
+                    endDate.addEventListener('input', validateDates);
+                });
+            </script>
         </div>
         <br />
         <div>
             <asp:UpdatePanel runat="server">
                 <ContentTemplate>
                     <asp:DropDownList ID="DropDownList2" runat="server" AutoPostBack="true" OnSelectedIndexChanged="BindScheduleData"></asp:DropDownList>
+                    <br />
+                    <asp:DropDownList ID="uploadSchedsDL" runat="server" AutoPostBack="true" OnSelectedIndexChanged="BindScheduleData"></asp:DropDownList>
+                    <br />
                 </ContentTemplate>
             </asp:UpdatePanel>
         </div>
@@ -86,7 +113,12 @@
             <div class="schedule-container col-sm-6">
                 <asp:UpdatePanel runat="server" ID="UpdatePanelGridView">
                     <ContentTemplate>
-                        <asp:GridView ID="GridView1" runat="server" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
+
+                          <%--this is for selected date--%>
+                          <asp:HiddenField ID="HiddenField2" runat="server" />
+
+
+                        <asp:GridView ID="GridView1" runat="server" DataKeyNames="ScheduleID" OnRowCommand="GridView1_RowCommand" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
                             BorderWidth="2px" CellPadding="3" CellSpacing="1" AutoGenerateColumns="false" ShowHeaderWhenEmpty="True"
                             EmptyDataText="No records found">
                             <FooterStyle BackColor="#C6C3C6" ForeColor="Black" />
@@ -98,16 +130,51 @@
                             <SortedAscendingHeaderStyle BackColor="#594B9C" />
                             <SortedDescendingCellStyle BackColor="#CAC9C9" />
                             <SortedDescendingHeaderStyle BackColor="#33276A" />
-
+                          
                             <Columns>
+                                
                                 <asp:BoundField DataField="Time" HeaderText="Time" />
-                                <asp:BoundField DataField="Monday" HeaderText="Monday" />
-                                <asp:BoundField DataField="Tuesday" HeaderText="Tuesday" />
-                                <asp:BoundField DataField="Wednesday" HeaderText="Wednesday" />
-                                <asp:BoundField DataField="Thursday" HeaderText="Thursday" />
-                                <asp:BoundField DataField="Friday" HeaderText="Friday" />
-                                <asp:BoundField DataField="Saturday" HeaderText="Saturday" />
-                                <asp:BoundField DataField="Sunday" HeaderText="Sunday" />
+                                <asp:TemplateField HeaderText="Monday">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkMonday" runat="server" CommandName="ShowModal" CommandArgument='<%# Eval("ScheduleID") %>' Text='<%# Eval("Monday") %>' CssClass="no-underline" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Tuesday">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkTuesday" runat="server" CommandName="ShowModal" CommandArgument='<%# Eval("ScheduleID") %>' Text='<%# Eval("Tuesday") %>' CssClass="no-underline" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Wednesday">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkWednesday" runat="server" CommandName="ShowModal" CommandArgument='<%# Eval("ScheduleID") %>' Text='<%# Eval("Wednesday") %>' CssClass="no-underline" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Thursday">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkThursday" runat="server" CommandName="ShowModal" CommandArgument='<%# Eval("ScheduleID") %>' Text='<%# Eval("Thursday") %>' CssClass="no-underline" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Friday">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkFriday" runat="server" CommandName="ShowModal" CommandArgument='<%# Eval("ScheduleID") %>' Text='<%# Eval("Friday") %>' CssClass="no-underline" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Saturday">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkSaturday" runat="server" CommandName="ShowModal" CommandArgument='<%# Eval("ScheduleID") %>' Text='<%# Eval("Saturday") %>' CssClass="no-underline" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
+
+                                <asp:TemplateField HeaderText="Sunday">
+                                    <ItemTemplate>
+                                        <asp:LinkButton ID="lnkSunday" runat="server" CommandName="ShowModal" CommandArgument='<%# Eval("ScheduleID") %>' Text='<%# Eval("Sunday") %>' CssClass="no-underline" />
+                                    </ItemTemplate>
+                                </asp:TemplateField>
                             </Columns>
                         </asp:GridView>
                     </ContentTemplate>
@@ -117,13 +184,95 @@
             </div>
         </div>
 
+        <%--testing--%>
+
+        <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="scheduleModalLabel_">Schedule Details</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                   
+                    <div class="modal-body">
+                        <asp:UpdatePanel runat="server" ID="UpdatePanel2" >
+                            <ContentTemplate>
+                                <%--this is for scheduleID--%>
+                                <asp:HiddenField ID="HiddenField1" runat="server" />
+                                
+
+                                <%--<asp:Label ID="Label1" runat="server" Text="schedule id :" ></asp:Label>--%>
+
+                                <div class="form-group">
+                                    <asp:Label ID="lblBuildingID" runat="server" Text="Building Name:" AssociatedControlID="txtBuildingID"></asp:Label>
+                                    <asp:TextBox ID="txtBuildingID" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>
+                                <div class="form-group">
+                                    <asp:Label ID="lblRoomID" runat="server" Text="Room Name:" AssociatedControlID="txtRoomID"></asp:Label>
+                                    <asp:TextBox ID="txtRoomID" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>
+                                <div class="form-group">
+                                    <asp:Label ID="lblCourseID" runat="server" Text="Course Name:" AssociatedControlID="txtCourseID"></asp:Label>
+                                    <asp:TextBox ID="txtCourseID" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>
+                                <div class="form-group">
+                                    <asp:Label ID="lblSectionID" runat="server" Text="Section Name:" AssociatedControlID="txtSectionID"></asp:Label>
+                                    <asp:TextBox ID="txtSectionID" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>
+                                <div class="form-group">
+                                    <asp:Label ID="lblInstructorID" runat="server" Text="Instructor Name:" AssociatedControlID="txtInstructorID"></asp:Label>
+                                    <asp:TextBox ID="txtInstructorID" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>
+
+                                <%--<div class="form-group">
+                                    <asp:Label ID="lblStartTime" runat="server" Text="Start Time:" AssociatedControlID="txtStartTime"></asp:Label>
+                                    <asp:TextBox ID="txtStartTime" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>
+                                <div class="form-group">
+                                    <asp:Label ID="lblEndTime" runat="server" Text="End Time:" AssociatedControlID="txtEndTime"></asp:Label>
+                                    <asp:TextBox ID="txtEndTime" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>--%>
+                                <div class="form-group">
+                                    <asp:Label ID="lblStartDate" runat="server" Text="Start Date:" AssociatedControlID="txtStartDate"></asp:Label>
+                                    <asp:TextBox ID="txtStartDate" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>
+                                <div class="form-group">
+                                    <asp:Label ID="lblEndDate" runat="server" Text="End Date:" AssociatedControlID="txtEndDate"></asp:Label>
+                                    <asp:TextBox ID="txtEndDate" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>
+                                <div class="form-group">
+                                    <asp:Label ID="lblRemarks" runat="server" Text="Remarks:" AssociatedControlID="txtRemarks"></asp:Label>
+                                    <asp:TextBox ID="txtRemarks" runat="server" CssClass="form-control" ReadOnly="True" />
+                                </div>
+                                </div>
+                            </ContentTemplate>
+                        </asp:UpdatePanel>
+                        <div class="modal-footer">
+
+                            <asp:UpdatePanel runat="server" ID="UpdatePanel3">
+                                <ContentTemplate>
+                                    <asp:Button ID="btnUpdate" runat="server" Text="Update" CssClass="btn btn-success" OnClick="btnUpdate_Click" Visible ="false" />
+                                    <asp:Button ID="btnEdit" runat="server" Text="Edit" CssClass="btn btn-primary" OnClick="btnEdit_Click"  />
+                                </ContentTemplate>
+                            </asp:UpdatePanel>
+                            <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="btn btn-secondary" OnClick="btnClose_Click" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript">
+          
+
+        </script>
+
+        <%--end of testing--%>
+
         <!-- Start of Modal Button-->
         <asp:Button ID="RAddSchedBtn" runat="server" Text="ADD TO SCHEDULE" CssClass="lower-right bg-color btn btn-primary bg-color" OnClientClick="openModal(); return false;" />
-        <script type="text/javascript">
-            function openModal() {
-                $('#exampleModal').modal('show');
-            }
-        </script>
 
         <!--  Modal Button for EDIT/CANCEL SCHEDULE-->
         <asp:Button ID="REditBtn" runat="server" Text="EDIT SCHEDULE" CssClass="lower-left bg-color btn btn-primary bg-color" OnClientClick="openSched(); return false;" />
@@ -151,7 +300,7 @@
 
                         <div class="form-outline mb-4">
                             <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Room Number:</label>
-                            <%--                            <asp:TextBox ID="RRoomNumberTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Room Number"></asp:TextBox>--%>
+                            <%--<asp:TextBox ID="RRoomNumberTB" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Room Number"></asp:TextBox>--%>
                             <asp:UpdatePanel runat="server">
                                 <ContentTemplate>
                                     <asp:DropDownList ID="add_Dropdown_room" runat="server" AutoPostBack="true">
@@ -253,82 +402,6 @@
                 </div>
             </div>
         </div>
-
-        <%--modal for edit schedule:--%>
-        <%--<div class="modal fade" id="RoomEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-fullscreen-xxl-down">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="EditSchedule">Edit Schedule</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <!--Content of Edit Schedule / Gridview Put Here-->
-
-                        <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Room To Edit:</label>
-                        <asp:UpdatePanel runat="server">
-                            <ContentTemplate>
-                                <asp:DropDownList ID="Edit_roomDrodown" runat="server" AutoPostBack="true"></asp:DropDownList>
-                            </ContentTemplate>
-                        </asp:UpdatePanel>
-
-                        <div class="row align-items-center">
-                            <div class="form-outline mb-4">
-                                <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Start Time:</label>
-                                <asp:DropDownList ID="Edit_DropDownList1" runat="server">
-                                    <asp:ListItem Text="7:00AM" Value="1"></asp:ListItem>
-                                    <asp:ListItem Text="8:15AM" Value="2"></asp:ListItem>
-                                    <asp:ListItem Text="9:30AM" Value="3"></asp:ListItem>
-                                    <asp:ListItem Text="10:45AM" Value="4"></asp:ListItem>
-                                    <asp:ListItem Text="12:00PM" Value="5"></asp:ListItem>
-                                    <asp:ListItem Text="1:15PM" Value="6"></asp:ListItem>
-                                    <asp:ListItem Text="2:30PM" Value="7"></asp:ListItem>
-                                    <asp:ListItem Text="3:45PM" Value="8"></asp:ListItem>
-                                    <asp:ListItem Text="5:00PM" Value="9"></asp:ListItem>
-                                    <asp:ListItem Text="6:15PM" Value="10"></asp:ListItem>
-                                    <asp:ListItem Text="7:30PM" Value="11"></asp:ListItem>
-                                </asp:DropDownList>
-                            </div>
-
-                            <div class="form-outline mb-4">
-                                <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">End Time:</label>
-                                <asp:DropDownList ID="Edit_DropDownList2" runat="server">
-                                    <asp:ListItem Text="8:15AM" Value="1"></asp:ListItem>
-                                    <asp:ListItem Text="9:30AM" Value="2"></asp:ListItem>
-                                    <asp:ListItem Text="10:45AM" Value="3"></asp:ListItem>
-                                    <asp:ListItem Text="12:00PM" Value="4"></asp:ListItem>
-                                    <asp:ListItem Text="1:15PM" Value="5"></asp:ListItem>
-                                    <asp:ListItem Text="2:30PM" Value="6"></asp:ListItem>
-                                    <asp:ListItem Text="3:45PM" Value="7"></asp:ListItem>
-                                    <asp:ListItem Text="5:00PM" Value="8"></asp:ListItem>
-                                    <asp:ListItem Text="6:15PM" Value="9"></asp:ListItem>
-                                    <asp:ListItem Text="7:30PM" Value="10"></asp:ListItem>
-                                    <asp:ListItem Text="8:45PM" Value="11"></asp:ListItem>
-                                </asp:DropDownList>
-                            </div>
-                        </div>
-
-                         <div class="col-sm-6">
-                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Date:</label>
-                            <asp:TextBox ID="Edit_Calendar_TextBox1" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
-                        </div>
-
-                        <div class="form-outline mb-4">
-                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Section:</label>
-                            <asp:TextBox ID="ESection" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Section"></asp:TextBox>
-                        </div>
-                        <div class="form-outline mb-4">
-                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Professor/Instructor:</label>
-                            <asp:TextBox ID="EProf" runat="server" class="form-control" Style="background-color: #ECECEC;" type="text" placeholder="Enter Professor/Instructor"></asp:TextBox>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <asp:Button ID="RCloseBtn" runat="server" Text="Cancel" CssClass="bg-color btn btn-primary bg-color" />
-                        <asp:Button ID="RSaveChangesBtn" runat="server" Text="Save Changes" CssClass="bg-color btn btn-primary bg-color" OnClick="Edit_BTNclk" />
-                    </div>
-                </div>
-            </div>
-        </div>--%>
 
         <div class="modal fade" id="RoomEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen-xxl-down">
