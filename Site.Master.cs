@@ -26,14 +26,14 @@ namespace WebApplication1
                 switch (userlevel) 
                 {
                     case 1:
-                        Response.Write("Welcome IFO");//remove later
+                        //Response.Write("Welcome IFO");//remove later
                         liRoomReq.Visible = false;
                         liReqApp.Visible = false;
                         liRoomReq.Visible = false;
 
                         break;
                     case 2:
-                        Response.Write("Welcome user_Approval ");//Request Approval 
+                        //Response.Write("Welcome user_Approval ");//Request Approval 
                         liImageDisp.Visible = false;
                         liRoomReq.Visible = false;
                         liBooking.Visible = false;
@@ -43,7 +43,7 @@ namespace WebApplication1
 
                         break;
                     case 3:
-                        Response.Write("Welcome user_Requester "); //Request Form
+                        //Response.Write("Welcome user_Requester "); //Request Form
                         liImageDisp.Visible = false;
                         liBooking.Visible = false;
                         liReqApp.Visible = false;

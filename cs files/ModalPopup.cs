@@ -101,6 +101,9 @@ namespace WebApplication1.cs_files
 
             // Register the script to show the modal
             ScriptManager.RegisterStartupScript(page, page.GetType(), "ShowModalScript", script, true);
+
+
         }
+
     }
 }

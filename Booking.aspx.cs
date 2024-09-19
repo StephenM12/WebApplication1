@@ -11,8 +11,10 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+
             if (!IsPostBack)
             {
+                
 
                 ModalPopup.RegisterModalHtml(this.Page);
 
@@ -201,9 +203,9 @@ namespace WebApplication1
                         INSERT INTO Schedule (RoomID, SectionID, CourseID, InstructorID, DayID, StartTime, EndTime, StartDate, EndDate, Remarks, BuildingID)
                         VALUES (@RoomID, @SectionID, @CourseID, @InstructorID, @DayID, @StartTime, @EndTime, @StartDate, @EndDate, @Remarks, @BuildingID)";
 
-                        try
+                        if (connection.State == System.Data.ConnectionState.Open)
                         {
-                            if (connection.State == System.Data.ConnectionState.Open)
+                            try
                             {
                                 // Convert necessary input values to appropriate data types
                                 int courseID = getID.GetOrInsertCourse(connection, course);
@@ -249,17 +251,18 @@ namespace WebApplication1
                                 string newStatus = e.CommandName == "Deploy" ? "Deployed" : "Rejected";
                                 UpdateRoomRequestStatus(requestId, newStatus);
                             }
+                            catch (Exception ex)
+                            {
+                                
+                                ModalPopup.ShowMessage_(this.Page, ex.Message, "Alert!");
+                            }
+                            finally
+                            {
+                                BindScheduleData(sender, e);
+                            }
+                            
                         }
-                        catch (Exception ex)
-                        {
-                            // Handle exception (you can log the error or display a message)
-                            ClientScript.RegisterStartupScript(this.GetType(), "alert", "alert('Error: " + ex.Message.Replace("'", "\\'") + "');", true);
-                        }
-                        finally
-                        {
-                            //GridView1.DataBind();
-                            BindScheduleData(sender, e);
-                        }
+                        
                     }
                 };
             }

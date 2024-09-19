@@ -4,97 +4,31 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
     <link rel="stylesheet" href="./CSS/RoomSchedule_Style.css" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.css">
+
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
+
     <script src="Scripts/script.js"></script>
 
     <form id="form1" runat="server">
         <asp:ScriptManager runat="server"></asp:ScriptManager>
         <asp:HiddenField ID="hiddenDayOfWeek" runat="server" />
 
+         <!-- Loading overlay -->
+        <div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:9999;">
+            <img src="\Images\Half circle.gif" alt="Loading..." style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
+        </div>
+
         <div>
             <div class="row">
-
                 <!-- Button to open the modal -->
                 <div class="button-container">
                     <asp:Button ID="RUploadFileBtn" runat="server" Text="Choose File" CssClass="upload-button btn btn-primary bg-color" OnClientClick="openupload(); return false;" />
                 </div>
-                <script type="text/javascript">
-                    function openupload() {
-                        $('#uploadModal').modal('show');
-                    }
-                </script>
-
-                <!-- Modal -->
-                <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <!-- ASP.NET Controls -->
-                                <div class="mb-3">
-                                    <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label>
-                                    <asp:DropDownList ID="upload_DropDownList1" runat="server"></asp:DropDownList>
-                                </div>
-                                <div class="form-outline mb-4">
-                                    <div class="row align-items-center">
-
-                                        <!-- Start Date in Modal Button-->
-                                        <div class="col-sm-6">
-                                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Date:</label>
-                                            <asp:TextBox ID="calendar_TB1" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
-                                        </div>
-
-                                        <!-- End Date in Modal Button-->
-                                        <div class="col-sm-6">
-                                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select End Date:</label>
-                                            <asp:TextBox ID="calendar_TB2" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
-                                        </div>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="modal-footer">
-                                    <asp:Button ID="RUCancelBtn" runat="server" Text="Cancel" CssClass="bg-color btn btn-primary bg-color" />
-                                    <asp:Button ID="Button1" runat="server" Text="Upload file" OnClick="Upload_File" CssClass="btn btn-primary bg-color" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
             </div>
-            <%--modal end here--%>
-
-            <script>
-                document.addEventListener("DOMContentLoaded", function () {
-                    // Get the upload button and input elements
-                    var uploadButton = document.getElementById('<%= Button1.ClientID %>');
-                    var startDate = document.getElementById('<%= calendar_TB1.ClientID %>');
-                    var endDate = document.getElementById('<%= calendar_TB2.ClientID %>');
-
-                    // Disable the upload button initially
-                    uploadButton.disabled = true;
-
-                    // Function to check if the dates are valid
-                    function validateDates() {
-                        if (startDate.value && endDate.value) {
-                            uploadButton.disabled = false;
-                        } else {
-                            uploadButton.disabled = true;
-                        }
-                    }
-
-                    // Attach event listeners to the start and end date fields
-                    startDate.addEventListener('input', validateDates);
-                    endDate.addEventListener('input', validateDates);
-                });
-            </script>
         </div>
         <br />
         <div>
@@ -109,14 +43,14 @@
         </div>
         <asp:Calendar ID="Calendar3" runat="server" OnSelectionChanged="Calendar1_SelectionChanged"></asp:Calendar>
 
+        <%--gridview for roomsched--%>
         <div class="d-flex justify-content-center align-items-center" style="height: 80vh;">
             <div class="schedule-container col-sm-6">
                 <asp:UpdatePanel runat="server" ID="UpdatePanelGridView">
                     <ContentTemplate>
 
-                          <%--this is for selected date--%>
-                          <asp:HiddenField ID="HiddenField2" runat="server" />
-
+                        <%--this is for selected date--%>
+                        <asp:HiddenField ID="HiddenField2" runat="server" />
 
                         <asp:GridView ID="GridView1" runat="server" DataKeyNames="ScheduleID" OnRowCommand="GridView1_RowCommand" CssClass="schedule-gridview" BackColor="White" BorderColor="White" BorderStyle="Ridge"
                             BorderWidth="2px" CellPadding="3" CellSpacing="1" AutoGenerateColumns="false" ShowHeaderWhenEmpty="True"
@@ -130,9 +64,9 @@
                             <SortedAscendingHeaderStyle BackColor="#594B9C" />
                             <SortedDescendingCellStyle BackColor="#CAC9C9" />
                             <SortedDescendingHeaderStyle BackColor="#33276A" />
-                          
+
                             <Columns>
-                                
+
                                 <asp:BoundField DataField="Time" HeaderText="Time" />
                                 <asp:TemplateField HeaderText="Monday">
                                     <ItemTemplate>
@@ -184,8 +118,59 @@
             </div>
         </div>
 
-        <%--testing--%>
+        <!-- Start of Modal Button-->
+        <asp:Button ID="RAddSchedBtn" runat="server" Text="ADD TO SCHEDULE" CssClass="lower-right bg-color btn btn-primary bg-color" OnClientClick="openModal(); return false;" />
 
+        <!--  Modal Button for EDIT/CANCEL SCHEDULE-->
+        <asp:Button ID="REditBtn" runat="server" Text="EDIT SCHEDULE" CssClass="lower-left bg-color btn btn-primary bg-color" OnClientClick="openSched(); return false;" />
+
+       
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="uploadModal" tabindex="-1" aria-labelledby="uploadModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="uploadModalLabel">Upload File</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <!-- ASP.NET Controls -->
+                        <div class="mb-3">
+                            <asp:FileUpload ID="FileUpload1" runat="server" CssClass="form-control" />
+                        </div>
+                        <div class="form-outline mb-4">
+                            <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Building:</label>
+                            <asp:DropDownList ID="upload_DropDownList1" runat="server"></asp:DropDownList>
+                        </div>
+                        <div class="form-outline mb-4">
+                            <div class="row align-items-center">
+
+                                <!-- Start Date in Modal Button-->
+                                <div class="col-sm-6">
+                                    <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select Date:</label>
+                                    <asp:TextBox ID="calendar_TB1" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                                </div>
+
+                                <!-- End Date in Modal Button-->
+                                <div class="col-sm-6">
+                                    <label style="font-weight: bold;" class="form-label ms-3" for="form3Example1cg">Select End Date:</label>
+                                    <asp:TextBox ID="calendar_TB2" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+
+
+                        <div class="modal-footer">
+                            <asp:Button ID="Button1" runat="server" Text="Upload file" OnClick="Upload_File" CssClass="btn btn-primary bg-color"  />
+                            <asp:Button ID="RUCancelBtn" runat="server" Text="Cancel" CssClass="bg-color btn btn-primary bg-color" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade" id="scheduleModal" tabindex="-1" role="dialog" aria-labelledby="scheduleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -195,16 +180,12 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
-                   
+
                     <div class="modal-body">
-                        <asp:UpdatePanel runat="server" ID="UpdatePanel2" >
+                        <asp:UpdatePanel runat="server" ID="UpdatePanel2">
                             <ContentTemplate>
                                 <%--this is for scheduleID--%>
                                 <asp:HiddenField ID="HiddenField1" runat="server" />
-                                
-
-                                <%--<asp:Label ID="Label1" runat="server" Text="schedule id :" ></asp:Label>--%>
-
                                 <div class="form-group">
                                     <asp:Label ID="lblBuildingID" runat="server" Text="Building Name:" AssociatedControlID="txtBuildingID"></asp:Label>
                                     <asp:TextBox ID="txtBuildingID" runat="server" CssClass="form-control" ReadOnly="True" />
@@ -253,37 +234,16 @@
 
                             <asp:UpdatePanel runat="server" ID="UpdatePanel3">
                                 <ContentTemplate>
-                                    <asp:Button ID="btnUpdate" runat="server" Text="Update" CssClass="btn btn-success" OnClick="btnUpdate_Click" Visible ="false" />
-                                    <asp:Button ID="btnEdit" runat="server" Text="Edit" CssClass="btn btn-primary" OnClick="btnEdit_Click"  />
+                                    <asp:Button ID="btnUpdate" runat="server" Text="Update" CssClass="btn btn-success" OnClick="btnUpdate_Click" Visible="false" />
+                                    <asp:Button ID="btnEdit" runat="server" Text="Edit" CssClass="btn btn-primary" OnClick="btnEdit_Click" />
                                 </ContentTemplate>
                             </asp:UpdatePanel>
-                            <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="btn btn-secondary" OnClick="btnClose_Click" />
+                            <asp:Button ID="btnClose" runat="server" Text="Close" CssClass="btn btn-secondary" data-bs-dismiss="modal" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
-        <script type="text/javascript">
-          
-
-        </script>
-
-        <%--end of testing--%>
-
-        <!-- Start of Modal Button-->
-        <asp:Button ID="RAddSchedBtn" runat="server" Text="ADD TO SCHEDULE" CssClass="lower-right bg-color btn btn-primary bg-color" OnClientClick="openModal(); return false;" />
-
-        <!--  Modal Button for EDIT/CANCEL SCHEDULE-->
-        <asp:Button ID="REditBtn" runat="server" Text="EDIT SCHEDULE" CssClass="lower-left bg-color btn btn-primary bg-color" OnClientClick="openSched(); return false;" />
-
-        <script type="text/javascript">
-            function openSched() {
-                $('#RoomEdit').modal('show');
-            }
-        </script>
-
-        <!-- Modal -->
         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <br>
             <div class="modal-dialog modal-fullscreen-xxl-down">
@@ -402,7 +362,6 @@
                 </div>
             </div>
         </div>
-
         <div class="modal fade" id="RoomEdit" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-fullscreen-xxl-down">
                 <div class="modal-content">
@@ -502,5 +461,58 @@
                 </div>
             </div>
         </div>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+        <%--js scripts--%>
+        <script>
+
+            // Show the loading GIF when form is being submitted or button clicked
+            $("form").on("submit", function () {
+                $("#loadingOverlay").fadeIn();
+            });
+
+            // Hide the loading GIF after the page has fully loaded
+            $(window).on("load", function () {
+                $("#loadingOverlay").fadeOut(); // Hide loading gif
+            });
+
+
+
+           
+
+            function openupload() {
+                $('#uploadModal').modal('show');
+
+            }
+           
+
+            function openSched() {
+                $('#RoomEdit').modal('show');
+            }
+
+            document.addEventListener("DOMContentLoaded", function () {
+                // Get the upload button and input elements
+                var uploadButton = document.getElementById('<%= Button1.ClientID %>');
+                var startDate = document.getElementById('<%= calendar_TB1.ClientID %>');
+                var endDate = document.getElementById('<%= calendar_TB2.ClientID %>');
+
+                // Disable the upload button initially
+                uploadButton.disabled = true;
+
+                // Function to check if the dates are valid
+                function validateDates() {
+                    if (startDate.value && endDate.value) {
+                        uploadButton.disabled = false;
+                    } else {
+                        uploadButton.disabled = true;
+                    }
+                }
+
+                // Attach event listeners to the start and end date fields
+                startDate.addEventListener('input', validateDates);
+                endDate.addEventListener('input', validateDates);
+            });
+        </script>
     </form>
 </asp:Content>

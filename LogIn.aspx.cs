@@ -14,6 +14,8 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            
+
         }
 
         protected void LogInBtn_Click(object sender, EventArgs e)
@@ -39,12 +41,20 @@ namespace WebApplication1
                 //means user is authenticated
                 if (dtable.Rows.Count > 0)
                 {
-                    user_Identity.verify_UserName(username);
+                    user_Identity.verify_UserName(username, connection);
 
                     username = UsernameTB.Text;
                     password = PasswordTB.Text;
 
                     Response.Redirect("Home.aspx");
+
+                    
+                }
+                else 
+                {
+                    ModalPopup.ShowMessage(Page, "Invalid Username or Password", "User notfound!");
+                    //Label1.Text = "Invalid Username or Password";
+                
                 }
             }
             else

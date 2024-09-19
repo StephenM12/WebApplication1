@@ -32,6 +32,7 @@
                                 Enter your registered email address below and we'll send you a password reset OTP.
                             </p>
                         </div>
+                        <asp:Label ID="Label1" runat="server" Text="" ForeColor="#CC3300"></asp:Label>
                         <form id="form1" runat="server">
                             <div class="mb-3">                              
                                 <!--ID for Email Text Box-->
@@ -41,7 +42,7 @@
                                     <asp:Button ID="RVerifyEmailBtn" runat="server" Text="Verify Email" OnClick="verify_Email_BTN" class="bg-purple btn btn-primary full-width bg-purple" />
                                 </div>
                             </div>
-                            <span>Don't have an account? <a href="CreateAccount.aspx">Sign In</a></span>
+                            <%--<span>Don't have an account? <a href="CreateAccount.aspx">Sign In</a></span>--%>
                         </form>
                     </div>
                 </div>

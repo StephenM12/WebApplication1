@@ -100,8 +100,10 @@ namespace WebApplication1
                     }
                     else
                     {
-                        Response.Write("Email does not exist in the database.");
-                        
+                        //Response.Write("Email does not exist in the database.");
+                        Label1.Text = "Email does not exist in the database.";
+
+
                     }
 
                     

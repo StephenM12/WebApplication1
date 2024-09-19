@@ -60,6 +60,15 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Repeater RoomRepeater;
 
         /// <summary>
+        /// addRm control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button addRm;
+
+        /// <summary>
         /// addBuild control.
         /// </summary>
         /// <remarks>
@@ -105,22 +114,13 @@ namespace WebApplication1
         protected global::System.Web.UI.WebControls.Button btnAddBuilding;
 
         /// <summary>
-        /// addRm control.
+        /// UpdatePanel2 control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button addRm;
-
-        /// <summary>
-        /// lblRoomError control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblRoomError;
+        protected global::System.Web.UI.UpdatePanel UpdatePanel2;
 
         /// <summary>
         /// txtRoomName control.
@@ -139,6 +139,15 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.DropDownList ddlBuildings;
+
+        /// <summary>
+        /// lblRoomError control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Label lblRoomError;
 
         /// <summary>
         /// btnConfirmAddRoom control.

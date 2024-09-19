@@ -56,7 +56,7 @@ namespace WebApplication1.cs_files
             }
         }
 
-        public int GetOrInsertBuilding(SqlConnection connection, string building)
+        public int GetOrInsertBuilding(SqlConnection connection, string building, bool addITEM = false)
         {
             // Example logic for retrieving or inserting a room
             string query = "SELECT BuildingID FROM Buildings WHERE BuildingName = @BuildingName";
@@ -70,12 +70,22 @@ namespace WebApplication1.cs_files
                 }
             }
 
-            string insertQuery = "INSERT INTO Buildings (BuildingName) OUTPUT INSERTED.BuildingID VALUES (@BuildingName)";
-            using (SqlCommand command = new SqlCommand(insertQuery, connection))
+            if (addITEM)
             {
-                command.Parameters.AddWithValue("@BuildingName", building.ToUpper());
-                return (int)command.ExecuteScalar();
+                string insertQuery = "INSERT INTO Buildings (BuildingName) OUTPUT INSERTED.BuildingID VALUES (@BuildingName)";
+                using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                {
+                    command.Parameters.AddWithValue("@BuildingName", building.ToUpper());
+                    return (int)command.ExecuteScalar();
+                }
+
             }
+
+            // Log that the room was not found and not added
+            Console.WriteLine("Building not found.");
+            return -1;
+
+
         }
 
         public int GetOrInsertRoom(SqlConnection connection, string room, int buildingID, bool addITEM = false)
@@ -109,7 +119,7 @@ namespace WebApplication1.cs_files
             }
 
             // Log that the room was not found and not added
-            Console.WriteLine("Room not found and not added.");
+            Console.WriteLine("Room not found.");
             return -1;
         }
 

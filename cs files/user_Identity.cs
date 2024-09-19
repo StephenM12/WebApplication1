@@ -48,10 +48,10 @@ namespace WebApplication1.cs_files
             else { return 0; }
         }
 
-        public static string verify_UserName(string userName)
+        public static string verify_UserName(string userName, SqlConnection connection)
         {
             // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
+            //SqlConnection connection = dbConnection.GetConnection();
 
             if (connection.State == System.Data.ConnectionState.Open)
             {// Perform your database operations here:

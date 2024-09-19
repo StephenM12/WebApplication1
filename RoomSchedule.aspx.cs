@@ -40,7 +40,10 @@ namespace WebApplication1
         {
             if (!IsPostBack)
             {
-                //doesnt need it anymore
+                ModalPopup.RegisterModalHtml(this.Page);
+                Dropdown_Datas(sender, e);
+
+                //make this visible if u need to use edit button
                 REditBtn.Visible = false;
 
                 int userlevel = user_Identity.user_level;
@@ -50,11 +53,8 @@ namespace WebApplication1
                     REditBtn.Visible = false;
                     RUploadFileBtn.Visible = false;
                 }
-
-                //for modal popup
-                ModalPopup.RegisterModalHtml(this.Page);
-
-                Dropdown_Datas(sender, e);
+             
+               
                 upload_DropDownList1.SelectedIndex = 0;
 
                 if (DropDownList2.Items.Count > 0)
@@ -123,7 +123,6 @@ namespace WebApplication1
                                                 object result = command.ExecuteScalar();
                                                 int uploadID = Convert.ToInt32(result);
 
-                                                //ModalPopup.ShowMessage_(this.Page, msg, "Alert!");
                                                 ReadExcelData(excelStream, uploadID);
                                             }
                                             catch (Exception ex)
@@ -322,6 +321,7 @@ namespace WebApplication1
                                 // Perform the bulk copy
                                 bulkCopy.WriteToServer(scheduleDataTable);
 
+                                
                                 Response.Write("File uploaded successfully.");
                             }
                         }
@@ -344,6 +344,9 @@ namespace WebApplication1
                 // Clear the TextBox inputs (start and end date)
                 calendar_TB1.Text = string.Empty;
                 calendar_TB2.Text = string.Empty;
+
+                ScriptManager.RegisterStartupScript(this, this.GetType(), "hideLoader", "hideLoading();", true);
+
             }
         }
 
@@ -385,114 +388,6 @@ namespace WebApplication1
             }
 
             return dataTable;
-        }
-
-        //adding Sched
-        protected void DeployBTNclk(object sender, EventArgs e)
-        {
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-
-            try
-            {
-                // Retrieve values from the form controls
-                //string roomNumber = RRoomNumberTB.Text;
-                string roomNumber = add_Dropdown_room.SelectedValue;
-                string section = RSectionTB.Text;
-                string courseCode = RCourseCodeTB.Text;
-                string professor = RProfTB.Text;
-                string remarks = RRemarksTB.Text;
-                //string buildingId = ADD_DropDownList1.SelectedValue;
-                string faculty = RFacultyDL.SelectedValue;//WILL BE USED FOR BOOKING LATER
-                DateTime startDate = DateTime.Parse(SelectDateTB.Text);
-                DateTime endDate = DateTime.Parse(EndDateTB.Text);
-                string startTime = RTimeStart.SelectedItem.Text;
-                string endTime = RTimeEnd.SelectedItem.Text;
-
-                get_ID add_dbHelper = new get_ID();
-
-                int buildID = int.Parse(ADD_DropDownList1.SelectedValue);
-
-                var add_Ids = add_dbHelper.CheckAndInsertValues(connection, roomNumber, section, courseCode, professor, true, buildID);
-
-                int buildingID = add_dbHelper.GetOrInsertBuilding(connection, ADD_DropDownList1.SelectedValue);
-                int roomID = add_Ids.roomID;
-                int sectionID = add_Ids.sectionID;
-                int courseID = add_Ids.courseID;
-                int instructorID = add_Ids.instructorID;
-
-                DateTime parsedStartTime = DateTime.ParseExact(startTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
-                TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
-
-                DateTime parsedEndTime = DateTime.ParseExact(endTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
-                TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
-
-                // Loop through each date between startDate and endDate
-                for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
-                {
-                    // Get the day of the week and corresponding DayID
-                    string dayName = date.DayOfWeek.ToString().ToUpper();
-                    int dayID = add_dbHelper.GetDayID(dayName);
-                    //int dayID = GetDayID(dayName);
-
-                    // Construct the SQL insert query
-                    string insertQuery = @"
-                    INSERT INTO Schedule (RoomID, SectionID, CourseID, InstructorID, DayID, StartTime, EndTime, StartDate, EndDate, Remarks, BuildingID)
-                    VALUES (@RoomID, @SectionID, @CourseID, @InstructorID, @DayID, @StartTime, @EndTime, @StartDate, @EndDate, @Remarks, @BuildingID)";
-
-                    using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
-                    {
-                        // Add parameters to the command
-                        cmd.Parameters.AddWithValue("@RoomID", roomID);
-                        cmd.Parameters.AddWithValue("@SectionID", sectionID);
-                        cmd.Parameters.AddWithValue("@CourseID", courseID);
-                        cmd.Parameters.AddWithValue("@InstructorID", instructorID);
-                        cmd.Parameters.AddWithValue("@DayID", dayID);
-                        cmd.Parameters.AddWithValue("@StartTime", startTimeOfDay);
-                        cmd.Parameters.AddWithValue("@EndTime", endTimeOfDay);
-                        cmd.Parameters.AddWithValue("@StartDate", date);
-                        cmd.Parameters.AddWithValue("@EndDate", date); // Assuming the same date for start and end in this context
-                        cmd.Parameters.AddWithValue("@Remarks", remarks);
-                        cmd.Parameters.AddWithValue("@BuildingID", buildingID);
-
-                        // Execute the insert command
-                        cmd.ExecuteNonQuery();
-                    }
-                }
-            }
-            catch (Exception ex)
-            {
-                // Handle exceptions
-                Response.Write("Error: " + ex.Message);
-            }
-            finally
-            {
-                //will update the contents of this:
-                Dropdown_Datas(null, EventArgs.Empty);
-                BindScheduleData(null, EventArgs.Empty);
-
-                // Close the connection
-                connection.Close();
-            }
-        }
-
-        //fill all dropdown list
-        protected void Dropdown_Datas(object sender, EventArgs e)
-        {
-            DropdownFiller filler = new DropdownFiller();
-
-            // Populate Room dropdowns
-            filler.PopulateRooms(DropDownList2);
-            filler.PopulateRooms(Edit_roomDrodown);
-            filler.PopulateRooms(add_Dropdown_room);
-
-            // Populate Building dropdowns
-            filler.PopulateBuildings(upload_DropDownList1);
-            filler.PopulateBuildings(ADD_DropDownList1);
-
-            //populate uploaded scheds for dropdown
-            filler.PopulateSchedule(uploadSchedsDL);
-            uploadSchedsDL.Items.Insert(0, new ListItem("Select Uploaded File", "0"));
         }
 
         //changed the data that is showed based on the calendar
@@ -587,33 +482,13 @@ namespace WebApplication1
             BindScheduleData(sender, e);
         }
 
-        protected void RCloseBtn_Click(object sender, EventArgs e)
-        {
-            // Reset all form fields to their default states
-            Edit_roomDrodown.SelectedIndex = -1;
-            Edit_DropDownList1.SelectedIndex = -1;
-            Edit_DropDownList2.SelectedIndex = -1;
-            Edit_Calendar_TextBox1.Text = string.Empty;
-            ESection.Text = string.Empty;
-            EProf.Text = string.Empty;
-
-            // Reset visibility of buttons
-            MatchSchedbtn.Visible = true;
-            RSaveChangesBtn.Visible = false;
-
-            // Keep the modal open
-            //ScriptManager.RegisterStartupScript(this, GetType(), "showModalScript", "keepModalOpen();", true);
-        }
-
-        //testing:
+        //updating the data upon editing from the gridview
         protected void GridView1_RowCommand(object sender, GridViewCommandEventArgs e)
         {
             if (e.CommandName == "ShowModal")
             {
                 int scheduleID = Convert.ToInt32(e.CommandArgument);
 
-                
-                
 
                 string query = @"
                     SELECT 
@@ -666,7 +541,6 @@ namespace WebApplication1
                 ScriptManager.RegisterStartupScript(this, this.GetType(), "showModal", "$('#scheduleModal').modal('show');", true);
             }
         }
-        
         protected void btnEdit_Click(object sender, EventArgs e)
         {
             
@@ -767,88 +641,96 @@ namespace WebApplication1
             
             // Optionally, call a method to refresh the GridView
         }
-        protected void btnClose_Click(object sender, EventArgs e)
+
+        //adding Sched
+        protected void DeployBTNclk(object sender, EventArgs e)
         {
-            // Close the modal
-            ScriptManager.RegisterStartupScript(this, this.GetType(), "hideModal", "$('#scheduleModal').modal('hide');", true);
-        }
-
-
-
-        //not going to use anymore
-
-        //for Edit modal:
-        protected void Match_Schedule(object sender, EventArgs e)
-        {
-            // Get the selected room ID
-            string roomName = Edit_roomDrodown.SelectedValue;
-
-            //string selectedDate = Edit_Calendar_TextBox1.Text;
-            DateTime selectedDate = DateTime.Parse(Edit_Calendar_TextBox1.Text);
-            string selectedStartTime = Edit_DropDownList1.SelectedItem.Text;
-            string selectedEndTime = Edit_DropDownList2.SelectedItem.Text;
-
-            DateTime parsedStartTime = DateTime.ParseExact(selectedStartTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
-            TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
-
-            DateTime parsedEndTime = DateTime.ParseExact(selectedEndTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
-            TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
-
             // Open database connection
             SqlConnection connection = dbConnection.GetConnection();
-            if (connection.State == System.Data.ConnectionState.Open)
+
+            try
             {
-                // Retrieve the existing schedule from the database
-                string query = @"SELECT
-                            s.ScheduleID, s.StartTime, s.EndTime, s.StartDate,
-                            sec.SectionName, ins.InstructorName
-                         FROM Schedule s
-                         INNER JOIN Sections sec ON s.SectionID = sec.SectionID
-                         INNER JOIN Instructors ins ON s.InstructorID = ins.InstructorID
-                         WHERE s.RoomID = @RoomID
-                           AND @SelectedDate BETWEEN s.StartDate AND s.EndDate
-                           AND s.StartTime = @StartTime
-                           AND s.EndTime = @EndTime";
-                using (SqlCommand command = new SqlCommand(query, connection))
+                // Retrieve values from the form controls
+                //string roomNumber = RRoomNumberTB.Text;
+                string roomNumber = add_Dropdown_room.SelectedValue;
+                string section = RSectionTB.Text;
+                string courseCode = RCourseCodeTB.Text;
+                string professor = RProfTB.Text;
+                string remarks = RRemarksTB.Text;
+                //string buildingId = ADD_DropDownList1.SelectedValue;
+                string faculty = RFacultyDL.SelectedValue;//WILL BE USED FOR BOOKING LATER
+                DateTime startDate = DateTime.Parse(SelectDateTB.Text);
+                DateTime endDate = DateTime.Parse(EndDateTB.Text);
+                string startTime = RTimeStart.SelectedItem.Text;
+                string endTime = RTimeEnd.SelectedItem.Text;
+
+                get_ID add_dbHelper = new get_ID();
+
+                int buildID = int.Parse(ADD_DropDownList1.SelectedValue);
+
+                var add_Ids = add_dbHelper.CheckAndInsertValues(connection, roomNumber, section, courseCode, professor, true, buildID);
+
+                int buildingID = add_dbHelper.GetOrInsertBuilding(connection, ADD_DropDownList1.SelectedValue);
+                int roomID = add_Ids.roomID;
+                int sectionID = add_Ids.sectionID;
+                int courseID = add_Ids.courseID;
+                int instructorID = add_Ids.instructorID;
+
+                DateTime parsedStartTime = DateTime.ParseExact(startTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+                TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
+
+                DateTime parsedEndTime = DateTime.ParseExact(endTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+                TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
+
+                // Loop through each date between startDate and endDate
+                for (DateTime date = startDate; date <= endDate; date = date.AddDays(1))
                 {
-                    //SqlCommand cmd = new SqlCommand(query, conn);
-                    command.Parameters.AddWithValue("@RoomID", roomName);
-                    command.Parameters.AddWithValue("@SelectedDate", selectedDate);
-                    command.Parameters.AddWithValue("@StartTime", startTimeOfDay);
-                    command.Parameters.AddWithValue("@EndTime", endTimeOfDay);
+                    // Get the day of the week and corresponding DayID
+                    string dayName = date.DayOfWeek.ToString().ToUpper();
+                    int dayID = add_dbHelper.GetDayID(dayName);
+                    //int dayID = GetDayID(dayName);
 
-                    //conn.Open();
-                    SqlDataReader reader = command.ExecuteReader();
-                    if (reader.Read())
+                    // Construct the SQL insert query
+                    string insertQuery = @"
+                    INSERT INTO Schedule (RoomID, SectionID, CourseID, InstructorID, DayID, StartTime, EndTime, StartDate, EndDate, Remarks, BuildingID)
+                    VALUES (@RoomID, @SectionID, @CourseID, @InstructorID, @DayID, @StartTime, @EndTime, @StartDate, @EndDate, @Remarks, @BuildingID)";
+
+                    using (SqlCommand cmd = new SqlCommand(insertQuery, connection))
                     {
-                        // Populate fields with existing data
-                        Edit_DropDownList1.SelectedValue = reader["StartTime"].ToString();
-                        Edit_DropDownList2.SelectedValue = reader["EndTime"].ToString();
-                        Edit_Calendar_TextBox1.Text = Convert.ToDateTime(reader["StartDate"]).ToString("yyyy-MM-dd");
-                        ESection.Text = reader["SectionName"].ToString();
-                        EProf.Text = reader["InstructorName"].ToString();
+                        // Add parameters to the command
+                        cmd.Parameters.AddWithValue("@RoomID", roomID);
+                        cmd.Parameters.AddWithValue("@SectionID", sectionID);
+                        cmd.Parameters.AddWithValue("@CourseID", courseID);
+                        cmd.Parameters.AddWithValue("@InstructorID", instructorID);
+                        cmd.Parameters.AddWithValue("@DayID", dayID);
+                        cmd.Parameters.AddWithValue("@StartTime", startTimeOfDay);
+                        cmd.Parameters.AddWithValue("@EndTime", endTimeOfDay);
+                        cmd.Parameters.AddWithValue("@StartDate", date);
+                        cmd.Parameters.AddWithValue("@EndDate", date); // Assuming the same date for start and end in this context
+                        cmd.Parameters.AddWithValue("@Remarks", remarks);
+                        cmd.Parameters.AddWithValue("@BuildingID", buildingID);
 
-                        // Store ScheduleID for later use
-
-                        int scheduleID = Convert.ToInt32(reader["ScheduleID"]);
-                        HiddenScheduleID.Value = scheduleID.ToString();
-
-                        // Show SAVE button, hide RSaveChangesBtn
-                        MatchSchedbtn.Visible = false;
-                        RSaveChangesBtn.Visible = true;
-                    }
-                    else
-                    {
-                        Response.Write("No record found");
-
-                        // Hide SAVE button, show RSaveChangesBtn
-                        MatchSchedbtn.Visible = true;
-                        RSaveChangesBtn.Visible = false;
+                        // Execute the insert command
+                        cmd.ExecuteNonQuery();
                     }
                 }
             }
-        }
+            catch (Exception ex)
+            {
+                // Handle exceptions
+                Response.Write("Error: " + ex.Message);
+            }
+            finally
+            {
+                //will update the contents of this:
+                Dropdown_Datas(null, EventArgs.Empty);
+                BindScheduleData(null, EventArgs.Empty);
 
+                // Close the connection
+                connection.Close();
+            }
+        }
+        //for edit button
         protected void Edit_BTNclk(object sender, EventArgs e)
         {
             try
@@ -939,5 +821,114 @@ namespace WebApplication1
                 // Optionally log the exception for troubleshooting
             }
         }
+        protected void Match_Schedule(object sender, EventArgs e)
+        {
+            // Get the selected room ID
+            string roomName = Edit_roomDrodown.SelectedValue;
+
+            //string selectedDate = Edit_Calendar_TextBox1.Text;
+            DateTime selectedDate = DateTime.Parse(Edit_Calendar_TextBox1.Text);
+            string selectedStartTime = Edit_DropDownList1.SelectedItem.Text;
+            string selectedEndTime = Edit_DropDownList2.SelectedItem.Text;
+
+            DateTime parsedStartTime = DateTime.ParseExact(selectedStartTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+            TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
+
+            DateTime parsedEndTime = DateTime.ParseExact(selectedEndTime.Trim(), "h:mmtt", CultureInfo.InvariantCulture);
+            TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
+
+            // Open database connection
+            SqlConnection connection = dbConnection.GetConnection();
+            if (connection.State == System.Data.ConnectionState.Open)
+            {
+                // Retrieve the existing schedule from the database
+                string query = @"SELECT
+                            s.ScheduleID, s.StartTime, s.EndTime, s.StartDate,
+                            sec.SectionName, ins.InstructorName
+                         FROM Schedule s
+                         INNER JOIN Sections sec ON s.SectionID = sec.SectionID
+                         INNER JOIN Instructors ins ON s.InstructorID = ins.InstructorID
+                         WHERE s.RoomID = @RoomID
+                           AND @SelectedDate BETWEEN s.StartDate AND s.EndDate
+                           AND s.StartTime = @StartTime
+                           AND s.EndTime = @EndTime";
+                using (SqlCommand command = new SqlCommand(query, connection))
+                {
+                    //SqlCommand cmd = new SqlCommand(query, conn);
+                    command.Parameters.AddWithValue("@RoomID", roomName);
+                    command.Parameters.AddWithValue("@SelectedDate", selectedDate);
+                    command.Parameters.AddWithValue("@StartTime", startTimeOfDay);
+                    command.Parameters.AddWithValue("@EndTime", endTimeOfDay);
+
+                    //conn.Open();
+                    SqlDataReader reader = command.ExecuteReader();
+                    if (reader.Read())
+                    {
+                        // Populate fields with existing data
+                        Edit_DropDownList1.SelectedValue = reader["StartTime"].ToString();
+                        Edit_DropDownList2.SelectedValue = reader["EndTime"].ToString();
+                        Edit_Calendar_TextBox1.Text = Convert.ToDateTime(reader["StartDate"]).ToString("yyyy-MM-dd");
+                        ESection.Text = reader["SectionName"].ToString();
+                        EProf.Text = reader["InstructorName"].ToString();
+
+                        // Store ScheduleID for later use
+
+                        int scheduleID = Convert.ToInt32(reader["ScheduleID"]);
+                        HiddenScheduleID.Value = scheduleID.ToString();
+
+                        // Show SAVE button, hide RSaveChangesBtn
+                        MatchSchedbtn.Visible = false;
+                        RSaveChangesBtn.Visible = true;
+                    }
+                    else
+                    {
+                        Response.Write("No record found");
+
+                        // Hide SAVE button, show RSaveChangesBtn
+                        MatchSchedbtn.Visible = true;
+                        RSaveChangesBtn.Visible = false;
+                    }
+                }
+            }
+        }
+
+        //fill all dropdown list
+        protected void Dropdown_Datas(object sender, EventArgs e)
+        {
+            DropdownFiller filler = new DropdownFiller();
+
+            // Populate Room dropdowns
+            filler.PopulateRooms(DropDownList2);
+            filler.PopulateRooms(Edit_roomDrodown);
+            filler.PopulateRooms(add_Dropdown_room);
+
+            // Populate Building dropdowns
+            filler.PopulateBuildings(upload_DropDownList1);
+            filler.PopulateBuildings(ADD_DropDownList1);
+
+            //populate uploaded scheds for dropdown
+            filler.PopulateSchedule(uploadSchedsDL);
+            uploadSchedsDL.Items.Insert(0, new ListItem("Select Uploaded File", "0"));
+        }
+
+        //closing functions
+        protected void RCloseBtn_Click(object sender, EventArgs e)
+        {
+            // Reset all form fields to their default states
+            Edit_roomDrodown.SelectedIndex = -1;
+            Edit_DropDownList1.SelectedIndex = -1;
+            Edit_DropDownList2.SelectedIndex = -1;
+            Edit_Calendar_TextBox1.Text = string.Empty;
+            ESection.Text = string.Empty;
+            EProf.Text = string.Empty;
+
+            // Reset visibility of buttons
+            MatchSchedbtn.Visible = true;
+            RSaveChangesBtn.Visible = false;
+
+            // Keep the modal open
+            //ScriptManager.RegisterStartupScript(this, GetType(), "showModalScript", "keepModalOpen();", true);
+        }
+       
     }
 }

@@ -6,9 +6,24 @@ using WebApplication1.cs_files;
 
 public class DropdownFiller
 {
-   
 
-    // Method to populate rooms dropdown
+    public class Room
+    {
+        public int RoomID { get; set; }
+        public string RoomName { get; set; }
+    }
+
+    public class Building
+    {
+        public int BuildingID { get; set; }
+        public string BuildingName { get; set; }
+    }
+    public class uploadScheds
+    {
+        public int UploadID { get; set; }
+        public string FileName { get; set; }
+    }
+
     public void PopulateRooms(DropDownList dropdown)
     {
         List<Room> rooms = GetRooms();
@@ -19,7 +34,6 @@ public class DropdownFiller
         dropdown.DataBind();
     }
 
-    // Method to populate buildings dropdown
     public void PopulateBuildings(DropDownList dropdown)
     {
         List<Building> buildings = GetBuildings();
@@ -30,7 +44,6 @@ public class DropdownFiller
         dropdown.DataBind();
     }
 
-    // Method to populate Uploaded scheds dropdown
     public void PopulateSchedule(DropDownList dropdown)
     {
         List<uploadScheds> uploadedscheds = getUploadscheds();
@@ -41,7 +54,6 @@ public class DropdownFiller
         dropdown.DataBind();
     }
 
-    // Method to get rooms from the database
     private List<Room> GetRooms()
     {
         List<Room> rooms = new List<Room>();
@@ -64,12 +76,12 @@ public class DropdownFiller
                 });
             }
             reader.Close();
+            connection.Close();
         }
 
         return rooms;
     }
 
-    // Method to get buildings from the database
     private List<Building> GetBuildings()
     {
         List<Building> buildings = new List<Building>();
@@ -91,12 +103,13 @@ public class DropdownFiller
                 });
             }
             reader.Close();
+
+            connection.Close();
         }
 
         return buildings;
     }
 
-    // Method to get Uploaded Scheds from the database
     private List<uploadScheds> getUploadscheds()
     {
         List<uploadScheds> uploadedscheds = new List<uploadScheds>();
@@ -118,26 +131,11 @@ public class DropdownFiller
                 });
             }
             reader.Close();
+            connection.Close();
         }
 
         return uploadedscheds;
     }
 }
 
-// Example classes for Room and Building
-public class Room
-{
-    public int RoomID { get; set; }
-    public string RoomName { get; set; }
-}
 
-public class Building
-{
-    public int BuildingID { get; set; }
-    public string BuildingName { get; set; }
-}
-public class uploadScheds
-{
-    public int UploadID { get; set; }
-    public string FileName { get; set; }
-}

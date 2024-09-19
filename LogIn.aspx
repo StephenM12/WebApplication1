@@ -6,6 +6,16 @@
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
     <script>
+        // Show the loading GIF when form is being submitted or button clicked
+            $("form").on("submit", function () {
+                $("#loadingOverlay").fadeIn();
+            });
+
+            // Hide the loading GIF after the page has fully loaded
+            $(window).on("load", function () {
+                $("#loadingOverlay").fadeOut(); // Hide loading gif
+            });
+
         document.addEventListener('DOMContentLoaded', function () {
             const togglePassword = document.getElementById('togglePassword');
             const passwordField = document.getElementById('<%= PasswordTB.ClientID %>');
@@ -47,6 +57,10 @@
                                         </div>
 
                                         <form>
+                                            <!-- Loading overlay -->
+                                            <div id="loadingOverlay" style="display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(255,255,255,0.8); z-index:9999;">
+                                                <img src="\Images\Half circle.gif" alt="Loading..." style="position:absolute; top:50%; left:50%; transform:translate(-50%, -50%);">
+                                            </div>
                                             <!--Input Username-->
                                             <div class="form-outline mb-4">
                                                 <label style="font-weight: bold;" class="form-label ms-3"
