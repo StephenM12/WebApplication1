@@ -15,7 +15,7 @@ namespace WebApplication1
 {
     public partial class ViewDeviceList : System.Web.UI.Page
     {
-        private string connectionString = "Server=tcp:roomdata.database.windows.net,1433;Initial Catalog=roomScheduleV25_Prototype;Persist Security Info=False;User ID=FrankDB;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+        private string connectionString = "Server=tcp:roomdata.database.windows.net,1433;Initial Catalog=roomScheduleV27_Prototype;Persist Security Info=False;User ID=FrankDB;Password=Frank12345;MultipleActiveResultSets=False;Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
 
         protected void Page_Load(object sender, EventArgs e)
         {
