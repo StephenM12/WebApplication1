@@ -1,0 +1,37 @@
+﻿
+body {
+    font-size: 11px; /* Reduce the base font size */
+}
+
+.form-label {
+    font-size: 11px; /* Reduce form label font size */
+}
+
+.form-control {
+    font-size: 11px; /* Reduce form control font size */
+}
+
+.header-right h4 {
+    font-size: 12px; /* Reduce header font size */
+}
+
+.custom-line {
+    border-width: 1px; /* Thin the border */
+}
+
+.signature-box {
+    height: 30px; /* Reduce signature box height */
+    width: 200px; /* Reduce signature box width */
+    border: 1px solid #000; /* Ensure the border is visible */
+    margin: 0 auto; /* Center horizontally */
+    margin-bottom: 10px; /* Add margin bottom */
+}
+
+/* Optional: Reduce margins and paddings */
+.form-outline {
+    margin-bottom: 5px; /* Reduce bottom margin */
+}
+
+.mb-3, .pb-1 {
+    margin-bottom: 3px !important; /* Adjust spacing */
+}

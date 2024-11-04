@@ -166,121 +166,152 @@ namespace RoomRequestForm
         //}
 
         //Method to clear fields
+
         protected void BtnExport_Click(object sender, EventArgs e)
         {
-            if (SelectBuildingDL.SelectedIndex > 0)
+            if (CheckForAllInputs())
             {
-                try
+                if (SelectBuildingDL.SelectedIndex > 0)
                 {
-                    // Retrieve data from form controls
-                    string email = this.email.Text;
-                    string courseCode = this.RCourseCodeTB.Text;
-                    string section = this.RSectionTB.Text;
-                    string instructor = this.RProfTB.Text;
-                    string faculty = this.RFacultyDL.SelectedItem.Text;
-                    string building = this.SelectBuildingDL.SelectedItem.Text;
-                    string roomNumber = this.SelectRoomDL.SelectedItem.Text;
-                    string RRpurpose = this.RRpurpose.Text;
-                    DateTime startDate = DateTime.Parse(this.SelectDateTB.Text);
-                    DateTime endDate = DateTime.Parse(this.EndDateTB.Text);
-
-                    // For time
-                    string StartTime = STimeDL.SelectedItem.Text;
-                    string EndTime = ETimeDL.SelectedItem.Text;
-
-                    // Parse start and end times
-                    DateTime parsedStartTime = DateTime.ParseExact(StartTime, "h:mm tt", CultureInfo.InvariantCulture);
-                    TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
-                    DateTime parsedEndTime = DateTime.ParseExact(EndTime, "h:mm tt", CultureInfo.InvariantCulture);
-                    TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
-
-                    // Base insert query without file parameters
-                    string insertQuery = @"INSERT INTO RoomRequest
-                    (email, Course, Section, Instructor, Faculty, PurposeoftheRoom, Building, Room, StartDate, EndDate, startTime, endTime, status";
-
-                    string valuesClause = ") VALUES (@Email, @Course, @Section, @Instructor, @Faculty, @PurposeoftheRoom, @Building, @Room, @StartDate, @EndDate, @StartTime, @EndTime, @Status";
-
-                    bool fileUploaded = fileUpload.HasFile;
-                    byte[] fileData = null;
-                    string fileName = null;
-                    string contentType = null;
-
-                    if (fileUploaded)
+                    try
                     {
-                        fileName = fileUpload.FileName;
-                        contentType = fileUpload.PostedFile.ContentType;
+                        // Retrieve data from form controls
+                        //string email = this.email.Text; // This is the email of the user sending the request
+                        string courseCode = this.RCourseCodeTB.Text;
+                        string section = this.RSectionTB.Text;
+                        string instructor = this.RProfTB.Text;
+                        string faculty = this.RFacultyDL.SelectedItem.Text;
+                        string building = this.SelectBuildingDL.SelectedItem.Text;
+                        string roomNumber = this.SelectRoomDL.SelectedItem.Text;
+                        string RRpurpose = this.RRpurpose.Text;
+                        DateTime startDate = DateTime.Parse(this.SelectDateTB.Text);
+                        DateTime endDate = DateTime.Parse(this.EndDateTB.Text);
 
-                        using (var memoryStream = new System.IO.MemoryStream())
+                        // For time
+                        string StartTime = STimeDL.SelectedItem.Text;
+                        string EndTime = ETimeDL.SelectedItem.Text;
+
+                        // Parse start and end times
+                        DateTime parsedStartTime = DateTime.ParseExact(StartTime, "h:mm tt", CultureInfo.InvariantCulture);
+                        TimeSpan startTimeOfDay = parsedStartTime.TimeOfDay;
+                        DateTime parsedEndTime = DateTime.ParseExact(EndTime, "h:mm tt", CultureInfo.InvariantCulture);
+                        TimeSpan endTimeOfDay = parsedEndTime.TimeOfDay;
+
+                        // Base insert query including the RequestedByEmail column
+                        string insertQuery = @"INSERT INTO RoomRequest
+                    (Course, Section, Instructor, Faculty, PurposeoftheRoom, Building, Room, StartDate, EndDate, startTime, endTime, status, RequestedByEmail, Requester_Faculty";
+
+                        string valuesClause = ") VALUES (@Course, @Section, @Instructor, @Faculty, @PurposeoftheRoom, @Building, @Room, @StartDate, @EndDate, @StartTime, @EndTime, @Status, @RequestedByEmail, @Requester_Faculty";
+
+                        bool fileUploaded = fileUpload.HasFile;
+                        byte[] fileData = null;
+                        string fileName = null;
+                        string contentType = null;
+
+                        if (fileUploaded)
                         {
-                            fileUpload.PostedFile.InputStream.CopyTo(memoryStream);
-                            fileData = memoryStream.ToArray();
+                            fileName = fileUpload.FileName;
+                            contentType = fileUpload.PostedFile.ContentType;
+
+                            using (var memoryStream = new System.IO.MemoryStream())
+                            {
+                                fileUpload.PostedFile.InputStream.CopyTo(memoryStream);
+                                fileData = memoryStream.ToArray();
+                            }
+
+                            // Extend the query to include file parameters
+                            insertQuery += ", FileName, FileData, ContentType";
+                            valuesClause += ", @FileName, @FileData, @ContentType";
                         }
 
-                        // Extend the query to include file parameters
-                        insertQuery += ", FileName, FileData, ContentType";
-                        valuesClause += ", @FileName, @FileData, @ContentType";
-                    }
+                        insertQuery += valuesClause + ")";
 
-                    insertQuery += valuesClause + ")";
-
-                    using (SqlConnection connection = dbConnection.GetConnection())
-                    {
-                        using (SqlCommand command = new SqlCommand(insertQuery, connection))
+                        using (SqlConnection connection = dbConnection.GetConnection())
                         {
-                            command.Parameters.AddWithValue("@Email", email);
-                            command.Parameters.AddWithValue("@Course", courseCode);
-                            command.Parameters.AddWithValue("@Section", section);
-                            command.Parameters.AddWithValue("@Instructor", instructor);
-                            command.Parameters.AddWithValue("@Faculty", faculty);
-                            command.Parameters.AddWithValue("@PurposeoftheRoom", RRpurpose);
-                            command.Parameters.AddWithValue("@Building", building);
-                            command.Parameters.AddWithValue("@Room", roomNumber);
-                            command.Parameters.AddWithValue("@StartDate", startDate);
-                            command.Parameters.AddWithValue("@EndDate", endDate);
-                            command.Parameters.AddWithValue("@StartTime", startTimeOfDay);
-                            command.Parameters.AddWithValue("@EndTime", endTimeOfDay);
-                            command.Parameters.AddWithValue("@Status", "Pending");
-
-                            if (fileUploaded)
+                            using (SqlCommand command = new SqlCommand(insertQuery, connection))
                             {
-                                command.Parameters.AddWithValue("@FileName", fileName);
-                                command.Parameters.AddWithValue("@FileData", fileData);
-                                command.Parameters.AddWithValue("@ContentType", contentType);
-                            }
+                                //command.Parameters.AddWithValue("@Email", email);
+                                command.Parameters.AddWithValue("@Course", courseCode);
+                                command.Parameters.AddWithValue("@Section", section);
+                                command.Parameters.AddWithValue("@Instructor", instructor);
+                                command.Parameters.AddWithValue("@Faculty", faculty);
+                                command.Parameters.AddWithValue("@PurposeoftheRoom", RRpurpose);
+                                command.Parameters.AddWithValue("@Building", building);
+                                command.Parameters.AddWithValue("@Room", roomNumber);
+                                command.Parameters.AddWithValue("@StartDate", startDate);
+                                command.Parameters.AddWithValue("@EndDate", endDate);
+                                command.Parameters.AddWithValue("@StartTime", startTimeOfDay);
+                                command.Parameters.AddWithValue("@EndTime", endTimeOfDay);
+                                command.Parameters.AddWithValue("@Status", "Pending");
 
-                            int rowsAffected = command.ExecuteNonQuery();
+                                // Add the RequestedByEmail parameter
+                                command.Parameters.AddWithValue("@RequestedByEmail", user_Identity.user_Email);
+                                command.Parameters.AddWithValue("@Requester_Faculty", user_Identity.user_Faculty);
 
-                            if (rowsAffected > 0)
-                            {
-                                // Clear TextBox controls and reset DropDownLists
-                                ClearFormControls();
-                                ConflictCard.Visible = false;
-                                ModalPopup.ShowMessage(this.Page, "Request Sent successfully!", "RoomRequest");
-                            }
-                            else
-                            {
-                                ConflictCard.Visible = false;
-                                ModalPopup.ShowMessage(this.Page, "Request Sent Failed!", "RoomRequest");
+                                if (fileUploaded)
+                                {
+                                    command.Parameters.AddWithValue("@FileName", fileName);
+                                    command.Parameters.AddWithValue("@FileData", fileData);
+                                    command.Parameters.AddWithValue("@ContentType", contentType);
+                                }
+
+                                int rowsAffected = command.ExecuteNonQuery();
+
+                                if (rowsAffected > 0)
+                                {
+                                    // Clear TextBox controls and reset DropDownLists
+                                    ClearFormControls();
+                                    ConflictCard.Visible = false;
+                                    ModalPopup.ShowMessage(this.Page, "Request Sent successfully!", "RoomRequest");
+
+
+
+                                }
+                                else
+                                {
+                                    ConflictCard.Visible = false;
+                                    ModalPopup.ShowMessage(this.Page, "Request Sent Failed!", "RoomRequest");
+                                }
                             }
                         }
                     }
+                    catch (Exception ex)
+                    {
+                        string msg = "Error: " + ex.Message;
+                        ModalPopup.ShowMessage(this.Page, msg, "Alert!");
+                    }
                 }
-                catch (Exception ex)
+                else
                 {
-                    string msg = "Error: " + ex.Message;
-                    ModalPopup.ShowMessage(this.Page, msg, "Alert!");
+                    ModalPopup.ShowMessage(this.Page, "Please select a building.", "Alert!");
                 }
+
             }
             else
             {
-                ModalPopup.ShowMessage(this.Page, "Please select a building.", "Alert!");
+                // Show a message indicating that all inputs must be filled
+                ModalPopup.ShowMessage(this.Page, "Please fill in all required fields.", "Alert!");
             }
+
+        }
+        protected bool CheckForAllInputs()
+        {
+            // Ensure all inputs are filled
+            return (SelectBuildingDL.SelectedIndex != 0 &&
+                    SelectRoomDL.SelectedIndex != 0 &&
+                    STimeDL.SelectedIndex != 0 &&
+                    ETimeDL.SelectedIndex != 0 &&
+                    !string.IsNullOrEmpty(SelectDateTB.Text) &&
+                    !string.IsNullOrEmpty(EndDateTB.Text) &&
+                    !string.IsNullOrEmpty(RSectionTB.Text) &&
+                    !string.IsNullOrEmpty(RCourseCodeTB.Text) &&
+                    !string.IsNullOrEmpty(RProfTB.Text));
         }
 
         private void ClearFormControls()
         {
             // Clear TextBox controls
-            this.email.Text = string.Empty;
+            //this.email.Text = string.Empty;
             this.RCourseCodeTB.Text = string.Empty;
             this.RSectionTB.Text = string.Empty;
             this.RProfTB.Text = string.Empty;
@@ -502,7 +533,13 @@ namespace RoomRequestForm
                 STimeDL.SelectedIndex != 0 &&
                 ETimeDL.SelectedIndex != 0 &&
                 !string.IsNullOrEmpty(SelectDateTB.Text) &&
-                !string.IsNullOrEmpty(EndDateTB.Text))
+                !string.IsNullOrEmpty(EndDateTB.Text)
+                &&
+                !string.IsNullOrEmpty(RSectionTB.Text)
+                &&
+                !string.IsNullOrEmpty(RCourseCodeTB.Text)
+                &&
+                !string.IsNullOrEmpty(RProfTB.Text))
             {
                 // Get the selected inputs
                 string roomNumber = SelectRoomDL.SelectedItem.Text;

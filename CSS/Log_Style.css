@@ -1,0 +1,75 @@
+﻿.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fccb90;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, #ee7724, #d8363a, #dd3675, #b44593);
+}
+
+.full-width {
+    width: 100%;
+}
+
+.bg-blue {
+    background-color: #002855 !important;
+}
+
+.bg-red {
+    background-color: #E03A3E !important;
+}
+
+/* Add hover effect for the button */
+.btn.bg-red:hover {
+    background-color: #0056b3 !important; /* Set the hover color to #002855 */
+}
+
+
+/* Flex container for centering content */
+.flex-container {
+    display: flex;
+    justify-content: center; /* Center horizontally */
+    align-items: center; /* Center vertically */
+}
+
+.img-container {
+    margin-left: 140px; /* Adjust as needed to move right */
+}
+
+.img-fluid {
+    max-width: 100%; /* Ensure image is responsive */
+    height: auto; /* Maintain aspect ratio */
+}
+
+.custom-line {
+    height: 2px; /* Height of the line */
+    width: 100%; /* Width of the line */
+    background-color: #002855; /* Color of the line */
+    margin: 40px 0; /* Adjust margin as needed */
+}
+
+.card-body-container {
+    width: 100%;
+    height: 100%;
+    background-color: #D9D9D9;
+    border-radius: 20px;
+}
+
+.forgot-password {
+    color: #3B1867;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
+    }
+}
+
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
+    }
+}

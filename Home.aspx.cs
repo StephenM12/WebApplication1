@@ -21,8 +21,9 @@ namespace WebApplication1
                 int userlevel = user_Identity.user_level;
                 if (userlevel != 1)
                 {
-                    addBuild.Visible = false;
-                    addRm.Visible = false;
+                    openModalLabel.Visible = false;
+                    //addBuild.Visible = false;
+                    //addRm.Visible = false;
                 }
 
                 dropdown_datas(sender, e);
@@ -36,11 +37,11 @@ namespace WebApplication1
         {
             public int RoomID { get; set; }
             public string RoomName { get; set; }
+            public string Availability { get; set; }
         }
 
         protected void showRoom(object sender, EventArgs e)
         {
-            //int buildingId = int.Parse(DropDownList1.SelectedValue);
             int buildingId;
 
             if (!string.IsNullOrEmpty(DropDownList1.SelectedValue) && DropDownList1.SelectedValue != "0")
@@ -58,39 +59,61 @@ namespace WebApplication1
             RoomRepeater.DataBind();
         }
 
+
+
+        
         public List<Room> GetRooms(int buildingId)
         {
-            var rooms = new List<Room>();
+            List<Room> rooms = new List<Room>();
+            DateTime currentTime = DateTime.Now;
+            //string currentTimeString = currentTime.ToString("h:mmtt");
+            //TimeSpan currentTimeSpan = currentTime.TimeOfDay;
 
-            // Open database connection
+            TimeZoneInfo philippineTimeZone = TimeZoneInfo.FindSystemTimeZoneById("Singapore Standard Time"); // UTC+8
+            DateTime currentTime_ = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, philippineTimeZone);
+            TimeSpan currentTimeSpan = currentTime_.TimeOfDay;
+
+
             using (SqlConnection connection = dbConnection.GetConnection())
             {
-                if (connection.State == System.Data.ConnectionState.Open)
+
+                string query = @"
+                    SELECT r.RoomID, r.RoomName, 
+                    CASE 
+                        WHEN EXISTS (
+                            SELECT 1 
+                            FROM Schedule s 
+                            WHERE s.RoomID = r.RoomID 
+                            
+                            AND s.ScheduleDate = CAST(GETDATE() AS DATE) 
+                            AND @CurrentTime BETWEEN s.StartTime AND s.EndTime
+                        ) 
+                        THEN 'Occupied' 
+                        ELSE 'Available' 
+                    END AS Availability 
+                    FROM Rooms r 
+                    WHERE (r.BuildingID = @BuildingID OR @BuildingID = 0 )";
+
+                //AND s.BuildingID = @BuildingID 
+                using (SqlCommand command = new SqlCommand(query, connection))
                 {
-                    // Determine the query based on buildingId
-                    string query = "SELECT RoomID, RoomName FROM Rooms";
-                    if (buildingId != 0)
-                    {
-                        query += " WHERE BuildingID = @BuildingID";
-                    }
+                    command.Parameters.AddWithValue("@BuildingID", buildingId);
+                    command.Parameters.AddWithValue("@CurrentTime", currentTimeSpan); 
 
-                    using (SqlCommand command = new SqlCommand(query, connection))
+                    using (SqlDataReader reader = command.ExecuteReader())
                     {
-                        if (buildingId != 0)
+                        while (reader.Read())
                         {
-                            command.Parameters.AddWithValue("@BuildingID", buildingId);
-                        }
-
-                        using (SqlDataReader reader = command.ExecuteReader())
-                        {
-                            while (reader.Read())
+                            Room room = new Room
                             {
-                                rooms.Add(new Room
-                                {
-                                    RoomID = reader.GetInt32(0),
-                                    RoomName = reader.GetString(1)
-                                });
-                            }
+                                RoomID = reader.GetInt32(0),
+                                RoomName = reader.GetString(1),
+                                Availability = reader.GetString(2) // Availability based on current time
+
+
+                            };
+                            rooms.Add(room);
+
                         }
                     }
                 }
@@ -98,6 +121,51 @@ namespace WebApplication1
 
             return rooms;
         }
+
+
+        //orig
+        //public List<Room> GetRooms(int buildingId)
+        //{
+        //    var rooms = new List<Room>();
+
+        //    // Open database connection
+        //    using (SqlConnection connection = dbConnection.GetConnection())
+        //    {
+        //        if (connection.State == System.Data.ConnectionState.Open)
+        //        {
+        //            // Determine the query based on buildingId
+        //            string query = "SELECT RoomID, RoomName FROM Rooms";
+        //            if (buildingId != 0)
+        //            {
+        //                query += " WHERE BuildingID = @BuildingID";
+        //            }
+
+        //            using (SqlCommand command = new SqlCommand(query, connection))
+        //            {
+        //                if (buildingId != 0)
+        //                {
+        //                    command.Parameters.AddWithValue("@BuildingID", buildingId);
+        //                }
+
+        //                using (SqlDataReader reader = command.ExecuteReader())
+        //                {
+        //                    while (reader.Read())
+        //                    {
+        //                        rooms.Add(new Room
+        //                        {
+        //                            RoomID = reader.GetInt32(0),
+        //                            RoomName = reader.GetString(1)
+        //                        });
+        //                    }
+        //                }
+        //            }
+        //        }
+        //    }
+
+        //    return rooms;
+        //}
+
+
 
         //adding building
         protected void btnAddBuilding_Click(object sender, EventArgs e)
@@ -112,12 +180,9 @@ namespace WebApplication1
                 return;
             }
 
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-
-            if (connection.State == System.Data.ConnectionState.Open)
+            using (SqlConnection connection = dbConnection.GetConnection())
             {
-                
+
                 try
                 {
                     get_ID getbuildID = new get_ID();
@@ -129,6 +194,8 @@ namespace WebApplication1
                         lblSuccessMessage.Text = buildingName + " Building inserted successfully.";
                         lblSuccessMessage.CssClass = "alert alert-success";
                         lblSuccessMessage.Visible = true;
+
+                        
 
                         ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", @"
                             setTimeout(function() {
@@ -173,12 +240,9 @@ namespace WebApplication1
                 return;
             }
 
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-
             string query = "INSERT INTO Rooms (RoomName, BuildingID) VALUES (@RoomName, @BuildingID)";
 
-            if (connection.State == System.Data.ConnectionState.Open)
+            using (SqlConnection connection = dbConnection.GetConnection())
             {
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
@@ -199,6 +263,8 @@ namespace WebApplication1
                             lblRoomError.CssClass = "alert alert-success";
                             lblRoomError.Visible = true;
 
+                            showRoom(sender, e);
+
                             // Use ScriptManager to close the modal after 2 seconds
                             ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", @"
                                 setTimeout(function() {
@@ -207,6 +273,8 @@ namespace WebApplication1
                             ", true);
 
                             txtRoomName.Text = " ";
+
+
 
                             //string msgtxtbox = "Room Added Succesfully";
                             //ModalPopup.ShowMessage_(this.Page, msgtxtbox, "Note!");
@@ -222,7 +290,67 @@ namespace WebApplication1
             }
         }
 
-        //for data fetching
+        //adding faculty
+        protected void btnAddFaculty_Click(object sender, EventArgs e)
+        {
+            string facultyCode = txtNewFacultyName.Text.Trim().ToUpper(); // Get the faculty code from the TextBox
+
+            // Check if the faculty code is not empty
+            if (string.IsNullOrEmpty(facultyCode))
+            {
+                // Optionally show a message to the user
+                Label1facult.Text = "Faculty code cannot be empty.";
+                return;
+            }
+
+            using (SqlConnection connection = dbConnection.GetConnection())
+            {
+
+                try
+                {
+                    //conn.Open();
+                    string query = "INSERT INTO Faculty (FacultyCode) VALUES (@FacultyCode)";
+
+                    using (SqlCommand cmd = new SqlCommand(query, connection))
+                    {
+                        // Use parameters to prevent SQL injection
+                        cmd.Parameters.AddWithValue("@FacultyCode", facultyCode);
+
+                        // Execute the command
+                        int rowsAffected = cmd.ExecuteNonQuery();
+
+                        // Check if the insertion was successful
+                        if (rowsAffected > 0)
+                        {
+
+                            Label1facult.Text = facultyCode + " added successfully.";
+                            Label1facult.CssClass = "alert alert-success";
+                            Label1facult.Visible = true;
+
+                            ScriptManager.RegisterStartupScript(this, this.GetType(), "CloseModal", @"
+                            setTimeout(function() {
+                                $('#addFacultyModal').modal('hide');
+                            }, 2000);
+
+                            ", true);
+
+
+                            txtNewFacultyName.Text = string.Empty;
+                        }
+                        else
+                        {
+                            Label1facult.Text = "Error adding faculty.";
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception (if needed) and display an error message
+                    Label1facult.Text = "An error occurred: " + ex.Message;
+                }
+            }
+        }
+
         protected void BindSelectedBuild(object sender, EventArgs e)
         {
             showRoom(sender, e);
@@ -234,6 +362,11 @@ namespace WebApplication1
 
             filler.PopulateBuildings(DropDownList1);
             filler.PopulateBuildings(ddlBuildings);
+
+            //for add modal
+            filler.PopulateBuildings(addBuild_DropDownList);
+            filler.PopulateRooms(addRoom_DropDownList);
+            filler.PopulateFaculty(addFaculty_DropDownList);
 
             DropDownList1.Items.Insert(0, new ListItem("Select Building", "0"));
             ddlBuildings.Items.Insert(0, new ListItem("Select Building", "0"));

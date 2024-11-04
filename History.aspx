@@ -13,6 +13,7 @@
 
         <asp:UpdatePanel runat="server" ID="UpdatePanelGridView">
             <ContentTemplate>
+              <asp:HiddenField ID="HiddenField1" runat="server" />
               <asp:DropDownList ID="ddlStatusFilter" runat="server" AutoPostBack="True" OnSelectedIndexChanged="ddlStatusFilter_SelectedIndexChanged">
                 <asp:ListItem Value="All">All</asp:ListItem>
                 <asp:ListItem Value="Pending">Pending</asp:ListItem>
@@ -33,14 +34,14 @@
                         </asp:TemplateField>
                         <%--<asp:BoundField DataField="HistoryID" HeaderText="History ID" />--%>
                         <%--<asp:BoundField DataField="RequestID" HeaderText="Request ID" />--%>
-                        <asp:BoundField DataField="Email" HeaderText="Requested by" />
+                        <asp:BoundField DataField="RequestedByEmail" HeaderText="Requested by" />
                         <asp:BoundField DataField="RequestDateTime" HeaderText="Request Date & Time"
                             DataFormatString="{0:MM/dd/yyyy HH:mm:ss}" />
                         <asp:BoundField DataField="ApprovalDateTime" HeaderText="Approval Date & Time"
                             DataFormatString="{0:MM/dd/yyyy HH:mm:ss}" />
                         <asp:BoundField DataField="Status" HeaderText="Status" />
                         <asp:BoundField DataField="UpdatedBy" HeaderText="Updated By" />
-                        <asp:BoundField DataField="Remarks" HeaderText="Remarks" />
+                        <%--<asp:BoundField DataField="Remarks" HeaderText="Remarks" />--%>
                     </Columns>
                 </asp:GridView>
 

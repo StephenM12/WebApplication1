@@ -42,13 +42,13 @@ namespace WebApplication1
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liRoomReq;
 
         /// <summary>
-        /// liImageDisp control.
+        /// liViewDeviceList control.
         /// </summary>
         /// <remarks>
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liImageDisp;
+        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liViewDeviceList;
 
         /// <summary>
         /// liRoomSched control.
@@ -85,15 +85,6 @@ namespace WebApplication1
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.HtmlControls.HtmlGenericControl liHistory;
-
-        /// <summary>
-        /// liProfile control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.HtmlControls.HtmlGenericControl liProfile;
 
         /// <summary>
         /// MainContent control.

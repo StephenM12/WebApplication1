@@ -14,8 +14,19 @@ namespace WebApplication1
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            
+            if (!IsPostBack)
+            {
+                try
+                {
+                    DbInitializer.EnsureTablesAndTriggersExist();
 
+                }
+                catch (Exception ex)
+                {
+                    string msg = ex.Message;
+                    ModalPopup.ShowMessage(Page, msg, "Alert!");
+                }
+            }
         }
 
         protected void LogInBtn_Click(object sender, EventArgs e)
@@ -25,42 +36,43 @@ namespace WebApplication1
             username = UsernameTB.Text;
             password = PasswordTB.Text;
 
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-
-            if (connection.State == System.Data.ConnectionState.Open)
-            {// Perform your database operations here:
-                String querry = "SELECT * FROM userInfo WHERE UserName= '" + username + "' AND UserPassword = '" + password + "'";
-
-                SqlDataAdapter sda = new SqlDataAdapter(querry, connection);
-
-                DataTable dtable = new DataTable();
-
-                sda.Fill(dtable);
-
-                //means user is authenticated
-                if (dtable.Rows.Count > 0)
-                {
-                    user_Identity.verify_UserName(username, connection);
-
-                    username = UsernameTB.Text;
-                    password = PasswordTB.Text;
-
-                    Response.Redirect("Home.aspx");
-
-                    
-                }
-                else 
-                {
-                    ModalPopup.ShowMessage(Page, "Invalid Username or Password", "User notfound!");
-                    //Label1.Text = "Invalid Username or Password";
-                
-                }
-            }
-            else
+            try
             {
-                Console.WriteLine("Failed to connect to the database.");
+                using (SqlConnection connection = dbConnection.GetConnection())
+                {
+                    // Perform your database operations here:
+                    String querry = "SELECT * FROM userInfo WHERE UserName= '" + username + "' AND UserPassword = '" + password + "'";
+
+                    SqlDataAdapter sda = new SqlDataAdapter(querry, connection);
+
+                    DataTable dtable = new DataTable();
+
+                    sda.Fill(dtable);
+
+                    //means user is authenticated
+                    if (dtable.Rows.Count > 0)
+                    {
+                        user_Identity.verify_UserName(username, connection);
+
+                        username = UsernameTB.Text;
+                        password = PasswordTB.Text;
+
+                        Response.Redirect("Home.aspx");
+                    }
+                    else
+                    {
+                        ModalPopup.ShowMessage(Page, "Invalid Username or Password", "Alert!");
+                    }
+                }
+
             }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+                ModalPopup.ShowMessage(Page, msg, "Alert!");
+            }
+           
+            
         }
 
         protected void CreateAccBtn_Click(object sender, EventArgs e)

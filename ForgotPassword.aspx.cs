@@ -25,15 +25,8 @@ namespace WebApplication1
         protected void verify_Email_BTN(object sender, EventArgs e)
         {
             string verify_Email = EmailTB.Text;
-
-
-            //verify email
-
-            // Open database connection
-            SqlConnection connection = dbConnection.GetConnection();
-
-            if (connection.State == System.Data.ConnectionState.Open)
-            {// Perform your database operations here:
+            using (SqlConnection connection = dbConnection.GetConnection())
+            {
 
                 string query = "SELECT COUNT(*) FROM userInfo WHERE Email = @Email";
 

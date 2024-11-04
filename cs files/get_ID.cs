@@ -1,22 +1,16 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+
 //sql connection:
 using System.Data.SqlClient;
-using System.Data;
-//using WebApplication1.cs_files;
 
+//using WebApplication1.cs_files;
 
 namespace WebApplication1.cs_files
 {
     public class get_ID
     {
-
-
-        public (int roomID, int sectionID, int courseID, int instructorID) CheckAndInsertValues(SqlConnection connection, string room, string section, string course, string instructor, bool additem, int buildingid)
+        public (int roomID, int sectionID, int courseID, int instructorID) CheckAndInsertValues(SqlConnection connection, string room, string section, string course, string instructor, int buildingid)
         {
-           
             int roomID = GetOrInsertRoom(connection, room, buildingid, true);
             int sectionID = GetOrInsertSection(connection, section);
             int courseID = GetOrInsertCourse(connection, course);
@@ -27,7 +21,6 @@ namespace WebApplication1.cs_files
 
         public int GetDayID(string dayName)
         {
-
             switch (dayName)
             {
                 case "SUNDAY":
@@ -78,14 +71,11 @@ namespace WebApplication1.cs_files
                     command.Parameters.AddWithValue("@BuildingName", building.ToUpper());
                     return (int)command.ExecuteScalar();
                 }
-
             }
 
             // Log that the room was not found and not added
             Console.WriteLine("Building not found.");
             return -1;
-
-
         }
 
         public int GetOrInsertRoom(SqlConnection connection, string room, int buildingID, bool addITEM = false)
@@ -123,9 +113,14 @@ namespace WebApplication1.cs_files
             return -1;
         }
 
-
         public int GetOrInsertSection(SqlConnection connection, string section)
         {
+            // Check if the section is empty or contains only whitespace
+            //if (string.IsNullOrWhiteSpace(section))
+            //{
+            //    return -1; // Return -1 for empty or whitespace-only sections
+            //}
+
             // Example logic for retrieving or inserting a section
             string query = "SELECT SectionID FROM Sections WHERE SectionName = @SectionName";
             using (SqlCommand command = new SqlCommand(query, connection))
@@ -148,6 +143,12 @@ namespace WebApplication1.cs_files
 
         public int GetOrInsertCourse(SqlConnection connection, string course)
         {
+            // Check if the section is empty or contains only whitespace
+            //if (string.IsNullOrWhiteSpace(course))
+            //{
+            //    return -1; // Return -1 for empty or whitespace-only sections
+            //}
+
             // Example logic for retrieving or inserting a course
             string query = "SELECT CourseID FROM Courses WHERE CourseCode = @CourseCode";
             using (SqlCommand command = new SqlCommand(query, connection))
@@ -170,6 +171,12 @@ namespace WebApplication1.cs_files
 
         public int GetOrInsertInstructor(SqlConnection connection, string instructor)
         {
+            // Check if the section is empty or contains only whitespace
+            //if (string.IsNullOrWhiteSpace(instructor))
+            //{
+            //    return -1; // Return -1 for empty or whitespace-only sections
+            //}
+
             // Example logic for retrieving or inserting an instructor
             string query = "SELECT InstructorID FROM Instructors WHERE InstructorName = @InstructorName";
             using (SqlCommand command = new SqlCommand(query, connection))
@@ -189,7 +196,5 @@ namespace WebApplication1.cs_files
                 return (int)command.ExecuteScalar();
             }
         }
-
-
     }
 }

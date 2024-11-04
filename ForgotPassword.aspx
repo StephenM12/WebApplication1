@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ForgotPassword.aspx.cs" Inherits="WebApplication1.ForgotPassword1" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ForgotPassword.aspx.cs" Inherits="WebApplication1.ForgotPassword1" %>
 
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -25,24 +25,22 @@
                         <div class="mb-4">
                             <div class="row mb-0">
                                 <p class="text-start fs-4">
-                                    <a style="color: #3B1867; font-weight: bold; text-decoration: none;">Forgot Password?</a>
+                                    <a style="color: #002855; font-weight: bold; text-decoration: none;">Forgot Password?</a>
                                 </p>
                             </div>
                             <p class="mb-2">
                                 Enter your registered email address below and we'll send you a password reset OTP.
                             </p>
                         </div>
-                        <asp:Label ID="Label1" runat="server" Text="" ForeColor="#CC3300"></asp:Label>
                         <form id="form1" runat="server">
-                            <div class="mb-3">                              
+                            <div class="mb-3">
                                 <!--ID for Email Text Box-->
                                 <asp:TextBox ID="EmailTB" runat="server" class="form-control mb-3" type="text" placeholder="Enter Your Email"></asp:TextBox>
                                 <div class="d-flex align-items-center justify-content-center pb-1">
                                     <!--ID for Reset Password Button-->
-                                    <asp:Button ID="RVerifyEmailBtn" runat="server" Text="Verify Email" OnClick="verify_Email_BTN" class="bg-purple btn btn-primary full-width bg-purple" />
+                                    <asp:Button ID="RVerifyEmailBtn" runat="server" Text="Verify Email" OnClick="verify_Email_BTN" class="bg-purple btn btn-primary full-width bg-red" />
                                 </div>
                             </div>
-                            <%--<span>Don't have an account? <a href="CreateAccount.aspx">Sign In</a></span>--%>
                         </form>
                     </div>
                 </div>

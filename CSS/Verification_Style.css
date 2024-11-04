@@ -1,40 +1,58 @@
-﻿
 body {
     background-color: #ebecf0;
 }
 
 .otp-letter-input {
     max-width: 100%;
-    height: 90px;
-    border: 1px solid #3B1867;
+    height: auto;
+    border: 1px solid #002855;
     border-radius: 10px;
-    color: #3B1867;
-    font-size: 60px;
+    color: #002855;
+    font-size: 3rem;
     text-align: center;
     font-weight: bold;
 }
 
-.bg-purple {
-    background-color: #3B1867 !important; /* Added !important to ensure it overrides other styles */
-
+.bg-red {
+    background-color: #E03A3E !important;
 }
 
 .btn-primary {
-    background-color: #3B1867 !important; /* Added !important to ensure it overrides other styles */
-    border-color: #3B1867 !important; /* Added !important to ensure it overrides other styles */
-    color: #ffffff !important; /* Text color */
+    background-color: #E03A3E !important;
+    border-color: #E03A3E !important;
+    color: #ffffff !important;
 }
 
-.btn-primary:hover {
-    background-color: #0F52BA !important; /* Change to your desired hover color */
-    border-color: #0F52BA !important; /* Change to your desired hover color */
-}
-
+    .btn-primary:hover {
+        background-color: #0F52BA !important;
+        border-color: #0F52BA !important;
+    }
 
 .text-center {
-    text-align: center !important; /* Added !important to ensure it overrides other styles */
+    text-align: center !important;
 }
 
 .full-width {
-    width: 100% !important; /* Added !important to ensure it overrides other styles */
+    width: 100% !important;
+}
+
+@media (max-width: 768px) {
+    .otp-letter-input {
+        font-size: 2rem;
+        height: 60px;
+    }
+
+    .btn-primary {
+        font-size: 1rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    .otp-letter-input {
+        font-size: 4rem;
+    }
+
+    .btn-primary {
+        font-size: 1.5rem;
+    }
 }

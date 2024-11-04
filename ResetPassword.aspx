@@ -1,4 +1,4 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ResetPassword.aspx.cs" Inherits="WebApplication1.ResetPassword" %>
+<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="ResetPassword.aspx.cs" Inherits="WebApplication1.ResetPassword" %>
 
 <!DOCTYPE html>
 
@@ -14,7 +14,7 @@
 
     <div class="container d-flex flex-column">
         <div class="row align-items-center justify-content-center
-      min-vh-100">
+   min-vh-100">
             <div class="col-12 col-md-8 col-lg-4">
                 <div class="card shadow-sm">
                     <div class="card-body">
@@ -27,7 +27,7 @@
                         <div class="mb-3">
                             <div class="row mb-0">
                                 <p class="text-start fs-4">
-                                    <a class="d-flex align-items-center justify-content-center pb-1" style="color: #3B1867; font-weight: bold; text-decoration: none;">Reset Password</a>
+                                    <a class="d-flex align-items-center justify-content-center pb-1" style="color: #002855; font-weight: bold; text-decoration: none;">Reset Password</a>
                                 </p>
                             </div>
 
@@ -47,13 +47,13 @@
                             <div class="form-outline mb-3 position-relative">
                                 <label style="font-weight: bold;" class="form-label ms-3" for="RConfirmPassTB">Confirm New Password</label>
                                 <div class="input-group">
-                                    <asp:TextBox ID="RConfirmPassTB" runat="server" class="form-control" type="password" placeholder="Confirm New Password" ValidationGroup="valgrp2"></asp:TextBox>                                 
+                                    <asp:TextBox ID="RConfirmPassTB" runat="server" class="form-control" type="password" placeholder="Confirm New Password" ValidationGroup="valgrp2"></asp:TextBox>
                                 </div>
                                 <asp:CompareValidator ID="CompareValidator1" runat="server" ControlToValidate="RNewPassTB" ControlToCompare="RConfirmPassTB" Operator="Equal" ErrorMessage="Passwords do not match" ForeColor="#CC0000" ValidationGroup="valgrp2"></asp:CompareValidator>
                             </div>
 
                             <!--ID for Reset Password Button-->
-                            <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-purple"  ValidationGroup="valgrp2"/>
+                            <asp:Button ID="ResetPassBtn" runat="server" Text="Reset Password" OnClick="ResetPassBtn_Click" class="bg-purple btn btn-primary full-width bg-red" ValidationGroup="valgrp2" />
 
                         </form>
                     </div>
@@ -63,6 +63,4 @@
     </div>
 </body>
 </html>
-
-
 

@@ -161,19 +161,25 @@
     <Content Include="Content\bootstrap.rtl.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="CreateAccount.aspx" />
+    <Content Include="CSS\Booking_Style.css" />
     <Content Include="CSS\CreateAccount_Style.css" />
     <Content Include="CSS\ForgotPassword_Style.css" />
     <Content Include="CSS\History_Style.css" />
     <Content Include="CSS\Home_Style.css" />
     <Content Include="CSS\Image_Style.css" />
     <Content Include="CSS\LogIn_Style.css" />
+    <Content Include="CSS\Log_Style.css" />
     <Content Include="CSS\Profile_Style.css" />
+    <Content Include="CSS\RequestapprovalForm_Style.css" />
     <Content Include="CSS\ResetPassword_Style.css" />
     <Content Include="CSS\RoomSchedule_Style.css" />
+    <Content Include="CSS\RRForm.css" />
     <Content Include="CSS\Style.css" />
     <Content Include="CSS\VEinstein_Style.css" />
     <Content Include="CSS\Verification_Style.css" />
     <Content Include="CSS\VETYCB_Style.css" />
+    <Content Include="CSS\ViewDeviceList.css" />
+    <Content Include="CSS\ViewUser_Style.css" />
     <Content Include="CSS\VRizal_Style.css" />
     <Content Include="favicon.ico" />
     <Content Include="ForgotPassword.aspx" />
@@ -184,17 +190,21 @@
     <Content Include="Images\Capture.png" />
     <Content Include="Images\Classroom1.png" />
     <Content Include="Images\Classroom2.png" />
+    <Content Include="Images\docx.png" />
     <Content Include="Images\Einstein.png" />
     <Content Include="Images\Einsteinn.png" />
     <Content Include="Images\ETYCB.png" />
     <Content Include="Images\Global.png" />
     <Content Include="Images\Half circle.gif" />
     <Content Include="Images\Home.png" />
+    <Content Include="Images\img.png" />
     <Content Include="Images\Logo.png" />
     <Content Include="Images\Meeting.png" />
     <Content Include="Images\MMCL.png" />
+    <Content Include="Images\pdf.png" />
     <Content Include="Images\Rizal.png" />
     <Content Include="Images\signature.png" />
+    <Content Include="Images\xlsx.png" />
     <Content Include="LogIn.aspx" />
     <Content Include="Profile.aspx" />
     <Content Include="RequestapprovalForm.aspx" />
@@ -231,6 +241,7 @@
     <Content Include="Content\bootstrap-grid.css.map" />
     <Content Include="LogIn_master.Master" />
     <Content Include="CMS.aspx" />
+    <Content Include="DownloadFile.ashx" />
     <None Include="Properties\PublishProfiles\WebApplication120240213225913 - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-3.4.1.intellisense.js" />
     <Content Include="Scripts\fpmodal.js" />
@@ -266,7 +277,9 @@
     <Content Include="VEinstein.aspx" />
     <Content Include="Verification.aspx" />
     <Content Include="VETYCB.aspx" />
+    <Content Include="ViewDeviceList.aspx" />
     <Content Include="ViewSwitcher.ascx" />
+    <Content Include="ViewUser.aspx" />
     <Content Include="VRizal.aspx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -292,6 +305,7 @@
     <Compile Include="cs files\changePassword.cs" />
     <Compile Include="cs files\createAcc_Validation.cs" />
     <Compile Include="cs files\dbConnection.cs" />
+    <Compile Include="cs files\DbInitializer.cs" />
     <Compile Include="cs files\dropdown_Filler.cs" />
     <Compile Include="cs files\emailSender.cs" />
     <Compile Include="cs files\get_ID.cs" />
@@ -299,6 +313,9 @@
     <Compile Include="cs files\pinGenerator.cs" />
     <Compile Include="cs files\pin_Valid_check.cs" />
     <Compile Include="cs files\user_Identity.cs" />
+    <Compile Include="DownloadFile.ashx.cs">
+      <DependentUpon>DownloadFile.ashx</DependentUpon>
+    </Compile>
     <Compile Include="ForgotPassword.aspx.cs">
       <DependentUpon>ForgotPassword.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -415,6 +432,13 @@
     <Compile Include="VETYCB.aspx.designer.cs">
       <DependentUpon>VETYCB.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ViewDeviceList.aspx.cs">
+      <DependentUpon>ViewDeviceList.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewDeviceList.aspx.designer.cs">
+      <DependentUpon>ViewDeviceList.aspx</DependentUpon>
+    </Compile>
     <Compile Include="ViewSwitcher.ascx.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -428,6 +452,13 @@
     </Compile>
     <Compile Include="CMS.aspx.designer.cs">
       <DependentUpon>CMS.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewUser.aspx.cs">
+      <DependentUpon>ViewUser.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewUser.aspx.designer.cs">
+      <DependentUpon>ViewUser.aspx</DependentUpon>
     </Compile>
     <Compile Include="VRizal.aspx.cs">
       <DependentUpon>VRizal.aspx</DependentUpon>

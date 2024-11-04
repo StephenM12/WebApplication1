@@ -23,6 +23,11 @@ public class DropdownFiller
         public int UploadID { get; set; }
         public string FileName { get; set; }
     }
+    public class faculty
+    {
+        public int FacultyID { get; set; }
+        public string FacultyCode { get; set; }
+    }
 
     public void PopulateRooms(DropDownList dropdown)
     {
@@ -53,16 +58,23 @@ public class DropdownFiller
         dropdown.DataValueField = "UploadID";
         dropdown.DataBind();
     }
+    public void PopulateFaculty(DropDownList dropdown)
+    {
+        List<faculty> faculty_ = getFaculty();
+
+        dropdown.DataSource = faculty_;
+        dropdown.DataTextField = "FacultyCode";
+        dropdown.DataValueField = "FacultyID";
+        dropdown.DataBind();
+    }
 
     private List<Room> GetRooms()
     {
         List<Room> rooms = new List<Room>();
 
-        // Open database connection
-        SqlConnection connection = dbConnection.GetConnection();
-        if (connection.State == System.Data.ConnectionState.Open)
+        using (SqlConnection connection = dbConnection.GetConnection())
         {
-            
+
             string query = "SELECT RoomID, RoomName FROM Rooms";
             SqlCommand command = new SqlCommand(query, connection);
 
@@ -75,8 +87,7 @@ public class DropdownFiller
                     RoomName = reader["RoomName"].ToString()
                 });
             }
-            reader.Close();
-            connection.Close();
+           
         }
 
         return rooms;
@@ -86,9 +97,7 @@ public class DropdownFiller
     {
         List<Building> buildings = new List<Building>();
 
-        // Open database connection
-        SqlConnection connection = dbConnection.GetConnection();
-        if (connection.State == System.Data.ConnectionState.Open)
+        using (SqlConnection connection = dbConnection.GetConnection())
         {
             string query = "SELECT BuildingID, BuildingName FROM Buildings";
             SqlCommand command = new SqlCommand(query, connection);
@@ -102,9 +111,7 @@ public class DropdownFiller
                     BuildingName = reader["BuildingName"].ToString()
                 });
             }
-            reader.Close();
-
-            connection.Close();
+           
         }
 
         return buildings;
@@ -114,9 +121,7 @@ public class DropdownFiller
     {
         List<uploadScheds> uploadedscheds = new List<uploadScheds>();
 
-        // Open database connection
-        SqlConnection connection = dbConnection.GetConnection();
-        if (connection.State == System.Data.ConnectionState.Open)
+        using (SqlConnection connection = dbConnection.GetConnection())
         {
             string query = "SELECT UploadID, FileName FROM upload_SchedsTBL";
             SqlCommand command = new SqlCommand(query, connection);
@@ -130,11 +135,33 @@ public class DropdownFiller
                     FileName = reader["FileName"].ToString()
                 });
             }
-            reader.Close();
-            connection.Close();
+            
         }
 
         return uploadedscheds;
+    }
+    private List<faculty> getFaculty()
+    {
+        List<faculty> faculty_ = new List<faculty>();
+
+        using (SqlConnection connection = dbConnection.GetConnection())
+        {
+            string query = "SELECT FacultyID, FacultyCode FROM Faculty";
+            SqlCommand command = new SqlCommand(query, connection);
+
+            SqlDataReader reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                faculty_.Add(new faculty
+                {
+                    FacultyID = Convert.ToInt32(reader["FacultyID"]),
+                    FacultyCode = reader["FacultyCode"].ToString()
+                });
+            }
+
+        }
+
+        return faculty_;
     }
 }
 

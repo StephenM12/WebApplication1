@@ -17,6 +17,7 @@ namespace WebApplication1
 
             if (!IsPostBack)
             {
+                //HiddenField1.Value = user_Identity.user_Email;
                 BindRoomRequestHistory();
             }
 
@@ -25,13 +26,17 @@ namespace WebApplication1
         private void BindRoomRequestHistory()
         {
             //string query = "SELECT HistoryID, RequestID, Email,  RequestDateTime, ApprovalDateTime, Status, UpdatedBy, Remarks FROM RoomRequestHistory ORDER BY RequestDateTime DESC";
+            //string userEmail = user_Identity.user_Email;
+
 
             string selectedStatus = ddlStatusFilter.SelectedValue;
 
-            string query = "SELECT * FROM RoomRequestHistory";
+            //string query = "SELECT * FROM RoomRequestHistory";
+            string query = "SELECT * FROM RoomRequestHistory WHERE RequestedByEmail = @Email OR UpdatedBy = @UpdatedBy";
+
             if (selectedStatus != "All")
             {
-                query += " WHERE Status = @Status";
+                query += " AND Status = @Status";
             }
 
             // Open database connection
@@ -40,6 +45,8 @@ namespace WebApplication1
             {
                 using (SqlCommand cmd = new SqlCommand(query, connection))
                 {
+                    cmd.Parameters.AddWithValue("@Email", user_Identity.user_Email);
+                    cmd.Parameters.AddWithValue("@UpdatedBy", user_Identity.user_Email);
 
                     if (selectedStatus != "All")
                     {

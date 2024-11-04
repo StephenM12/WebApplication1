@@ -1,5 +1,5 @@
 ﻿.bg-color {
-    background-color: #3B1867;
+    background-color: #E03A3E;
 }
 
 .full-width {
@@ -23,8 +23,6 @@
     text-decoration: none; /* Ensure no underline on hover */
 }
 
-
-
 .center-content {
     display: flex;
     justify-content: center;
@@ -45,36 +43,131 @@
     justify-content: center;
     align-items: center;
 }
-.schedule-gridview {
-    width: auto;
-    max-width: 1200px; /* Optional: set a max-width to control the width */
-    margin: 0 auto; /* Center the GridView */
+
+/* Buttons styling */
+.buttons {
+    margin-top: 10px;
+}
+
+.button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #E03A3E;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.button:hover {
+    background-color: #0056b3;
+}
+
+/* Ensure calendar container (left-panel) does not change width */
+#calendar {
+    width: 100%; /* Ensure calendar takes full width of left-panel */
+}
+
+/* FullCalendar header toolbar styles */
+/* Reduce the font size of the month and year in the FullCalendar header */
+.fc-toolbar-title {
+    font-size: 1.2rem !important; /* Smaller font size with higher priority */
+    white-space: nowrap; /* Prevent wrapping */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if text is too long */
+}
+
+.fc-header-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    position: relative;
+}
+
+.fc-left, .fc-right {
+    flex: 1;
+}
+
+.fc-center {
+    flex: 2;
+    text-align: center;
+}
+
+.fc-header-toolbar .fc-right {
+    display: flex;
+    justify-content: flex-end;
+    position: relative;
+}
+
+/* Styling for the Today button */
+.fc-today-button {
+    display: block;
+    width: 100%;
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #E03A3E;
+    color: white;
+    border: none;
+    cursor: pointer;
+    text-align: center;
+    border-radius: 4px;
+}
+
+    .fc-today-button:hover {
+        background-color: #0056b3;
+    }
+
+.move-right {
+    margin-left: 20px; /* Adjust this value as needed to move it to the right */
+}
+
+/* Adjust the content-wrapper to handle the space taken by the sidebar */
+.content-wrapper {
+    display: flex;
+    margin-top: 55px;
+    transition: margin-left 0.3s ease; /* Smooth transition */
+    gap: 20px; /* Optional: Add space between left and right panels */
+}
+
+/* Ensure the left panel (calendar) has a white background and rounded edges */
+.left-panel {
+    width: 300px; /* Fixed width for the calendar container */
+    margin-right: 0px;
+    box-sizing: border-box;
+    flex-shrink: 0; /* Prevent shrinking */
+    background-color: white; /* White background */
+    border-radius: 8px; /* Rounded edges */
+    padding: 10px; /* Add some padding inside the panel */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
+}
+
+/* Ensure the right panel (GridView) has a white background and rounded edges */
+.right-panel {
+    flex: 1; /* Allow the right panel to take remaining space */
+    background-color: white; /* White background */
+    border-radius: 8px; /* Rounded edges */
+    padding: 0px; /* Add some padding inside the panel */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: Add a shadow for better visibility */
+}
+
+/* Ensure GridView within the right panel matches the rounded edges and background color */
+.schedule-grid {
+    width: 100%;
     border-collapse: collapse;
-    table-layout: fixed; /* Ensure uniform column width */
+    background-color: white; /* White background for GridView */
+    border-radius: 8px; /* Rounded edges for GridView */
+    overflow: hidden; /* Ensure the border-radius is applied to all child elements */
 }
 
-.d-flex.justify-content-center.align-items-center {
-    height: 100vh; /* Center vertically within the viewport */
-}
-
-    .schedule-gridview th,
-    .schedule-gridview td {
-        width: 120px;
+    .schedule-grid th, .schedule-grid td {
         padding: 10px;
-        border: 1px solid #000;
-        text-align: center; /* Center-align content */
+        border: 1px solid #ddd;
+        text-align: center;
     }
 
-    .schedule-gridview th {
-        background-color: #4A3C8C;
-        color: #E7E7FF;
-    }
-
-    .schedule-gridview tr:nth-child(even) {
-        background-color: #DEDFDE;
-    }
-
-    .schedule-gridview tr.selected {
-        background-color: #9471DE;
-        color: #fff;
+    .schedule-grid th {
+        background-color: #f4f4f4;
     }

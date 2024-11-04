@@ -13,7 +13,8 @@
         <!-- Bootstrap CSS -->
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" />
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
-    </head>
+
+        </head>
     <body>
         <form id="form1" runat="server" enctype="multipart/form-data">
             <asp:ScriptManager runat="server"></asp:ScriptManager>
@@ -138,10 +139,10 @@
                         <label style="font-weight: bold;" class="form-label ms-2" for="RRpurpose">Purpose:</label>
                         <asp:TextBox ID="RRpurpose" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Purpose:"></asp:TextBox>
                     </div>
-                    <div class="form-outline mb-3">
+                   <%-- <div class="form-outline mb-3">
                         <label style="font-weight: bold;" class="form-label ms-2" for="email">Email:</label>
                         <asp:TextBox ID="email" runat="server" class="form-control" Style="background-color: #ECECEC;" placeholder="Enter Requester's Email"></asp:TextBox>
-                    </div>
+                    </div>--%>
                     <hr class="custom-line" />
                     <div class="form-outline mb-3">
                         <label style="font-weight: bold;" class="form-label ms-2" for="fileUpload">Attach File:</label>

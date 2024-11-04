@@ -1,0 +1,14 @@
+﻿
+.content-wrapper {
+    padding: 15px; /* Adds space around the content */
+    overflow-x: auto; /* Allows horizontal scrolling if the content is too wide */
+}
+
+.table {
+    width: 100%; /* Ensures the table takes the full width of its container */
+    table-layout: auto; /* Allows table cells to resize based on content */
+}
+
+    .table th, .table td {
+        word-wrap: break-word; /* Prevents overflow of long text */
+    }

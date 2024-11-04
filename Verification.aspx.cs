@@ -44,7 +44,7 @@ namespace WebApplication1
                     emailSender emailSender = new emailSender(smtpServer, smtpPort, smtpUsername, smtpPassword);
 
                     emailSender.SendEmail("testingproject2001@gmail.com", user_Identity.user_Email, subject, body);
-                    DateTime currentTime_ = DateTime.Now.AddMinutes(1);
+                    DateTime currentTime_ = DateTime.Now.AddMinutes(10);
                     Verification.timeNow = currentTime_;
                 }
                 catch (Exception ex)
@@ -66,7 +66,20 @@ namespace WebApplication1
             bool isPincorrect = pin_Valid_check.IsPinValid(concatenatedString);
 
             if (isPincorrect == true) { Response.Redirect("ResetPassword.aspx"); }
-            else { Response.Write("Invalid"); }
+            else 
+            {
+
+                TextBox1.Text = string.Empty;
+                TextBox2.Text = string.Empty;
+                TextBox3.Text = string.Empty;
+                TextBox4.Text = string.Empty;
+
+                ModalPopup.ShowMessage(Page, "Invalid PIN", "Alert!");
+                //Response.Write("Invalid PIN"); 
+            
+            
+            
+            }
         }
     }
 }

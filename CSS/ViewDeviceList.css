@@ -1,0 +1,518 @@
+﻿/*Label for the building and room number per card*/
+.label-bold {
+    font-weight: bold;
+}
+
+/* Modal width and general styles */
+.custom-dropdown {
+    width: 300px; /* Adjust the width as needed */
+}
+
+.custom-modal-width {
+    max-width: 440px; /* Set desired width */
+}
+
+.modal-content {
+    font-family: 'Roboto', sans-serif;
+    border-radius: 1.5rem; /* Curved edges for modal */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for modern look */
+}
+
+.modal-header, .modal-footer {
+    border-bottom-left-radius: 0rem;
+    border-bottom-right-radius: 0rem;
+}
+
+.modal-header {
+    border-top-left-radius: 1.5rem;
+    border-top-right-radius: 1.5rem;
+    border-bottom: 1px solid #dee2e6;
+}
+
+.modal-footer {
+    border-top: 1px solid #dee2e6;
+}
+
+.modal-title {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+/* Form group and labels */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+    .form-group label {
+        font-size: 15px;
+        min-width: 230px;
+    }
+
+/* Textboxes and dropdown lists */
+.form-control {
+    border-radius: 0.30rem; /* Curved edges for textboxes and dropdowns */
+    width: 170px;
+}
+
+.custom-dropdown {
+    font-size: 15px; /* Adjust the font size as needed */
+    font-family: 'Roboto', sans-serif; /* Apply Roboto font */
+    border-radius: 0.30rem; /* Curved edges */
+}
+
+.modal-footer button, .modal-footer .btn {
+    font-weight: bold;
+}
+
+.custom-textbox {
+    background-color: red !important; /* Force the background color */
+    color: white;
+    text-align: center; /* Center text inside the textbox */
+    visibility: hidden;
+    height: 1px;
+}
+
+.cardcontent-header {
+    position: relative;
+    display: flex;
+    justify-content: flex-end; /* Aligns items to the right */
+    padding: 10px; /* Add padding if needed */
+    border-radius: 1.5rem;
+    background-color: inherit;
+    
+}
+.card {
+    border: none; /* This removes the border */
+    
+}
+
+/*CARDS*/
+.card-header {
+    position: relative;
+    display: flex;
+    justify-content: flex-end; /* Aligns items to the right */
+    padding: 10px; /* Add padding if needed */
+    border-radius: 1.5rem;
+}
+
+.card-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.device-card {
+    font-family: 'Roboto', sans-serif;
+    width: 290px;
+    height: 435px;
+    margin: 1.5rem 1.5rem;
+    text-align: center;
+    border: 1px solid #dee2e6;
+    border-radius: 1.5rem;
+    box-shadow: 30px 30px 30px rgba(0, 0, 0, 0.25), /* Larger shadow to the bottom-right */
+    30px 30px 30px rgba(0, 0, 0, 0.15); /* Additional shadow for depth */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: #ffffff;
+    cursor: default; /* Remove pointer from the whole card */
+    overflow: hidden; /* Ensure child elements don’t overflow */
+}
+
+.device-card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    background-color: #E03A3E;
+    font-size: 0.875rem;
+    border-radius: 0 0 1.5rem 1.5rem; /* Rounded edges for bottom of card */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.15); /* Subtle shadow for the footer */
+    cursor: pointer; /* Footer is clickable */
+    transition: background-color 0.3s ease, transform 0.3s ease; /* Add smooth hover transition */
+    border-top: 2px solid #dee2e6; /* Add top border for division */
+}
+
+    .device-card-footer:hover {
+        background-color: #cc0015; /* Slightly darker color on hover */
+        transform: translateY(-3px); /* Subtle lift-up animation */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhance shadow on hover */
+    }
+
+    .device-card-footer .edit-text {
+        color: white;
+        font-weight: bold;
+        transition: color 0.3s ease; /* Smooth color transition */
+    }
+
+    .device-card-footer:hover .edit-text {
+        color: #F5F5F5;
+    }
+
+    .device-card-footer .edit-icon {
+        font-size: 1.25rem;
+        color: white;
+        transition: transform 0.3s ease, color 0.3s ease; /* Smooth transition for icon */
+    }
+
+    /* Add scaling effect to the icon on hover */
+    .device-card-footer:hover .edit-icon {
+        transform: scale(1.1); /* Slightly enlarge the icon on hover */
+        color: #F5F5F5; /* Darken the icon color on hover */
+    }
+
+.card-body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: center;
+    padding: 1rem;
+}
+
+.device-icon {
+    font-size: 3rem;
+    margin: 1rem 0;
+    color: #007bff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.bx-devices {
+    font-size: 3rem;
+    color: #007bff;
+}
+
+.card-title {
+    font-weight: bold;
+    background-color: #E03A3E;
+    border: 1px solid #dee2e6;
+    border-radius: 0.7rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 0.5rem 1rem;
+    margin-top: 0; /* Adjust the value as needed */
+    margin-bottom: 10px;
+    width: 100%; /* Adjust width to fit the card */
+    display: flex;
+    align-items: center;
+    justify-content: center; /* Center the title */
+    text-align: center; /* Center the text */
+    color: white;
+}
+
+
+/*ADD DEVICE BUTTON*/
+.add-device-btn {
+    background-color: #002855; /* Updated primary color */
+    color: white; /* Text and icon color */
+    border: none; /* Remove border */
+    border-radius: 0.7rem; /* Rounded corners */
+    
+    font-size: 16px; /* Font size for the button text */
+    font-weight: bold; /* Bold text */
+    display: inline-flex; /* Flexbox for icon and text alignment */
+    align-items: center; /* Center the icon and text vertically */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    transition: all 0.3s ease; /* Smooth transition for hover effects */
+    cursor: pointer; /* Pointer cursor on hover */
+    padding: 0.5rem 1rem;
+    
+}
+    .add-device-btn i {
+        font-size: 20px; /* Icon size */
+        margin-right: 8px; /* Space between icon and text */
+    }
+
+    .add-device-btn:hover {
+        background-color: #001d40; /* Darker shade of #002855 on hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Deeper shadow on hover */
+        transform: translateY(-2px); /* Slight lift effect on hover */
+    }
+
+    .add-device-btn:active {
+        transform: translateY(1px); /* Button press effect */
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Less shadow when active */
+    }
+
+/* Add search bar styles */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    width: 50%;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 0.5rem 1rem;
+    border-radius: 0.7rem; /* Curved edges for modal */
+    border: 1px solid #ced4da;
+    font-size: 16px;
+    outline: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow for modern look */
+    transition: all 0.3s ease;
+}
+
+    .search-bar:focus {
+        border-color: #007bff;
+        box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    }
+
+.search-bar-btn {
+    border: none;
+    background-color: transparent;
+    margin-left: -40px;
+    cursor: pointer;
+}
+
+    .search-bar-btn i {
+        font-size: 1.5rem;
+        color: #007bff;
+    }
+/* Edit Modal Button styles */
+.btn {
+    border-radius: 0.25rem; /* Curved edges */
+    font-weight: bold;
+}
+
+/* Normal state for the button (enabled) */
+.btn-primary {
+    background-color: #002855; /* Primary color when enabled */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+    /* Disabled state (darker than #002855) */
+    .btn-primary:disabled {
+        background-color: #001d40; /* Darker shade when disabled */
+        color: #b3b3b3; /* Lighter text for contrast */
+        cursor: not-allowed; /* Show the disabled cursor */
+    }
+
+    /* Hover state (only for enabled buttons) */
+    .btn-primary:hover:not(:disabled) {
+        background-color: #001d40; /* Slightly darker on hover when enabled */
+    }
+
+    /* Active state (when the button is clicked) */
+    .btn-primary:active:not(:disabled) {
+        background-color: #001833; /* Even darker when clicked */
+    }
+
+.btn-secondary {
+    background-color: transparent; /* No background */
+    color: #002855; /* Custom font color */
+    border: 1px solid #002855; /* Border matching font color */
+
+    border-radius: 10px;
+    cursor: pointer;
+    transition: color 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
+}
+
+    /* Hover effect: darker color for both font and border */
+    .btn-secondary:hover {
+        color: #001d40; /* Slightly darker font color */
+        border-color: #001d40; /* Darker border color */
+        background-color: rgba(0, 40, 85, 0.1); /* Light background on hover */
+    }
+
+    /* Active state (when clicked) */
+    .btn-secondary:active {
+        color: #001833; /* Even darker font color */
+        border-color: #001833; /* Darker border when clicked */
+        background-color: rgba(0, 40, 85, 0.2); /* Darker background on click */
+    }
+
+/* Trash icon styling */
+.btn-delete {
+    position: absolute;
+    left: 1rem; /* Adjust as needed */
+    bottom: 1rem; /* Adjust as needed */
+    font-size: 1rem; /* Adjust font size */
+    background-color: #E03A3E;
+    border-color: #E03A3E;
+    border-radius: 10px;
+}
+
+    .btn-delete i {
+        font-size: 1.2rem;
+    }
+
+/* Container for all info rows */
+.info-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Adds space between rows */
+    margin-bottom: 10px;
+}
+
+/* Each row of label and value */
+.info-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* Styling for bold labels */
+.label-bold {
+    font-weight: bold;
+}
+
+.device-mode-row {
+    border-top: 2px solid #dee2e6; /* Add top border for division */
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    flex-direction: column; /* Stack children vertically */
+    justify-content: space-between;
+}
+
+.device-mode-label-container {
+    display: flex;
+    align-items: center;
+}
+
+.device-mode-label {
+    margin-right: 10px; /* Space between label and switch */
+    margin-top: 8px;
+    margin-bottom: 8px; /* Space between the label and switch */
+    font-weight: bold; /* Optional: Make the label bold */
+}
+
+.switch input {
+    opacity: 0; /* Hide the default checkbox */
+    width: 0;
+    height: 0;
+}
+
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 210px; /* Width of the toggle button */
+    height: 34px; /* Height of the toggle button */
+    border-radius: 17px; /* Rounded corners for the toggle */
+    background-color: #f8f9fa; /* Slightly darker than white */
+    box-shadow: inset 0 0 15px rgba(0, 0, 0, 0.25); /* Inner shadow for the switch */
+    padding: 4px; /* Padding to create space for the slider */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Smooth transition for background and shadow */
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white; /* Default background color */
+    border-radius: 15px; /* Slightly rounded edges for a smoother look */
+    transition: background-color 0.4s, transform 0.8s ease-in-out, box-shadow 0.8s ease-in-out; /* Slower transition for smoother movement */
+    box-shadow: inset 0 1px 10px rgba(0, 0, 0, 0.3); /* Inner shadow for depth inside the slider */
+}
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 30px; /* Height of the slider knob */
+        width: 100px; /* Reduced width of the slider knob for better visibility */
+        left: 3px; /* Start position */
+        bottom: 2px; /* Align knob within the slider track */
+        background-color: #002855; /* Knob color */
+        border-radius: 15px; /* Rounded knob */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6); /* More pronounced outer shadow for the knob */
+        transition: transform 0.8s ease-in-out, background-color 0.4s, box-shadow 0.8s ease-in-out; /* Slower transition for smoother movement */
+    }
+
+input:checked + .slider {
+    background-color: white; /* Background color remains white when checked */
+}
+
+    input:checked + .slider:before {
+        transform: translateX(104px); /* Move knob to the right (full width of the track) */
+        background-color: #E03A3E; /* Change knob color when checked */
+    }
+
+/* Add labels for TEXT and IMAGE */
+.text-label {
+    position: absolute;
+    top: 50%;
+    left: 10px; /* Adjusted for padding */
+    transform: translateY(-50%);
+    font-size: 14px; /* Font size */
+    color: white; /* White when off */
+    text-align: center; /* Center text */
+    width: 50%; /* Take half the width of the switch */
+}
+
+.image-label {
+    position: absolute;
+    top: 50%;
+    right: 10px; /* Adjusted for padding */
+    transform: translateY(-50%);
+    font-size: 14px; /* Font size */
+    color: black; /* Black when off */
+    text-align: center; /* Center text */
+    width: 50%; /* Take half the width of the switch */
+}
+
+/* Change label colors when the input is checked */
+input:checked ~ .text-label {
+    color: black; /* Black when checked */
+}
+
+input:checked ~ .image-label {
+    color: white; /* White when checked */
+}
+
+.options-icon {
+    display: inline-block; /* Ensures it displays as an inline element */
+    cursor: pointer; /* Changes the cursor on hover */
+    margin-right: 5px; /* Adds space to the right */
+}
+
+.options-dropdown {
+    position: absolute; /* Position it relative to card-header */
+    right: 10px; /* Adjust to your layout */
+    top: 30px; /* Position below the three-dot icon */
+    background-color: white; /* Background color for dropdown */
+    border: 1px solid #ccc; /* Border for dropdown */
+    border-radius: 5px; /* Rounded corners */
+    z-index: 100; /* Ensure it appears above other elements */
+    display: none; /* Hidden by default */
+}
+
+    .options-dropdown ul {
+        list-style: none; /* Remove bullets */
+        padding: 0;
+        margin: 0;
+    }
+
+    .options-dropdown li {
+        padding: 10px; /* Padding for dropdown items */
+        cursor: pointer; /* Change cursor to pointer */
+    }
+
+        .options-dropdown li:hover {
+            background-color: #f0f0f0; /* Highlight on hover */
+        }
+
+
+.disabled-option {
+    color: gray;
+    pointer-events: none;
+    cursor: not-allowed;
+}
+.device-icon {
+    color: #002855; /* Change the color as needed */
+    font-size: 50px;
+}
+
+.swal-modal {
+    position: fixed !important; /* Ensure the modal stays fixed */
+    left: calc(50% + 70px) !important; /* Adjust the left position */
+    top: 50% !important; /* Center it vertically */
+    transform: translateY(-50%); /* Adjust for the modal's height */
+}
